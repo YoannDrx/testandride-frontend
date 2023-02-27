@@ -1,5 +1,7 @@
 import * as React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 // Screens
 import MaJourneeScreen from "./screens/MaJourneeScreen";
@@ -11,15 +13,6 @@ import ItineraireScreen from "./screens/ItineraireScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
-
-// store
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import user from './reducers/user';
-const store = configureStore({
-  reducer: {user},
- });
-
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -55,17 +48,60 @@ const DrawerNavigator = () => {
     );
 };
 
+// User Icon Navigation
+function UserIcon() {
+    const navigation = useNavigation();
+    const handleUserIcon = () => {
+        navigation.navigate("profil");
+    };
+    return (
+        <TouchableOpacity onPress={() => handleUserIcon()}>
+            <FontAwesome name="user" size={25} color="#000" />
+        </TouchableOpacity>
+    );
+}
+
+// Menu Icon Navigation
+function MenuIcon() {
+    const navigation = useNavigation();
+    const handleMenuIcon = () => {
+        navigation.navigate("DrawerNavigator");
+    };
+    return (
+        <TouchableOpacity onPress={() => handleMenuIcon()}>
+            <FontAwesome name="bars" size={25} color="#000" />
+        </TouchableOpacity>
+    );
+}
+
 export default function App() {
     return (
-      <Provider store={store}>
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: "#fff",
+                    },
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                    },
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 10 }}>
+                            <UserIcon />
+                        </View>
+                    ),
+                    headerRight: () => (
+                        <View style={{ marginRight: 10 }}>
+                            <MenuIcon />
+                        </View>
+                    ),
+                }}
+            >
                 <Stack.Screen name="login" component={LoginScreen} />
                 <Stack.Screen name="profil" component={MonProfilScreen} />
                 <Stack.Screen name="maJournee" component={MaJourneeScreen} />
                 <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
             </Stack.Navigator>
         </NavigationContainer>
-        </Provider>
     );
 }
