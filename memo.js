@@ -77,7 +77,26 @@ function MenuIcon() {
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: "#fff",
+                    },
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                    },
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 10 }}>
+                            <UserIcon />
+                        </View>
+                    ),
+                    headerRight: () => (
+                        <View style={{ marginRight: 10 }}>
+                            <MenuIcon />
+                        </View>
+                    ),
+                }}
+            >
                 <Stack.Screen name="login" component={LoginScreen} />
                 <Stack.Screen name="profil" component={MonProfilScreen} />
                 <Stack.Screen name="maJournee" component={MaJourneeScreen} />
