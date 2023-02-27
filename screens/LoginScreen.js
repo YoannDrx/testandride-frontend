@@ -14,7 +14,7 @@ export default function LoginScreen() {
         <View style={styles.window}>
             <Image 
                 style={styles.tinyLogo}
-                source={require('../assets/TR-logo-200x200.png')}/>
+                source={require('../assets/Mini-logo.png')}/>
             <Text style={styles.pageTitle}> CONNEXION</Text>
             <Text > Pas encore de compte ?</Text>
             <Text style={styles.linkSignUp} onPress={()=>setShowSignUp(true)}>Cliquez pour vous inscrire</Text>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   sepText:{
-    width: 50, 
     textAlign: 'center',
+    marginHorizontal:10,
   }
 });
