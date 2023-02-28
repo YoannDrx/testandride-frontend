@@ -1,24 +1,27 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-} from "react-native";
-import { Dimensions } from "react-native";
-import { useState, useRef } from "react";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
-const mainColor = "#16A085";
-const secondaryColor = "#636869";
-const borderRadius = 4;
-const secondaryBackground ='whitesmoke';
+// imports
+  import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    Modal,
+  } from "react-native";
+  import { Dimensions } from "react-native";
+  import { useState, useRef } from "react";
+  import FontAwesome from "react-native-vector-icons/FontAwesome";
+  import constant from '../constants/constant';
 
-export default function LoginScreen() {
+// style constants
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
+  const mainColor = constant.mainColor;
+  const secondaryColor = constant.secondaryColor;
+  const borderRadius = constant.borderRadius;
+  const secondaryBackground = constant.secondaryBackground;
+
+export default function LoginScreen({navigation}) {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const emailRef = useRef();
@@ -73,8 +76,13 @@ export default function LoginScreen() {
           <TouchableOpacity style={styles.btnContain}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('maJournee')}>
+            <Text style={styles.btnText}>Ma journee</Text>
+          </TouchableOpacity>
         </View>
-        <Modal visible={showSignUp}></Modal>
+        <Modal visible={showSignUp}>
+
+        </Modal>
       </View>
     </View>
   );
@@ -159,3 +167,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
