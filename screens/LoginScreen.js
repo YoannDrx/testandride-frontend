@@ -7,6 +7,10 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
+  KeyboardAvoidingView,
+  ScrollView,
+  SafeAreaView,
+ 
 } from "react-native";
 import { Dimensions } from "react-native";
 import { useState, useRef } from "react";
@@ -74,8 +78,103 @@ export default function LoginScreen() {
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
         </View>
-        <Modal visible={showSignUp}></Modal>
+        
+{/* Modal Signup*/}
+      <View style={styles.container}>
+      <View style={styles.window}>
+      <Modal visible={showSignUp} style={styles.modal}>
+      <View style={styles.modalContainer}>
+      <TouchableOpacity onPress={() => setShowSignUp(false)} style={styles.closeButton}>
+      <FontAwesome name={'times'} style={styles.closeIcon} size={50} color={'black'} paddingTop={10}/>
+      </TouchableOpacity>
+        <ScrollView showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <View style={styles.headerlogo}>
+        <Image
+          style={styles.tinyLogo}
+          source={require("../assets/Mini-logo.png")}
+        />
+        </View>
+        <View style={styles.sepContainer}>
+        <View style={styles.sepLine} />
+        <View>
+        <Text style={styles.sepText}>Ou m'inscrire avec mon email</Text>
+        </View>
+        <View style={styles.sepLine} />
+        </View>
+      
+       
+        <View style={styles.inputCont}>
+        <TextInput style={styles.input} placeholder="Nom"/>
+        </View>
+      
+        <View style={styles.inputCont}>
+        <TextInput style={styles.input} placeholder="Prénom"/>
+        </View>
+        
+        <View style={styles.inputCont}>
+        <TextInput 
+        style={styles.input}
+        keyboardType="numeric"
+        maxLength={10} 
+        placeholder="Téléphone"
+        />
+        </View>
+
+        <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
+        <TextInput
+        style={styles.input}
+        ref={emailRef}
+        placeholder="Email"
+        />
+        <FontAwesome name={'at'} 
+        style={styles.iconInput}
+        size={20}
+        color={mainColor}/>
+        </View>
+        
+        <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
+        <TextInput
+        style={styles.input}
+        ref={emailRef}
+        placeholder="Confirmer mon email"
+        />
+        <FontAwesome name={'at'} 
+        style={styles.iconInput}
+        size={20}
+        color={mainColor}/>
+        </View>
+
+
+        <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
+        <TextInput
+        style={styles.input}
+        ref={passwordRef}
+        placeholder="Mot de passe"
+        secureTextEntry={showPassword}
+        />
+        <FontAwesome
+        name={showPassword ? "eye-slash" : "eye"}
+        style={styles.iconInput}
+        size={20}
+        color={mainColor}
+        onPress={() => setShowPassword(!showPassword)}
+        />
+        </View>
+        <View style={styles.btnEnvoyer}>
+        <TouchableOpacity style={styles.btnContain}>
+        <Text style={styles.btnText}>Envoyer</Text>
+        </TouchableOpacity>
+        </View>
+        </KeyboardAvoidingView>
+        </ScrollView>
+       
       </View>
+     
+      </Modal>
+    </View>
+    </View>
+    </View>
     </View>
   );
 }
@@ -86,27 +185,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
+    },
+
+    modalContainer: {
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    
   window: {
     height: screenHeight,
     width: screenWidth,
-    justifyContent: "center",
     alignItems: "center",
   },
+  
   tinyLogo: {
     width: 100,
     height: 100,
+    marginTop: 20,
+
   },
   pageTitle: {
     fontSize: 24,
     fontWeight: "600",
     marginVertical: 10,
     color: secondaryColor,
+    textAlign:'center',
   },
   linkSignUp: {
     marginVertical: 10,
     color: mainColor,
     fontWeight: "600",
+    textAlign:'center',
   },
   sepContainer: {
     flexDirection: "row",
@@ -127,7 +238,8 @@ const styles = StyleSheet.create({
     flex:1,
     width: "80%",
     marginVertical: 20,
-    justifyContent:'space-evenly',
+    justifyContent:'center',
+   
   },
   inputCont: {
     flexDirection: "row",
@@ -137,13 +249,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: mainColor,
     marginVertical:15,
+  
   },
   input: {
     fontSize:22,
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
-    paddingLeft: 0,
+    paddingLeft: 10,
     backgroundColor: "#fff",
     color: "#424242",
   },
@@ -158,4 +271,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
+  
+  closeButton: {
+    position: "absolute",
+    top: 30,
+    right: 20,
+    
+  },
+  closeIcon: {
+    opacity: 0.8,
+  
+  },
+
+  headerlogo: {
+    paddingTop: 20,
+    alignItems: "center",
+  },
+
+  btnEnvoyer: {
+paddingTop: 40,
+  }
 });
