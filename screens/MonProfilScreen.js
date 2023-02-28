@@ -4,94 +4,94 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
 import { Dimensions } from "react-native";
 
-
 // style constants
-    import constant from '../constants/constant';
-    const screenWidth = Dimensions.get("window").width;
-    const screenHeight = Dimensions.get("window").height;
-    const mainColor = constant.mainColor;
-    const secondaryColor = constant.secondaryColor;
-    const borderRadius = constant.borderRadius;
-    const secondaryBackground = constant.secondaryBackground;
-    const logoPath = constant.logoPath;
-    const mainBackground = constant.mainBackground;
-
+import constant from "../constants/constant";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+const mainColor = constant.mainColor;
+const secondaryColor = constant.secondaryColor;
+const borderRadius = constant.borderRadius;
+const secondaryBackground = constant.secondaryBackground;
+const logoPath = constant.logoPath;
+const mainBackground = constant.mainBackground;
 
 export default function MonProfilScreen({ navigation }) {
     return (
         <View style={styles.container}>
-            <Header navigation={navigation}/>
-            {/* Profil */}
-            <View style={styles.profilContainer}>
-                <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
-                <View style={styles.info}>
-                    <Text style={styles.contact}>Prénom</Text>
-                    <Text style={styles.contact}>Nom</Text>
-                </View>
-            </View>
-
-            <View style={styles.statsContainer}>
-                {/* Rdv pris */}
-                <Text style={styles.title}>Statistiques Semaine</Text>
-                <View style={styles.stats}>
-                    <View style={styles.iconGroup}>
-                        <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
-                        <Text style={styles.statsData}>100%</Text>
+            <View style={styles.window}>
+                <Header navigation={navigation} />
+                {/* Profil */}
+                <View style={styles.profilContainer}>
+                    <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
+                    <View style={styles.info}>
+                        <Text style={styles.contact}>Prénom</Text>
+                        <Text style={styles.contact}>Nom</Text>
                     </View>
-                    <Text style={styles.statsCount}>18</Text>
-                    <Text style={styles.statsRdv}>rdv terminés</Text>
                 </View>
 
-                {/* Rdv validés */}
-                <View style={styles.stats}>
-                    <View style={styles.iconGroup}>
-                        <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
-                        <Text style={styles.statsData}>100%</Text>
+                <View style={styles.statsContainer}>
+                    {/* Rdv pris */}
+                    <Text style={styles.title}>Statistiques Semaine</Text>
+                    <View style={styles.stats}>
+                        <View style={styles.iconGroup}>
+                            <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
+                            <Text style={styles.statsData}>100%</Text>
+                        </View>
+                        <Text style={styles.statsCount}>18</Text>
+                        <Text style={styles.statsRdv}>rdv terminés</Text>
                     </View>
-                    <Text style={styles.statsCount}>9</Text>
-                    <Text style={styles.statsRdv}>rdv terminés</Text>
-                </View>
 
-                {/* Rdv convertis */}
-                <View style={styles.stats}>
-                    <View style={styles.iconGroup}>
-                        <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
-                        <Text style={styles.statsData}>100%</Text>
+                    {/* Rdv validés */}
+                    <View style={styles.stats}>
+                        <View style={styles.iconGroup}>
+                            <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
+                            <Text style={styles.statsData}>100%</Text>
+                        </View>
+                        <Text style={styles.statsCount}>9</Text>
+                        <Text style={styles.statsRdv}>rdv terminés</Text>
                     </View>
-                    <Text style={styles.statsCount}>6</Text>
-                    <Text style={styles.statsRdv}>rdv convertis</Text>
-                </View>
 
-                {/* Tps moyen */}
-                <View style={styles.stats}>
-                    <View style={styles.iconGroup}>
-                        <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
-                        <Text style={styles.statsData}>38 min</Text>
+                    {/* Rdv convertis */}
+                    <View style={styles.stats}>
+                        <View style={styles.iconGroup}>
+                            <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
+                            <Text style={styles.statsData}>100%</Text>
+                        </View>
+                        <Text style={styles.statsCount}>6</Text>
+                        <Text style={styles.statsRdv}>rdv convertis</Text>
                     </View>
-                    <Text style={styles.statsRdv}>temps moyen / rdv</Text>
-                </View>
-            </View>
 
-            {/* Contact info */}
-            <View style={styles.contactContainer}>
-                <View style={styles.tel}>
-                    <Text style={styles.title}>Téléphone :</Text>
-                    <Text>+33 36 84 25 78 63</Text>
+                    {/* Tps moyen */}
+                    <View style={styles.stats}>
+                        <View style={styles.iconGroup}>
+                            <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
+                            <Text style={styles.statsData}>38 min</Text>
+                        </View>
+                        <Text style={styles.statsRdv}>temps moyen / rdv</Text>
+                    </View>
                 </View>
-                <View style={styles.mail}>
-                    <Text style={styles.title}>Email :</Text>
-                    <Text>example@gmail.com</Text>
-                </View>
-            </View>
 
-            {/* Boutons */}
-            <View style={styles.bottomButtonsContainer}>
-                <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
-                    <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
-                    <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
-                </TouchableOpacity>
+                {/* Contact info */}
+                <View style={styles.contactContainer}>
+                    <View style={styles.tel}>
+                        <Text style={styles.title}>Téléphone :</Text>
+                        <Text>+33 36 84 25 78 63</Text>
+                    </View>
+                    <View style={styles.mail}>
+                        <Text style={styles.title}>Email :</Text>
+                        <Text>example@gmail.com</Text>
+                    </View>
+                </View>
+
+                {/* Boutons */}
+                <View style={styles.bottomButtonsContainer}>
+                    <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
+                        <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
+                        <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
@@ -100,9 +100,15 @@ export default function MonProfilScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#fff",
         alignItems: "center",
-        justifyContent: "space-around",
-        padding: 10,
+        justifyContent: "center",
+    },
+    window: {
+        height: screenHeight,
+        width: screenWidth,
+        justifyContent: "center",
+        alignItems: "center",
     },
     profilContainer: {
         flexDirection: "row",
@@ -126,7 +132,7 @@ const styles = StyleSheet.create({
     },
     contactTitle: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontWeight: "600",
         marginBottom: 5,
     },
     contactText: {
@@ -143,10 +149,11 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
+        padding: "2%",
     },
     title: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontWeight: "600",
         marginVertical: 10,
         marginBottom: 10,
     },
@@ -179,13 +186,12 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     bottomButtonsContainer: {
-        flexDirection: "column",
-        alignItems: "center",
+        marginBottom: "20%",
     },
     bottomButtonModif: {
         backgroundColor: "transparent",
-        padding: 15,
-        borderRadius: 5,
+        padding: 10,
+        borderRadius: borderRadius,
         marginVertical: 10,
         justifyContent: "center",
         alignItems: "center",
@@ -194,13 +200,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     bottomButtonModifText: {
-        color: "#16A085",
-        fontWeight: "bold",
+        color: mainColor,
+        fontSize: 20,
     },
     bottomButtonMdp: {
-        backgroundColor: "#16A085",
-        padding: 15,
-        borderRadius: 5,
+        backgroundColor: mainColor,
+        padding: 10,
+        borderRadius: borderRadius,
         marginVertical: 10,
         justifyContent: "center",
         alignItems: "center",
@@ -208,6 +214,6 @@ const styles = StyleSheet.create({
     },
     bottomButtonMdpText: {
         color: "#fff",
-        fontWeight: "bold",
+        fontSize: 20,
     },
 });
