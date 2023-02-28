@@ -9,7 +9,7 @@ export const userSlice = createSlice({
   initialState,
  reducers: {
    loginStore: (state, action) => {
-     state.value.token = action.payload;
+     state.value = action.payload;
    },
  },
 });

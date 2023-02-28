@@ -17,9 +17,11 @@ const mainBackground = constant.mainBackground;
 
 export default function MonProfilScreen({ navigation }) {
     return (
+        
         <View style={styles.container}>
+            <Header navigation={navigation} />
             <View style={styles.window}>
-                <Header navigation={navigation} />
+                
                 {/* Profil */}
                 <View style={styles.profilContainer}>
                     <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
     },
     window: {
         height: screenHeight,

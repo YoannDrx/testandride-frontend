@@ -5,5 +5,8 @@ const constant  = {
      secondaryBackground :'whitesmoke',
      logoPath:require('../assets/Mini-logo.png'),
      mainBackground:'white',
+     dangerColor:'#e74c3c',
+     btnPadding:10,
+     warningColor:'#f39c12',
   }
   export default constant
