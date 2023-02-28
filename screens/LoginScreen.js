@@ -18,25 +18,6 @@ export default function LoginScreen() {
     const emailRef = useRef();
     const passwordRef = useRef();
 
-    // Buttons Nav
-        const navigation = useNavigation();
-      
-        const handleItinerairePress = () => {
-          navigation.navigate("itineraire");
-        };
-      
-        const handleLoginPress = () => {
-          navigation.navigate("login");
-        };
-      
-        const handleMaJourneePress = () => {
-          navigation.navigate("maJournee");
-        };
-      
-        const handleProfilPress = () => {
-          navigation.navigate("profil");
-        };
-
     return (
         <View style={styles.container}>
             <View style={styles.window}>
@@ -66,21 +47,6 @@ export default function LoginScreen() {
                     <TouchableOpacity style={styles.btnContain}>
                         <Text style={styles.btnText}>Se connecter</Text>
                     </TouchableOpacity>
-
-                    {/* Buttons Nav */}
-                    <TouchableOpacity style={styles.button} onPress={() => handleItinerairePress()}>
-                        <Text style={styles.buttonText}>Itinéraire</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => handleLoginPress()}>
-                        <Text style={styles.buttonText}>Login</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => handleMaJourneePress()}>
-                        <Text style={styles.buttonText}>Ma journée</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => handleProfilPress()}>
-                        <Text style={styles.buttonText}>Profil</Text>
-                    </TouchableOpacity>
-                    {/* End buttons nav */}
                 </View>
                 <Modal visible={showSignUp}></Modal>
             </View>
