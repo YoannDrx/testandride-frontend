@@ -3,7 +3,6 @@ import { View, Text, StyleSheet,Button,Image,TouchableOpacity } from 'react-nati
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // style constants
     import constant from '../constants/constant';
-  
     const mainColor = constant.mainColor;
     const secondaryColor = constant.secondaryColor;
     const borderRadius = constant.borderRadius;

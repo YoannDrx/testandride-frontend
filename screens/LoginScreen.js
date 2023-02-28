@@ -32,39 +32,30 @@ export default function LoginScreen({navigation}) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.window}>
-        <Image
-          style={styles.tinyLogo}
-          source={require("../assets/Mini-logo.png")}
-        />
-        <Text style={styles.pageTitle}> CONNEXION</Text>
-        <Text> Pas encore de compte ?</Text>
-        <Text style={styles.linkSignUp} onPress={() => setShowSignUp(true)}>
-          Cliquez pour vous inscrire
-        </Text>
-        <View style={styles.sepContainer}>
-          <View style={styles.sepLine} />
-          <View>
-            <Text style={styles.sepText}>Me connecter avec mon email</Text>
-          </View>
-          <View style={styles.sepLine} />
-        </View>
+    return (
+        <View style={styles.container}>
+            <View style={styles.window}>
+                <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
+                <Text style={styles.pageTitle}> CONNEXION</Text>
+                <Text> Pas encore de compte ?</Text>
+                <Text style={styles.linkSignUp} onPress={() => setShowSignUp(true)}>
+                    Cliquez pour vous inscrire
+                </Text>
+                <View style={styles.sepContainer}>
+                    <View style={styles.sepLine} />
+                    <View>
+                        <Text style={styles.sepText}>Me connecter avec mon email</Text>
+                    </View>
+                    <View style={styles.sepLine} />
+                </View>
 
-        {/* INPUTS LOGIN*/}
+                {/* INPUTS LOGIN*/}
 
-        <View style={styles.inputsContainer}>
-          <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
-            <TextInput
-              style={styles.input}
-              ref={emailRef}
-              placeholder="Email"
-            />
-            <FontAwesome name={'at'} style={styles.iconInput}
-              size={20}
-              color={mainColor}/>
-          </View>
+                <View style={styles.inputsContainer}>
+                    <View style={styles.inputCont} onPress={() => emailRef.focus()}>
+                        <TextInput style={styles.input} ref={emailRef} placeholder="Email" />
+                        <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
+                    </View>
 
           <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
             <TextInput
@@ -89,8 +80,7 @@ export default function LoginScreen({navigation}) {
           </TouchableOpacity>
         </View>
         {/* Modal Signup*/}
-      <View style={styles.container}>
-      <View style={styles.window}>
+      
       <Modal visible={showSignUp} style={styles.modal}>
       <View style={styles.modalContainer}>
       <TouchableOpacity onPress={() => setShowSignUp(false)} style={styles.closeButton}>
@@ -183,8 +173,7 @@ export default function LoginScreen({navigation}) {
       </Modal>
     </View>
     </View>
-    </View>
-    </View>
+  
       
   );
 }
@@ -293,4 +282,3 @@ const styles = StyleSheet.create({
 paddingTop: 40,
   }
 });
-
