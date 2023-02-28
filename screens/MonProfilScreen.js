@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
-import { Dimensions } from "react-native";
+import { Dimensions, SafeAreaView } from "react-native";
 
 // style constants
 import constant from "../constants/constant";
@@ -17,9 +17,9 @@ const mainBackground = constant.mainBackground;
 
 export default function MonProfilScreen({ navigation }) {
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <Header navigation={navigation} />
             <View style={styles.window}>
-                <Header navigation={navigation} />
                 {/* Profil */}
                 <View style={styles.profilContainer}>
                     <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
@@ -32,7 +32,7 @@ export default function MonProfilScreen({ navigation }) {
                 <View style={styles.statsContainer}>
                     {/* Rdv pris */}
                     <Text style={styles.title}>Statistiques Semaine</Text>
-                    <View style={styles.stats}>
+                    <View style={styles.statsCard}>
                         <View style={styles.iconGroup}>
                             <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
                             <Text style={styles.statsData}>100%</Text>
@@ -42,7 +42,7 @@ export default function MonProfilScreen({ navigation }) {
                     </View>
 
                     {/* Rdv validés */}
-                    <View style={styles.stats}>
+                    <View style={styles.statsCard}>
                         <View style={styles.iconGroup}>
                             <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
                             <Text style={styles.statsData}>100%</Text>
@@ -52,7 +52,7 @@ export default function MonProfilScreen({ navigation }) {
                     </View>
 
                     {/* Rdv convertis */}
-                    <View style={styles.stats}>
+                    <View style={styles.statsCard}>
                         <View style={styles.iconGroup}>
                             <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
                             <Text style={styles.statsData}>100%</Text>
@@ -62,7 +62,7 @@ export default function MonProfilScreen({ navigation }) {
                     </View>
 
                     {/* Tps moyen */}
-                    <View style={styles.stats}>
+                    <View style={styles.statsCard}>
                         <View style={styles.iconGroup}>
                             <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
                             <Text style={styles.statsData}>38 min</Text>
@@ -85,27 +85,27 @@ export default function MonProfilScreen({ navigation }) {
 
                 {/* Boutons */}
                 <View style={styles.bottomButtonsContainer}>
-                    <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
-                        <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
-                        <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
+                    <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
+                    <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
+                </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#fff",
+        height: screenHeight,
+        width: screenWidth,
+        backgroundColor: mainBackground,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
     },
     window: {
-        height: screenHeight,
         width: screenWidth,
         justifyContent: "center",
         alignItems: "center",
@@ -126,10 +126,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 5,
     },
-    contactContainer: {
-        marginTop: 20,
-        alignItems: "flex-start",
-    },
     contactTitle: {
         fontSize: 18,
         fontWeight: "600",
@@ -149,13 +145,13 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
-        padding: "2%",
+        paddingLeft: "2%",
+        paddingRight: "2%",
     },
     title: {
         fontSize: 18,
         fontWeight: "600",
         marginVertical: 10,
-        marginBottom: 10,
     },
     iconGroup: {
         flexDirection: "row",
@@ -165,7 +161,7 @@ const styles = StyleSheet.create({
     Icon: {
         marginRight: 10,
     },
-    stats: {
+    statsCard: {
         borderColor: "lightgray",
         borderWidth: 1,
         borderRadius: 5,
@@ -186,13 +182,15 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     bottomButtonsContainer: {
-        marginBottom: "20%",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
     },
     bottomButtonModif: {
         backgroundColor: "transparent",
         padding: 10,
         borderRadius: borderRadius,
-        marginVertical: 10,
+        marginBottom: 10,
         justifyContent: "center",
         alignItems: "center",
         width: 330,
@@ -204,13 +202,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     bottomButtonMdp: {
-        backgroundColor: mainColor,
+        backgroundColor: secondaryColor,
         padding: 10,
         borderRadius: borderRadius,
-        marginVertical: 10,
         justifyContent: "center",
         alignItems: "center",
         width: 330,
+        borderWidth: 1,
+        borderColor: secondaryColor,
     },
     bottomButtonMdpText: {
         color: "#fff",
