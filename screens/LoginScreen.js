@@ -87,7 +87,9 @@ export default function LoginScreen({navigation}) {
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>
+
         {/* MODAL SIGNUP*/}
+        
         <Modal visible={showSignUp}>
 
         </Modal>
