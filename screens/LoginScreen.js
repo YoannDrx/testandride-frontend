@@ -11,18 +11,54 @@ import {
 import { Dimensions } from "react-native";
 import { useState, useRef } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import SignInForms from "../components/SignInForms";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = "#16A085";
 const secondaryColor = "#636869";
 const borderRadius = 4;
-const secondaryBackground ='whitesmoke';
+const secondaryBackground = "whitesmoke";
 
 export default function LoginScreen() {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  let emailRef = useRef("");
+  const passwordRef = useRef("");
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
+  const [signUpLastName, setSignUpLastName] = useState("");
+  const [signUpFirstName, setSignUpFirstName] = useState("");
+  const [signUpTelephone, setSignUpTelephone] = useState([]);
+ 
+ //fonction pour se créer un compte
+ const handleRegister = () => {
+  fetch(`${BACKEND_URL}/users/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      lastName: signUpLastName,
+      firstName: signUpFirstName,
+      email: signUpEmail,
+      tels: signUpTelephone,
+      password: signUpPassword,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.result) {
+        dispatch(login({ email: signUpEmail, token: data.token }));
+        setSignUpLastName("");
+        setSignUpFirstName("");
+        setSignUpEmail("");
+        setSignUpTelephone([]);
+        setSignUpPassword("");
+        setIsModalVisible(false);
+      }
+    });
+};
+ 
 
   return (
     <View style={styles.container}>
@@ -40,39 +76,9 @@ export default function LoginScreen() {
           <View style={styles.sepLine} />
           <View>
             <Text style={styles.sepText}>Me connecter avec mon email</Text>
+            <SignInForms/>
           </View>
           <View style={styles.sepLine} />
-        </View>
-        <View style={styles.inputsContainer}>
-          <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
-            <TextInput
-              style={styles.input}
-              ref={emailRef}
-              placeholder="Email"
-            />
-            <FontAwesome name={'at'} style={styles.iconInput}
-              size={20}
-              color={mainColor}/>
-          </View>
-
-          <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
-            <TextInput
-              style={styles.input}
-              ref={passwordRef}
-              placeholder="Mot de passe"
-              secureTextEntry={showPassword}
-            />
-            <FontAwesome
-              name={showPassword ? "eye-slash" : "eye"}
-              style={styles.iconInput}
-              size={20}
-              color={mainColor}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          </View>
-          <TouchableOpacity style={styles.btnContain}>
-            <Text style={styles.btnText}>Se connecter</Text>
-          </TouchableOpacity>
         </View>
         <Modal visible={showSignUp}></Modal>
       </View>
@@ -123,39 +129,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     color: secondaryColor,
   },
-  inputsContainer: {
-    flex:1,
-    width: "80%",
-    marginVertical: 20,
-    justifyContent:'space-evenly',
-  },
-  inputCont: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: borderRadius,
-    borderBottomWidth: 1,
-    borderColor: mainColor,
-    marginVertical:15,
-  },
-  input: {
-    fontSize:22,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
-    backgroundColor: "#fff",
-    color: "#424242",
-  },
-  btnContain: {
-    backgroundColor: mainColor,
-    padding: 10,
-    borderRadius: borderRadius,
-    marginVertical: 10,
-  },
-  btnText: {
-    color: "white",
-    fontSize: 20,
-    textAlign: "center",
-  },
+
 });
