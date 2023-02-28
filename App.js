@@ -44,7 +44,6 @@ const DrawerNavigator = () => {
                 },
                 tabBarActiveTintColor: "#ec6e5b",
                 tabBarInactiveTintColor: "#335561",
-                headerShown: true,
             })}
             drawerPosition="right"
         >
