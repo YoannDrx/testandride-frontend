@@ -1,16 +1,19 @@
 import * as React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+
 // Screens
 import MaJourneeScreen from "./screens/MaJourneeScreen";
 import MonProfilScreen from "./screens/MonProfilScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
 
+
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
+import 'react-native-gesture-handler';
 
 // store
 import { Provider } from 'react-redux';
@@ -32,7 +35,7 @@ const DrawerNavigator = () => {
                 drawerIcon: ({ color, size }) => {
                     let iconName = "";
 
-                    if (route.name === "user") {
+                    if (route.name === "profil") {
                         iconName = "user-circle";
                     } else if (route.name === "maJournee") {
                         iconName = "calendar-check-o";
@@ -44,11 +47,11 @@ const DrawerNavigator = () => {
                 },
                 tabBarActiveTintColor: "#ec6e5b",
                 tabBarInactiveTintColor: "#335561",
+                headerShown: false,
             })}
-            drawerPosition="right"
         >
             <Drawer.Screen name="maJournee" component={MaJourneeScreen} />
-            <Drawer.Screen name="user" component={MonProfilScreen} />
+            <Drawer.Screen name="profil" component={MonProfilScreen} />
             <Drawer.Screen name="itineraire" component={ItineraireScreen} />
         </Drawer.Navigator>
     );

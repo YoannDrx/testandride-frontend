@@ -1,57 +1,97 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal } from "react-native";
-import { Dimensions } from "react-native";
-import { useState, useRef } from "react";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
-const mainColor = "#16A085";
-const secondaryColor = "#636869";
-const borderRadius = 4;
-const secondaryBackground = "whitesmoke";
-import { useNavigation } from "@react-navigation/native";
+// imports
+  import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    Modal,
+  } from "react-native";
+  import { Dimensions } from "react-native";
+  import { useState, useRef } from "react";
+  import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+// style constants
+  import constant from '../constants/constant';
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
+  const mainColor = constant.mainColor;
+  const secondaryColor = constant.secondaryColor;
+  const borderRadius = constant.borderRadius;
+  const secondaryBackground = constant.secondaryBackground;
 
-export default function LoginScreen() {
-    const [showSignUp, setShowSignUp] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const emailRef = useRef();
-    const passwordRef = useRef();
+export default function LoginScreen({navigation}) {
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.window}>
-                <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
-                <Text style={styles.pageTitle}> CONNEXION</Text>
-                <Text> Pas encore de compte ?</Text>
-                <Text style={styles.linkSignUp} onPress={() => setShowSignUp(true)}>
-                    Cliquez pour vous inscrire
-                </Text>
-                <View style={styles.sepContainer}>
-                    <View style={styles.sepLine} />
-                    <View>
-                        <Text style={styles.sepText}>Me connecter avec mon email</Text>
-                    </View>
-                    <View style={styles.sepLine} />
-                </View>
-                <View style={styles.inputsContainer}>
-                    <View style={styles.inputCont} onPress={() => emailRef.focus()}>
-                        <TextInput style={styles.input} ref={emailRef} placeholder="Email" />
-                        <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
-                    </View>
+  // hooks
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
-                    <View style={styles.inputCont} onPress={() => passwordRef.focus()}>
-                        <TextInput style={styles.input} ref={passwordRef} placeholder="Mot de passe" secureTextEntry={showPassword} />
-                        <FontAwesome name={showPassword ? "eye-slash" : "eye"} style={styles.iconInput} size={20} color={mainColor} onPress={() => setShowPassword(!showPassword)} />
-                    </View>
-                    <TouchableOpacity style={styles.btnContain}>
-                        <Text style={styles.btnText}>Se connecter</Text>
-                    </TouchableOpacity>
-                </View>
-                <Modal visible={showSignUp}></Modal>
-            </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.window}>
+        <Image
+          style={styles.tinyLogo}
+          source={require("../assets/Mini-logo.png")}
+        />
+        <Text style={styles.pageTitle}> CONNEXION</Text>
+        <Text> Pas encore de compte ?</Text>
+        <Text style={styles.linkSignUp} onPress={() => setShowSignUp(true)}>
+          Cliquez pour vous inscrire
+        </Text>
+        <View style={styles.sepContainer}>
+          <View style={styles.sepLine} />
+          <View>
+            <Text style={styles.sepText}>Me connecter avec mon email</Text>
+          </View>
+          <View style={styles.sepLine} />
         </View>
-    );
+
+        {/* INPUTS LOGIN*/}
+
+        <View style={styles.inputsContainer}>
+          <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
+            <TextInput
+              style={styles.input}
+              ref={emailRef}
+              placeholder="Email"
+            />
+            <FontAwesome name={'at'} style={styles.iconInput}
+              size={20}
+              color={mainColor}/>
+          </View>
+
+          <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
+            <TextInput
+              style={styles.input}
+              ref={passwordRef}
+              placeholder="Mot de passe"
+              secureTextEntry={showPassword}
+            />
+            <FontAwesome
+              name={showPassword ? "eye-slash" : "eye"}
+              style={styles.iconInput}
+              size={20}
+              color={mainColor}
+              onPress={() => setShowPassword(!showPassword)}
+            />
+          </View>
+          <TouchableOpacity style={styles.btnContain}>
+            <Text style={styles.btnText}>Se connecter</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('maJournee')}>
+            <Text style={styles.btnText}>Ma journee</Text>
+          </TouchableOpacity>
+        </View>
+        {/* MODAL SIGNUP*/}
+        <Modal visible={showSignUp}>
+
+        </Modal>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -133,3 +173,4 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 });
+
