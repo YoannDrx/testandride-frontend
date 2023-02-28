@@ -11,7 +11,7 @@ export default function MaJourneeScreen({ navigation }) {
         </View>
     );
 }
-    
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

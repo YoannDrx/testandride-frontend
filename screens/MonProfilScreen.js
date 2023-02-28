@@ -1,10 +1,11 @@
-import React from 'react'
-import { View, Text, StyleSheet,Image } from 'react-native'
-
-
+import React from 'react';
+import { View, Text, StyleSheet,Image } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Header from "../components/Header";
 export default function MonProfilScreen() {
 
     return ( <View style={styles.container}>
+        <Header navigation={navigation}/>
         {/* Profil */}
         <View style={styles.profilContainer}>
             <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />

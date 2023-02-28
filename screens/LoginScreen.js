@@ -22,6 +22,8 @@
   const secondaryBackground = constant.secondaryBackground;
 
 export default function LoginScreen({navigation}) {
+
+  // hooks
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const emailRef = useRef();
@@ -46,6 +48,9 @@ export default function LoginScreen({navigation}) {
           </View>
           <View style={styles.sepLine} />
         </View>
+
+        {/* INPUTS LOGIN*/}
+
         <View style={styles.inputsContainer}>
           <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
             <TextInput
@@ -80,6 +85,7 @@ export default function LoginScreen({navigation}) {
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>
+        {/* MODAL SIGNUP*/}
         <Modal visible={showSignUp}>
 
         </Modal>

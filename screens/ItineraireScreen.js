@@ -1,11 +1,13 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import Header from "../components/Header";
 
 
 export default function ItineraireScreen() {
 
     return (
         <View style={styles.container}>
+            <Header navigation={navigation}/>
             <Text>itinéraire</Text>
         </View>
     )

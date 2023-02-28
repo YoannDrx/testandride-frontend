@@ -3,5 +3,7 @@ const constant  = {
      secondaryColor:"#636869",
      borderRadius: 4,
      secondaryBackground :'whitesmoke',
+     logoPath:require('../assets/Mini-logo.png'),
+     mainBackground:'white',
   }
   export default constant
