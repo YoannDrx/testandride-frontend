@@ -14,7 +14,7 @@ import { Dimensions } from "react-native";
     const logoPath = constant.logoPath;
     const mainBackground = constant.mainBackground;
 
-export default  MaJourneeScreen = ({navigation}) => {
+export default  function MaJourneeScreen  ({navigation})  {
     return (
         
         <View style={styles.container}>

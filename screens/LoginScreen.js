@@ -83,7 +83,7 @@ export default function LoginScreen({navigation}) {
           <TouchableOpacity style={styles.btnContain}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('maJournee')}>
+          <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('DrawerNavigator')}>
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>

@@ -15,9 +15,9 @@ export default function Header({navigation}) {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.btn}><FontAwesome name='user-circle' size={35} color={secondaryColor} onPress={()=> navigation.navigate('profil')}/></TouchableOpacity>
-            <Image source={logoPath} style={styles.logo} resizeMode='contain' onPress={()=> navigation.navigate('maJournee')}/>
-            <TouchableOpacity style={styles.btn}><FontAwesome name='bars' size={35} color={secondaryColor} onPress={()=> navigation.openDrawer()}/></TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('profil')} style={styles.btn} ><FontAwesome name='user-circle' size={35} color={secondaryColor} /></TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('maJournee')} style={styles.btn}><Image source={logoPath} style={styles.logo} resizeMode='contain' /></TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.openDrawer()} style={styles.btn}><FontAwesome name='bars' size={35} color={secondaryColor} /></TouchableOpacity>
         </View>
     )
 }

@@ -61,10 +61,8 @@ export default function App() {
     return (
       <Provider store={store}>
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
                 <Stack.Screen name="login" component={LoginScreen} />
-                <Stack.Screen name="profil" component={MonProfilScreen} />
-                <Stack.Screen name="maJournee" component={MaJourneeScreen} />
                 <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
             </Stack.Navigator>
         </NavigationContainer>
