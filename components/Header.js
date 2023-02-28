@@ -3,12 +3,13 @@ import { View, Text, StyleSheet,Button,Image,TouchableOpacity } from 'react-nati
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // style constants
     import constant from '../constants/constant';
-    const screenWidth = Dimensions.get("window").width;
-    const screenHeight = Dimensions.get("window").height;
+  
     const mainColor = constant.mainColor;
     const secondaryColor = constant.secondaryColor;
     const borderRadius = constant.borderRadius;
     const secondaryBackground = constant.secondaryBackground;
+    const logoPath = constant.logoPath;
+    const mainBackground = constant.mainBackground;
 
 export default function Header({navigation}) {
 

@@ -2,18 +2,21 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
+import { Dimensions } from "react-native";
 
 
 // style constants
     import constant from '../constants/constant';
-  const screenWidth = Dimensions.get("window").width;
-  const screenHeight = Dimensions.get("window").height;
-  const mainColor = constant.mainColor;
-  const secondaryColor = constant.secondaryColor;
-  const borderRadius = constant.borderRadius;
-  const secondaryBackground = constant.secondaryBackground;
+    const screenWidth = Dimensions.get("window").width;
+    const screenHeight = Dimensions.get("window").height;
+    const mainColor = constant.mainColor;
+    const secondaryColor = constant.secondaryColor;
+    const borderRadius = constant.borderRadius;
+    const secondaryBackground = constant.secondaryBackground;
+    const logoPath = constant.logoPath;
+    const mainBackground = constant.mainBackground;
 
-  
+
 export default function MonProfilScreen({ navigation }) {
     return (
         <View style={styles.container}>

@@ -20,6 +20,8 @@
   const secondaryColor = constant.secondaryColor;
   const borderRadius = constant.borderRadius;
   const secondaryBackground = constant.secondaryBackground;
+  const logoPath = constant.logoPath;
+  const mainBackground = constant.mainBackground;
 
 export default function LoginScreen({navigation}) {
 
