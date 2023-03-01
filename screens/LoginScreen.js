@@ -1,33 +1,23 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  KeyboardAvoidingView,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
-import { Dimensions } from "react-native";
 import { useState, useRef } from "react";
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, SafeAreaView, Dimensions } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Components
   import SignUpForm from "../components/SignUpForm";
 
 // style constants
-  import constant from "../constants/constant";
-  const screenWidth = Dimensions.get("window").width;
-  const screenHeight = Dimensions.get("window").height;
-  const mainColor = constant.mainColor;
-  const secondaryColor = constant.secondaryColor;
-  const borderRadius = constant.borderRadius;
-  const secondaryBackground = constant.secondaryBackground;
-  const logoPath = constant.logoPath;
-  const mainBackground = constant.mainBackground;
+import constant from "../constants/constant";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+const mainColor = constant.mainColor;
+const secondaryColor = constant.secondaryColor;
+const borderRadius = constant.borderRadius;
+const secondaryBackground = constant.secondaryBackground;
+const logoPath = constant.logoPath;
+const mainBackground = constant.mainBackground;
+const btnPadding = constant.btnPadding;
+const dangerColor = constant.dangerColor;
+const warningColor = constant.warningColor;
 
 export default function LoginScreen({ navigation }) {
 
@@ -48,25 +38,23 @@ export default function LoginScreen({ navigation }) {
     setShowSignUp(!showSignUp)
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.window}>
-        <Image
-          style={styles.tinyLogo}
-          source={require("../assets/Mini-logo.png")}
-        />
-        <Text style={styles.pageTitle}> CONNEXION</Text>
-        <Text> Pas encore de compte ?</Text>
-        <Text style={styles.linkSignUp} onPress={() => toggleModalSignUP()}>
-          Cliquez pour vous inscrire
-        </Text>
-        <View style={styles.sepContainer}>
-          <View style={styles.sepLine} />
-          <View>
-            <Text style={styles.sepText}>Me connecter avec mon email</Text>
-          </View>
-          <View style={styles.sepLine} />
-        </View>
+    return (
+        <View style={styles.container}>
+            <View style={styles.window}>
+              {/* HEADER CONNEXION INFOS */}
+                <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
+                <Text style={styles.pageTitle}> CONNEXION</Text>
+                <Text> Pas encore de compte ?</Text>
+                <Text style={styles.linkSignUp} onPress={() => toggleModalSignUP()}>
+                    Cliquez pour vous inscrire
+                </Text>
+                <View style={styles.sepContainer}>
+                    <View style={styles.sepLine} />
+                    <View>
+                        <Text style={styles.sepText}>Me connecter avec mon email</Text>
+                    </View>
+                    <View style={styles.sepLine} />
+                </View>
 
         {/* INPUTS LOGIN*/}
 
