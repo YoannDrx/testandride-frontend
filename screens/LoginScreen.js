@@ -10,10 +10,13 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { Dimensions } from "react-native";
+import { useDispatch} from 'react-redux';
 import { useState, useRef } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { loginStore, loginError} from '../reducers/user';
 // style constants
 import constant from '../constants/constant';
 const screenWidth = Dimensions.get("window").width;
@@ -25,45 +28,40 @@ const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 
+const BACKEND_URL = "http://192.168.10.147:3000";
+
 export default function LoginScreen({navigation}) {
   // hooks
+  const dispatch = useDispatch();
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  let emailRef = useRef("");
-  const passwordRef = useRef("");
-  const [signUpEmail, setSignUpEmail] = useState("");
-  const [signUpPassword, setSignUpPassword] = useState("");
-  const [signUpLastName, setSignUpLastName] = useState("");
-  const [signUpFirstName, setSignUpFirstName] = useState("");
-  const [signUpTelephone, setSignUpTelephone] = useState([]);
- 
- //fonction pour se créer un compte
- const handleRegister = () => {
-  fetch(`${BACKEND_URL}/users/signup`, {
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+  
+
+// fonction pour se connecter
+const handleConnection = () => {
+  fetch(`${BACKEND_URL}/users/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      lastName: signUpLastName,
-      firstName: signUpFirstName,
-      email: signUpEmail,
-      tels: signUpTelephone,
-      password: signUpPassword,
+      email: signInEmail,
+      password: signInPassword,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
       if (data.result) {
-        dispatch(login({ email: signUpEmail, token: data.token }));
-        setSignUpLastName("");
-        setSignUpFirstName("");
-        setSignUpEmail("");
-        setSignUpTelephone([]);
-        setSignUpPassword("");
-        setIsModalVisible(false);
+        dispatch(loginStore({ email: signInEmail, token: data.token }));
+        setSignInEmail("");
+        setSignInPassword("");       
+      // message d'erreur : mdp ou email pas correct
+      }else {
+        Alert.alert("L\'email ou le mot de passe est incorrect, veuillez réessayer.")
       }
     });
 };
- 
+
 
     return (
         <View style={styles.container}>
@@ -85,17 +83,22 @@ export default function LoginScreen({navigation}) {
                 {/* INPUTS LOGIN*/}
 
                 <View style={styles.inputsContainer}>
-                    <View style={styles.inputCont} onPress={() => emailRef.focus()}>
-                        <TextInput style={styles.input} ref={emailRef} placeholder="Email" />
+                    <View style={styles.inputCont}>
+                        <TextInput 
+                        style={styles.input} 
+                        placeholder="Email" 
+                        onChangeText={(value) => setSignInEmail(value)} 
+                        value={signInEmail} />
                         <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
                     </View>
 
-          <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
+          <View style={styles.inputCont}>
             <TextInput
               style={styles.input}
-              ref={passwordRef}
               placeholder="Mot de passe"
               secureTextEntry={showPassword}
+              onChangeText={(value) => setSignInPassword(value)} 
+              value={signInPassword}
             />
             <FontAwesome
               name={showPassword ? "eye-slash" : "eye"}
@@ -105,7 +108,9 @@ export default function LoginScreen({navigation}) {
               onPress={() => setShowPassword(!showPassword)}
             />
           </View>
-          <TouchableOpacity style={styles.btnContain}>
+          <TouchableOpacity 
+          style={styles.btnContain} 
+          onPress={() => handleConnection()}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('DrawerNavigator')}>
@@ -153,10 +158,9 @@ export default function LoginScreen({navigation}) {
         />
         </View>
 
-        <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
+        <View style={styles.inputCont}>
         <TextInput
         style={styles.input}
-        ref={emailRef}
         placeholder="Email"
         />
         <FontAwesome name={'at'} 
@@ -165,10 +169,9 @@ export default function LoginScreen({navigation}) {
         color={mainColor}/>
         </View>
         
-        <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
+        <View style={styles.inputCont}>
         <TextInput
         style={styles.input}
-        ref={emailRef}
         placeholder="Confirmer mon email"
         />
         <FontAwesome name={'at'} 
@@ -178,10 +181,9 @@ export default function LoginScreen({navigation}) {
         </View>
 
 
-        <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
+        <View style={styles.inputCont}>
         <TextInput
         style={styles.input}
-        ref={passwordRef}
         placeholder="Mot de passe"
         secureTextEntry={showPassword}
         />
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   window: {
-    height: "40%",
+    height: screenHeight,
     width: screenWidth,
   
     alignItems: "center",
