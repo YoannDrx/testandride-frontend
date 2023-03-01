@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   window: {
-    height: screenHeight,
+    height: "40%",
     width: screenWidth,
     justifyContent: "center",
     alignItems: "center",
@@ -102,6 +102,8 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 100,
     height: 100,
+    flexDirection: "column",
+    justifyContent: "flex-start"
   },
   pageTitle: {
     fontSize: 24,

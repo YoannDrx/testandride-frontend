@@ -18,7 +18,7 @@ const borderRadius = 4;
 import { Dimensions } from "react-native";
 
 
-const BACKEND_URL = "http://192.168.10.148:3000";
+const BACKEND_URL = "http://192.168.10.147:3000";
 
 export default function SignInForms() {
   const dispatch = useDispatch();
@@ -93,9 +93,11 @@ export default function SignInForms() {
 const styles = StyleSheet.create({
     inputsContainer: {
     flex: 1,
+    flexDirection: "column",
     width: "80%",
     marginVertical: 20,
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   inputCont: {
     flexDirection: "row",
