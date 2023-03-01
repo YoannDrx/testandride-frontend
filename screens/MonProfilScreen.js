@@ -16,6 +16,10 @@ const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 
 export default function MonProfilScreen({ navigation }) {
+
+    // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
+
+
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
@@ -136,10 +140,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     tel: {
-        marginBottom: 15,
+        marginBottom: 0,
     },
     mail: {
-        marginBottom: 15,
+        marginBottom: 20,
     },
     statsContainer: {
         width: "100%",
@@ -162,24 +166,28 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     statsCard: {
-        borderColor: "lightgray",
+        backgroundColor: "#fff",
+        borderColor: "lightgrey",
         borderWidth: 1,
         borderRadius: 5,
-        marginBottom: 5,
+        marginBottom: 10,
         flexDirection: "row",
         justifyContent: "space-between",
         width: "100%",
-        padding: 10,
+        padding: 15,
         alignItems: "center",
-        shadowColor: "#171717",
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 10,
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        scrollContent: {},
     },
     contactContainer: {
         alignItems: "flex-start",
         width: "100%",
-        padding: 10,
+        paddingLeft: 10,
     },
     bottomButtonsContainer: {
         width: "100%",
