@@ -89,7 +89,11 @@ export default function LoginScreen({ navigation }) {
               onPress={() => setShowPassword(!showPassword)}
             />
           </View>
-
+{/* Mot de passe oublié*/}
+           
+<TouchableOpacity>
+            <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
+          </TouchableOpacity>
           {/*BOUTONS LOGIN*/}
 
           <TouchableOpacity style={styles.btnContain}>
@@ -102,6 +106,8 @@ export default function LoginScreen({ navigation }) {
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>
+
+
         {/* Modal Signup*/}
 
        
@@ -135,6 +141,7 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 100,
     height: 100,
+    marginTop: 40,
   },
   pageTitle: {
     fontSize: 24,
