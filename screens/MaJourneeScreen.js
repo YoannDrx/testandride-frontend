@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text,StatusBar,Platform } from "react-native";
+import React, { useState,useEffect } from "react";
+import { View, StyleSheet, Text,StatusBar,Platform,TouchableOpacity } from "react-native";
 import { Dimensions, SafeAreaView, ScrollView } from "react-native";
-
+import { useSelector } from "react-redux";
 // style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
@@ -16,12 +16,37 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+// Calendar 
+import * as Calendar from 'expo-calendar';  
+
 // import components
 import Header from "../components/Header";
 import MeetingCards from "../components/MeetingCards";
 import CalendarDatePicker from "../components/CalendarDatePicker";
+import { Link } from "@react-navigation/native";
 
 export default function MaJourneeScreen({ navigation }) {
+    const user = useSelector(state => state.user.value)
+    const [proCalendars,setProCalendars] = useState();
+    const userProEmail = "bobbcolin@gmail.com";
+
+
+    // Permissions
+    useEffect(() => {
+        (async () => {
+          const { status } = await Calendar.requestCalendarPermissionsAsync();
+          if (status === 'granted') {
+            const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+            const filteredCalendars = calendars.filter(calendar => {
+                return calendar.ownerAccount === "bobbcolin@gmail.com";
+            })
+            console.log('Here are all your calendars:');
+            console.log(filteredCalendars);
+            console.log(user)
+          }
+        })();
+      }, []);
+
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());

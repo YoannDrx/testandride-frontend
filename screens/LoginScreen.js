@@ -32,7 +32,7 @@ const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
 // URL backend
-const BACKEND_URL = "http://192.168.10.165:3000";
+const BACKEND_URL = "http://192.168.10.175:3000";
 
 export default function LoginScreen({ navigation }) {
 
@@ -62,8 +62,10 @@ const handleConnection = () => {
     .then((data) => {
       if (data.result) {
         dispatch(loginStore({ email: signInEmail, token: data.token }));
+        console.log(data);
         setSignInEmail("");
         setSignInPassword("");
+        navigation.navigate("DrawerNavigator");
       }else{
         // Pop up alert 
         Alert.alert("Email ou mot de passe incorrect.")
