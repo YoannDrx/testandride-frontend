@@ -7,6 +7,7 @@ import MaJourneeScreen from "./screens/MaJourneeScreen";
 import MonProfilScreen from "./screens/MonProfilScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
+import GoogleFormScreen from "./screens/GoogleFormScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 
 // Components
@@ -106,6 +107,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+          <Stack.Screen name="Google Form" component={GoogleFormScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
