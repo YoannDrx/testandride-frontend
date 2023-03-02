@@ -38,7 +38,7 @@ export default function LoginScreen({navigation}) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   
-
+  const ctrlEmail = true;
 // fonction pour se connecter
 const handleConnection = () => {
   fetch(`${BACKEND_URL}/users/signin`, {
