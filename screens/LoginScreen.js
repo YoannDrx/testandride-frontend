@@ -10,15 +10,20 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   SafeAreaView,
-  Alert,
+  Alert
 } from "react-native";
 import { Dimensions } from "react-native";
-import { useDispatch} from 'react-redux';
 import { useState, useRef } from "react";
+import {useDispatch} from "react-redux";
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, SafeAreaView, Dimensions } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+// Components
+  import SignUpForm from "../components/SignUpForm";
+
 import { loginStore} from '../reducers/user';
 // style constants
-import constant from '../constants/constant';
+import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = constant.mainColor;
@@ -27,19 +32,27 @@ const borderRadius = constant.borderRadius;
 const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
+const btnPadding = constant.btnPadding;
 const dangerColor = constant.dangerColor;
+const warningColor = constant.warningColor;
 
 // URL backend
 const BACKEND_URL = "http://192.168.10.165:3000";
 
-export default function LoginScreen({navigation}) {
-  // hooks
+export default function LoginScreen({ navigation }) {
+
+// HOOKS 
+  // states
   const dispatch = useDispatch();
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // states signin
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 
+
+// FONCTIONS
 // fonction pour se connecter
 const handleConnection = () => {
   fetch(`${BACKEND_URL}/users/signin`, {
@@ -62,16 +75,19 @@ const handleConnection = () => {
     });
 };
 
-
-
+  // show signup modal or close
+  const toggleModalSignUP = () => {
+    setShowSignUp(!showSignUp)
+  }
 
     return (
         <View style={styles.container}>
             <View style={styles.window}>
+              {/* HEADER CONNEXION INFOS */}
                 <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
                 <Text style={styles.pageTitle}> CONNEXION</Text>
                 <Text> Pas encore de compte ?</Text>
-                <Text style={styles.linkSignUp} onPress={() => setShowSignUp(true)}>
+                <Text style={styles.linkSignUp} onPress={() => toggleModalSignUP()}>
                     Cliquez pour vous inscrire
                 </Text>
                 <View style={styles.sepContainer}>
@@ -82,7 +98,7 @@ const handleConnection = () => {
                     <View style={styles.sepLine} />
                 </View>
 
-                {/* INPUTS LOGIN*/}
+        {/* INPUTS LOGIN*/}
 
                 <View style={styles.inputsContainer}>
                     <View 
@@ -111,15 +127,27 @@ const handleConnection = () => {
               onPress={() => setShowPassword(!showPassword)}
             />
           </View>
+{/* Mot de passe oublié*/}
+           
+<TouchableOpacity>
+            <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
+          </TouchableOpacity>
+          {/*BOUTONS LOGIN*/}
+
           <TouchableOpacity 
           style={styles.btnContain} 
           onPress={() => handleConnection()}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('DrawerNavigator')}>
+          <TouchableOpacity
+            style={styles.btnContain}
+            onPress={() => navigation.navigate("DrawerNavigator")}
+          >
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>
+
+
         {/* Modal Signup*/}
       
       <Modal visible={showSignUp} style={styles.modal}>
@@ -207,12 +235,12 @@ const handleConnection = () => {
         </ScrollView>
        
       </View>
-     
+      </Modal>
+      <Modal visible={showSignUp} style={styles.modalContainer}>
+          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight}/>
       </Modal>
     </View>
     </View>
-  
-      
   );
 }
 
@@ -227,7 +255,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   modalContainer: {
     flex: 1,
@@ -235,17 +263,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  modalContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+
+  },
   window: {
     height: screenHeight,
     width: screenWidth,
-  
     alignItems: "center",
   },
   tinyLogo: {
     width: 100,
     height: 100,
     flexDirection: "column",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    marginTop: 40,
   },
   pageTitle: {
     fontSize: 24,
@@ -274,10 +308,10 @@ const styles = StyleSheet.create({
     color: secondaryColor,
   },
   inputsContainer: {
-    flex:1,
+    flex: 1,
     width: "80%",
     marginVertical: 20,
-    justifyContent:'space-evenly',
+    justifyContent: "space-evenly",
   },
   inputCont: {
     flexDirection: "row",
@@ -286,10 +320,10 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius,
     borderBottomWidth: 1,
     borderColor: mainColor,
-    marginVertical:15,
+    marginVertical: 15,
   },
   input: {
-    fontSize:22,
+    fontSize: 22,
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
@@ -312,11 +346,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 20,
-    
   },
   closeIcon: {
     opacity: 0.8,
-  
   },
 
   headerlogo: {
@@ -325,6 +357,6 @@ const styles = StyleSheet.create({
   },
 
   btnEnvoyer: {
-paddingTop: 40,
-  }
+    paddingTop: 40,
+  },
 });
