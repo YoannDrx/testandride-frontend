@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 100,
     height: 100,
+    marginTop: 40,
   },
   pageTitle: {
     fontSize: 24,

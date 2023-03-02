@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
- value: {token:null, firstName:'John',lastName:'Doe',picturePath:'../assets/demoAvatar.png'},
+ value: {token:null, firstName:'John',lastName:'Doe',picturePath:'../assets/demoAvatar.png', position:{latitude :"", longitude:""}},
 };
 
 export const userSlice = createSlice({
@@ -11,8 +11,11 @@ export const userSlice = createSlice({
    loginStore: (state, action) => {
      state.value = action.payload;
    },
+   storePosition: (state, action) => {
+     state.value.position = action.payload;
+   }
  },
 });
 
-export const { loginStore } = userSlice.actions;
+export const { loginStore, storePosition } = userSlice.actions;
 export default userSlice.reducer;

@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         backgroundColor: mainBackground,
         marginVertical: 10,
         height: 70, // Réduire la hauteur du Header
-
     },
     shadowContainer: {
         position: 'absolute',
