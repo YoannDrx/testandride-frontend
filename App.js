@@ -8,6 +8,7 @@ import MonProfilScreen from "./screens/MonProfilScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
 import GoogleFormScreen from "./screens/GoogleFormScreen";
+import CalendarScreen from "./screens/CalendarScreen";
 
 // Components
 import DrawerContent from "./components/DrawerContent";
@@ -50,9 +51,11 @@ const DrawerNavigator = () => {
           if (route.name === "profil") {
             iconName = "user-circle";
           } else if (route.name === "maJournee") {
-            iconName = "calendar-check-o";
+            iconName = "check-square";
           } else if (route.name === "itineraire") {
             iconName = "map";
+          } else if (route.name === "calendrier") {
+            iconName = "calendar";
           }
 
           return <FontAwesome name={iconName} size={30} color={color} />;
@@ -84,6 +87,13 @@ const DrawerNavigator = () => {
         component={ItineraireScreen}
         options={() => ({
           title: "Itinéraire",
+        })}
+      />
+       <Drawer.Screen
+        name="calendrier"
+        component={CalendarScreen}
+        options={() => ({
+          title: "Calendrier",
         })}
       />
     </Drawer.Navigator>

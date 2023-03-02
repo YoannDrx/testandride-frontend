@@ -1,22 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  KeyboardAvoidingView,
-  ScrollView,
-  SafeAreaView,
-  
-} from "react-native";
-import { Dimensions } from "react-native";
 import { useState, useRef } from "react";
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, SafeAreaView, Dimensions } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+// Components
+  import SignUpForm from "../components/SignUpForm";
+
 // style constants
-import constant from '../constants/constant';
+import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = constant.mainColor;
@@ -25,22 +15,37 @@ const borderRadius = constant.borderRadius;
 const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
+const btnPadding = constant.btnPadding;
+const dangerColor = constant.dangerColor;
+const warningColor = constant.warningColor;
 
-export default function LoginScreen({navigation}) {
-  // hooks
+export default function LoginScreen({ navigation }) {
+
+// HOOKS 
+  // states
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Ref signin
   const emailRef = useRef();
   const passwordRef = useRef();
 
 
+// FONCTIONS
+
+  // show signup modal or close
+  const toggleModalSignUP = () => {
+    setShowSignUp(!showSignUp)
+  }
+
     return (
         <View style={styles.container}>
             <View style={styles.window}>
+              {/* HEADER CONNEXION INFOS */}
                 <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
                 <Text style={styles.pageTitle}> CONNEXION</Text>
                 <Text> Pas encore de compte ?</Text>
-                <Text style={styles.linkSignUp} onPress={() => setShowSignUp(true)}>
+                <Text style={styles.linkSignUp} onPress={() => toggleModalSignUP()}>
                     Cliquez pour vous inscrire
                 </Text>
                 <View style={styles.sepContainer}>
@@ -51,15 +56,24 @@ export default function LoginScreen({navigation}) {
                     <View style={styles.sepLine} />
                 </View>
 
-                {/* INPUTS LOGIN*/}
+        {/* INPUTS LOGIN*/}
 
-                <View style={styles.inputsContainer}>
-                    <View style={styles.inputCont} onPress={() => emailRef.focus()}>
-                        <TextInput style={styles.input} ref={emailRef} placeholder="Email" />
-                        <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
-                    </View>
+        <View style={styles.inputsContainer}>
+          <View style={styles.inputCont} onPress={() => emailRef.focus()}>
+            <TextInput
+              style={styles.input}
+              ref={emailRef}
+              placeholder="Email"
+            />
+            <FontAwesome
+              name={"at"}
+              style={styles.iconInput}
+              size={20}
+              color={mainColor}
+            />
+          </View>
 
-          <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
+          <View style={styles.inputCont} onPress={() => passwordRef.focus()}>
             <TextInput
               style={styles.input}
               ref={passwordRef}
@@ -74,119 +88,34 @@ export default function LoginScreen({navigation}) {
               onPress={() => setShowPassword(!showPassword)}
             />
           </View>
-
-           {/* Mot de passe oublié*/}
+{/* Mot de passe oublié*/}
            
-           <TouchableOpacity>
+<TouchableOpacity>
             <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
           </TouchableOpacity>
-           
+          {/*BOUTONS LOGIN*/}
 
           <TouchableOpacity style={styles.btnContain}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnContain} onPress={()=>navigation.navigate('DrawerNavigator')}>
+          <TouchableOpacity
+            style={styles.btnContain}
+            onPress={() => navigation.navigate("DrawerNavigator")}
+          >
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>
 
 
         {/* Modal Signup*/}
-      
-      <Modal visible={showSignUp} style={styles.modal}>
-      <View style={styles.modalContainer}>
-      <TouchableOpacity onPress={() => setShowSignUp(false)} style={styles.closeButton}>
-      <FontAwesome name={'times'} style={styles.closeIcon} size={50} color={'black'} paddingTop={10}/>
-      </TouchableOpacity>
-        <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-        <View style={styles.headerlogo}>
-        <Image
-          style={styles.tinyLogo}
-          source={require("../assets/Mini-logo.png")}
-        />
-        </View>
-        <View style={styles.sepContainer}>
-        <View style={styles.sepLine} />
-        <View>
-        <Text style={styles.sepText}>Ou m'inscrire avec mon email</Text>
-        </View>
-        <View style={styles.sepLine} />
-        </View>
-      
-       
-        <View style={styles.inputCont}>
-        <TextInput style={styles.input} placeholder="Nom"/>
-        </View>
-      
-        <View style={styles.inputCont}>
-        <TextInput style={styles.input} placeholder="Prénom"/>
-        </View>
-        
-        <View style={styles.inputCont}>
-        <TextInput 
-        style={styles.input}
-        keyboardType="numeric"
-        maxLength={10} 
-        placeholder="Téléphone"
-        />
-        </View>
 
-        <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
-        <TextInput
-        style={styles.input}
-        ref={emailRef}
-        placeholder="Email"
-        />
-        <FontAwesome name={'at'} 
-        style={styles.iconInput}
-        size={20}
-        color={mainColor}/>
-        </View>
-        
-        <View style={styles.inputCont} onPress={()=> emailRef.focus()}>
-        <TextInput
-        style={styles.input}
-        ref={emailRef}
-        placeholder="Confirmer mon email"
-        />
-        <FontAwesome name={'at'} 
-        style={styles.iconInput}
-        size={20}
-        color={mainColor}/>
-        </View>
-
-
-        <View style={styles.inputCont} onPress={()=> passwordRef.focus()}>
-        <TextInput
-        style={styles.input}
-        ref={passwordRef}
-        placeholder="Mot de passe"
-        secureTextEntry={showPassword}
-        />
-        <FontAwesome
-        name={showPassword ? "eye-slash" : "eye"}
-        style={styles.iconInput}
-        size={20}
-        color={mainColor}
-        onPress={() => setShowPassword(!showPassword)}
-        />
-        </View>
-        <View style={styles.btnEnvoyer}>
-        <TouchableOpacity style={styles.btnContain}>
-        <Text style={styles.btnText}>Envoyer</Text>
-        </TouchableOpacity>
-        </View>
-        </KeyboardAvoidingView>
-        </ScrollView>
        
       </View>
-     
+      <Modal visible={showSignUp} style={styles.modalContainer}>
+          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight}/>
       </Modal>
     </View>
-    </View>
-  
-      
+    
   );
 }
 
@@ -199,14 +128,13 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+
   },
   window: {
     height: screenHeight,
     width: screenWidth,
-  
     alignItems: "center",
   },
   tinyLogo: {
@@ -240,10 +168,10 @@ const styles = StyleSheet.create({
     color: secondaryColor,
   },
   inputsContainer: {
-    flex:1,
+    flex: 1,
     width: "80%",
     marginVertical: 20,
-    justifyContent:'space-evenly',
+    justifyContent: "space-evenly",
   },
   inputCont: {
     flexDirection: "row",
@@ -252,10 +180,10 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius,
     borderBottomWidth: 1,
     borderColor: mainColor,
-    marginVertical:15,
+    marginVertical: 15,
   },
   input: {
-    fontSize:22,
+    fontSize: 22,
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
@@ -278,11 +206,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 20,
-    
   },
   closeIcon: {
     opacity: 0.8,
-  
   },
 
   headerlogo: {
@@ -291,13 +217,6 @@ const styles = StyleSheet.create({
   },
 
   btnEnvoyer: {
-paddingTop: 40,
-  },
-
-  forgotPasswordText: {
-    color: mainColor,
-    fontWeight: 'light',
-    textAlign: 'right',
-    textDecorationLine: 'underline',
+    paddingTop: 40,
   },
 });

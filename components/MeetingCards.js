@@ -1,11 +1,9 @@
-import react from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity, Modal, Pressable } from "react-native";
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import { useState } from "react";
 
 // style constants
 import constant from "../constants/constant";
-import { ScrollView } from "react-native-gesture-handler";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = constant.mainColor;
@@ -14,35 +12,27 @@ const borderRadius = constant.borderRadius;
 const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
+const dangerColor = constant.dangerColor;
+const btnPadding = constant.btnPadding;
+const warningColor = constant.warningColor;
+
 
 export default function MeetingCards() {
     const [modalVisible, setModalVisible] = useState(false);
 
     // Toogle the modal cards
     const toggleVisible = () => {
-        setIsVisible(!modalVisible);
-    };
-
-    // Action Modal Buttons
-    const goToClientCard = () => {
-        setIsVisible(!modalVisible);
-    };
-
-    const phoneToClient = () => {
-        setIsVisible(!modalVisible);
+        setModalVisible(!modalVisible);
     };
 
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.scrollContainer}>
-                {/* CARD */}
-
+            {/* CARDS */}
                 <View style={styles.cardContainer}>
                     <View style={styles.card}>
                         {/* Image container */}
                         <View style={styles.imageBox}>
                             <Text style={styles.textHour}>10h00</Text>
-                            <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
                         </View>
 
                         {/* Data container */}
@@ -63,48 +53,30 @@ export default function MeetingCards() {
                             <Text style={styles.textGo}>GO</Text>
                         </TouchableOpacity>
                     </View>
-                    <Pressable style={[styles.button, styles.buttonOpen]} onPress={() => setModalVisible(true)}>
-                        <Text style={styles.textStyle}>Détails client</Text>
-                    </Pressable>
-                </View>
+                    <FontAwesome name="chevron-down" size={20} color={secondaryColor} onPress={() => toggleVisible()} />
 
-
-
-
-                
-
-                {/* MODAL */}
-
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                        setModalVisible(!modalVisible);
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <View style={styles.iconModalBox}>
-                                <TouchableOpacity onPress={goToClientCard}>
-                                    <FontAwesome name="address-card-o" size={50} color="#000" style={styles.Icon} />
-                                </TouchableOpacity>
-                                <Text style={styles.textModal}>Fiche client</Text>
+                    {modalVisible && (
+                        <View style={styles.modalContainer}>
+                            <View style={styles.address}>
+                                <Text style={styles.modalText}>Yoann Andrieux</Text>
+                                <Text style={styles.modalText}>56 boulevard Perreire</Text>
+                                <Text style={styles.modalText}>75017 Paris</Text>
                             </View>
-                            <View style={styles.iconModalBox}>
-                                <TouchableOpacity onPress={phoneToClient}>
-                                    <FontAwesome name="phone-square" size={50} color={mainColor} style={styles.Icon} />
+                            <View style={styles.modalHeader}>
+                                <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
+                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } onPress={() => toggleVisible()} />
+                                    <Text style={styles.modalTextIcon}>Appel client</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.textModal}>Appel client</Text>
+                                <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
+                                    <FontAwesome style={styles.icon} name="address-card-o" size={35} color={secondaryColor} onPress={() => toggleVisible()} />
+                                    <Text style={styles.modalTextIcon}>Fiche rdv</Text>
+                                </TouchableOpacity>
+
+                                <FontAwesome name="close" size={30} color={dangerColor} onPress={() => toggleVisible()} />
                             </View>
-                            <Pressable style={[styles.button, styles.buttonClose]} onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.textStyle}>Close</Text>
-                            </Pressable>
                         </View>
-                    </View>
-                </Modal>
-            </ScrollView>
+                    )}
+                </View>
         </View>
     );
 }
@@ -112,7 +84,7 @@ export default function MeetingCards() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: mainBackground,
+        backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
     },
@@ -122,11 +94,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    cardContainer: {
-        borderColor: secondaryColor,
+    /*
+     *** Cards
+     */
+     cardContainer: {
+        borderColor: "lightgrey",
         borderWidth: 1,
         marginBottom: 10,
         borderRadius: borderRadius,
+        alignItems: "center",
+        backgroundColor: "#fff",
     },
     card: {
         flexDirection: "row",
@@ -172,7 +149,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     textGo: {
-        color: "white",
+        color: "#fff",
         fontWeight: 600,
     },
     chevronContainer: {
@@ -181,73 +158,37 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-
-    Icon: {
-        marginVertical: 10,
-    },
+    /*
+     *** Modal
+     */
     modalContainer: {
-        position: "absolute",
-        top: 0,
-        width: "100%",
-        backgroundColor: "#fff",
-        borderTopLeftRadius: borderRadius,
-        borderTopRightRadius: borderRadius,
-        alignItems: "center",
-        borderColor: secondaryColor,
-        borderWidth: 1,
-        flexDirection: "row",
-        justifyContent: "space-around",
-    },
-    iconModalBox: {
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    scrollContainer: {
-        width: "100%",
-        borderRadius: borderRadius,
-        backgroundColor: "#fff",
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-    },
-    modalView: {
-        margin: 20,
+        width: screenWidth * 0.9,
         backgroundColor: "white",
         borderRadius: borderRadius,
-        padding: 35,
+        padding: 10,
+    },
+    modalHeader: {
+        flexDirection: "row",
+        justifyContent: "space-around",
         alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
     },
-    button: {
-        borderRadius: borderRadius,
-        padding: 5,
-        elevation: 2,
-        width: "100%",
-    },
-    buttonOpen: {
-        backgroundColor: secondaryColor,
-    },
-    buttonClose: {
-        backgroundColor: "red",
-        marginTop: 50,
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
+    iconBox: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     modalText: {
-        marginBottom: 15,
-        textAlign: "center",
+        fontSize: 16,
+    },
+    modalTextIcon: {
+        fontSize: 16,
+        fontWeight: 600,
+        marginLeft: 10,
+    },
+    address: {
+        borderTopColor: mainColor,
+        borderTopWidth: 1,
+        marginBottom: 10,
+        paddingTop: 10,
     },
 });

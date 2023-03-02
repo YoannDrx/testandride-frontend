@@ -55,7 +55,11 @@ export default function DrawerContent(props) {
         }}
         style={styles.btnOutlinedDanger}
       >
+        <View style={styles.logoutContainer}>
         <Text style={styles.textDanger}>logout</Text>
+        <FontAwesome name="sign-out" size={30} color={dangerColor} />
+        </View>
+      
       </TouchableOpacity>
     </View>
   );
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
     color:dangerColor,
     fontSize:18,
     textTransform:'capitalize',
+    marginRight:20,
   },
   userText:{
     fontSize:18,
@@ -118,7 +123,6 @@ const styles = StyleSheet.create({
     borderRadius:borderRadius,
     margin:5,
     borderWidth:1,
-    
   },
   statusLabel:{
     fontSize:12,
@@ -139,5 +143,10 @@ const styles = StyleSheet.create({
   },
   statusWarningCOL:{
     color:warningColor,
-  }
+  }, 
+  logoutContainer:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+  },
 });

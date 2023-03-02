@@ -4639,6 +4639,11 @@ expo-asset@~8.9.0:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
+expo-calendar@^11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/expo-calendar/-/expo-calendar-11.1.1.tgz#c790dce535dc97fb15982b54b1c59c46dfe21d8d"
+  integrity sha512-ErXERbhdzI7RhdEFF94p5+UljoMT6p+POf2eDmoBicg7RieM/6kHDUL75B0JzBFy9FS86RDDdsIHFf2gzl6qWw==
+
 expo-cli@^6.3.2:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/expo-cli/-/expo-cli-6.3.2.tgz#42dd7a31f5f4534e04b86dfc4493480755277727"
@@ -7207,7 +7212,7 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-moment@^2.29.4:
+moment@^2.22.0, moment@^2.29.4:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
@@ -8412,6 +8417,13 @@ react-native-codegen@^0.71.5:
     flow-parser "^0.185.0"
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
+
+react-native-datepicker@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
+  integrity sha512-ses0N1y44fYBmlejYwR2i+dGnQQ8v5/gacX2CrbFJiWxbcQaRuxexsZPB9YQuQkAy+uKz5Gti3Lrp3dh9BfkzA==
+  dependencies:
+    moment "^2.22.0"
 
 react-native-gesture-handler@^2.9.0:
   version "2.9.0"
