@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   SafeAreaView,
+  
 } from "react-native";
 import { Dimensions } from "react-native";
 import { useState, useRef } from "react";
@@ -31,6 +32,7 @@ export default function LoginScreen({navigation}) {
   const [showPassword, setShowPassword] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
+
 
     return (
         <View style={styles.container}>
@@ -72,6 +74,14 @@ export default function LoginScreen({navigation}) {
               onPress={() => setShowPassword(!showPassword)}
             />
           </View>
+
+           {/* Mot de passe oublié*/}
+           
+           <TouchableOpacity>
+            <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
+          </TouchableOpacity>
+           
+
           <TouchableOpacity style={styles.btnContain}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
@@ -79,6 +89,8 @@ export default function LoginScreen({navigation}) {
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
         </View>
+
+
         {/* Modal Signup*/}
       
       <Modal visible={showSignUp} style={styles.modal}>
@@ -280,5 +292,12 @@ const styles = StyleSheet.create({
 
   btnEnvoyer: {
 paddingTop: 40,
-  }
+  },
+
+  forgotPasswordText: {
+    color: mainColor,
+    fontWeight: 'light',
+    textAlign: 'right',
+    textDecorationLine: 'underline',
+  },
 });
