@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
 import { Dimensions, SafeAreaView } from "react-native";
+import {useSelector} from "react-redux";
 
 // style constants
 import constant from "../constants/constant";
@@ -17,7 +18,10 @@ const mainBackground = constant.mainBackground;
 
 export default function MonProfilScreen({ navigation }) {
     // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
+    const user = useSelector((state) => state.user.value);
+   
 
+    
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
@@ -30,12 +34,12 @@ export default function MonProfilScreen({ navigation }) {
 
                     <View style={styles.info}>
                         <View style={styles.nameBox}>
-                            <Text style={styles.prenom}>Yoann</Text>
-                            <Text style={styles.nom}>ANDRIEUX</Text>
+                            <Text style={styles.prenom}>{user.firstName}</Text>
+                            <Text style={styles.nom}>{user.lastName}</Text>
                         </View>
                         <View>
-                            <Text style={styles.contactTelMail}>+33 36 84 25 78 63</Text>
-                            <Text style={styles.contactTelMail}>example@gmail.com</Text>
+                            <Text style={styles.contactTelMail}>{user.telephone}</Text>
+                            <Text style={styles.contactTelMail}>{user.email}</Text>
                         </View>
                     </View>
                 </View>

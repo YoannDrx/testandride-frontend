@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -7,20 +6,16 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  KeyboardAvoidingView,
-  ScrollView,
-  SafeAreaView,
-  Alert
+  Alert,
 } from "react-native";
-import { Dimensions } from "react-native";
-import { useState, useRef } from "react";
+import {Dimensions} from "react-native";
+import {useState} from "react";
 import {useDispatch} from "react-redux";
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, SafeAreaView, Dimensions } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Components
-  import SignUpForm from "../components/SignUpForm";
-
+import SignUpForm from "../components/SignUpForm";
+// Reducer
 import { loginStore} from '../reducers/user';
 // style constants
 import constant from "../constants/constant";
@@ -70,6 +65,7 @@ const handleConnection = () => {
         setSignInEmail("");
         setSignInPassword("");
       }else{
+        // Pop up alert 
         Alert.alert("Email ou mot de passe incorrect.")
       }
     });
