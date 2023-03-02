@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet,SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet,SafeAreaView,StatusBar,Platform } from 'react-native'
 import Header from "../components/Header";
 import { Dimensions } from "react-native";
 
@@ -32,5 +32,12 @@ const styles = StyleSheet.create({
         borderColor: 'green',
         borderWidth: 1,
         backgroundColor:mainBackground,
+        paddingTop:Platform.OS === "android" ? StatusBar.currentHeight : 0
+    },
+    bodyContainer:{
+        backgroundColor:secondaryBackground,
+        width:'100%',
+        alignItems: "center",
+        justifyContent: "flex-start",
     },
 })

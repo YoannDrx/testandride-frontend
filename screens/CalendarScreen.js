@@ -1,5 +1,5 @@
 import React from "react";
-import {SafeAreaView, StyleSheet, Dimensions, Text } from "react-native";
+import {SafeAreaView, StyleSheet, Dimensions, Text, Platform,StatusBar } from "react-native";
 
 // style constants
 import constant from "../constants/constant";
@@ -34,5 +34,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         backgroundColor: mainBackground,
+        paddingTop:Platform.OS === "android" ? StatusBar.currentHeight : 0
+    },
+    bodyContainer:{
+        backgroundColor:secondaryBackground,
+        width:'100%',
+        alignItems: "center",
+        justifyContent: "flex-start",
     },
 });

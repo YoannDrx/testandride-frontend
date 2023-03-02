@@ -28,7 +28,7 @@ export default function MeetingCards() {
     return (
         <View style={styles.container}>
             {/* CARDS */}
-                <View style={styles.cardContainer}>
+                <TouchableOpacity style={styles.cardContainer} onPress={()=> toggleVisible()} >
                     <View style={styles.card}>
                         {/* Image container */}
                         <View style={styles.imageBox}>
@@ -76,7 +76,7 @@ export default function MeetingCards() {
                             </View>
                         </View>
                     )}
-                </View>
+                </TouchableOpacity>
         </View>
     );
 }
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
+       
     },
     window: {
         height: screenHeight,
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: borderRadius,
         alignItems: "center",
-        backgroundColor: "#fff",
+        backgroundColor: mainBackground,
+      
     },
     card: {
         flexDirection: "row",

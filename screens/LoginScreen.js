@@ -59,7 +59,8 @@ export default function LoginScreen({ navigation }) {
         {/* INPUTS LOGIN*/}
 
         <View style={styles.inputsContainer}>
-          <View style={styles.inputCont} onPress={() => emailRef.focus()}>
+
+          <View style={styles.inputCont} onPress={() => emailRef.current.focus()}>
             <TextInput
               style={styles.input}
               ref={emailRef}
@@ -73,12 +74,12 @@ export default function LoginScreen({ navigation }) {
             />
           </View>
 
-          <View style={styles.inputCont} onPress={() => passwordRef.focus()}>
+          <View style={styles.inputCont} onPress={() => passwordRef.current.focus()}>
             <TextInput
               style={styles.input}
               ref={passwordRef}
               placeholder="Mot de passe"
-              secureTextEntry={showPassword}
+              secureTextEntry={!showPassword}
             />
             <FontAwesome
               name={showPassword ? "eye-slash" : "eye"}
@@ -106,7 +107,7 @@ export default function LoginScreen({ navigation }) {
        
       </View>
       <Modal visible={showSignUp} style={styles.modalContainer}>
-          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight}/>
+          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight} navigation={ navigation }/>
       </Modal>
     </View>
     
