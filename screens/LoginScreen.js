@@ -16,7 +16,7 @@ import { Dimensions } from "react-native";
 import { useDispatch} from 'react-redux';
 import { useState, useRef } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { loginStore, loginError} from '../reducers/user';
+import { loginStore} from '../reducers/user';
 // style constants
 import constant from '../constants/constant';
 const screenWidth = Dimensions.get("window").width;
@@ -27,8 +27,10 @@ const borderRadius = constant.borderRadius;
 const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
+const dangerColor = constant.dangerColor;
 
-const BACKEND_URL = "http://192.168.10.147:3000";
+// URL backend
+const BACKEND_URL = "http://192.168.10.165:3000";
 
 export default function LoginScreen({navigation}) {
   // hooks
@@ -37,7 +39,6 @@ export default function LoginScreen({navigation}) {
   const [showPassword, setShowPassword] = useState(false);
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
-  
 
 // fonction pour se connecter
 const handleConnection = () => {
@@ -54,13 +55,14 @@ const handleConnection = () => {
       if (data.result) {
         dispatch(loginStore({ email: signInEmail, token: data.token }));
         setSignInEmail("");
-        setSignInPassword("");       
-      // message d'erreur : mdp ou email pas correct
-      }else {
-        Alert.alert("L\'email ou le mot de passe est incorrect, veuillez réessayer.")
+        setSignInPassword("");
+      }else{
+        Alert.alert("Email ou mot de passe incorrect.")
       }
     });
 };
+
+
 
 
     return (
@@ -83,7 +85,8 @@ const handleConnection = () => {
                 {/* INPUTS LOGIN*/}
 
                 <View style={styles.inputsContainer}>
-                    <View style={styles.inputCont}>
+                    <View 
+                    style={styles.inputCont}>
                         <TextInput 
                         style={styles.input} 
                         placeholder="Email" 
@@ -91,8 +94,8 @@ const handleConnection = () => {
                         value={signInEmail} />
                         <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
                     </View>
-
-          <View style={styles.inputCont}>
+          <View 
+          style={styles.inputCont}>
             <TextInput
               style={styles.input}
               placeholder="Mot de passe"
