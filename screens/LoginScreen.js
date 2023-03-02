@@ -151,7 +151,7 @@ const handleConnection = () => {
       
       
       <Modal visible={showSignUp} style={styles.modalContainer}>
-          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight}/>
+          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight} navigation={ navigation }/>
       </Modal>
     </View>
     

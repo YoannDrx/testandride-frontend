@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+// React
+import React, { useEffect,useState, useRef } from "react";
 import {
   View,
   Text,
@@ -12,8 +13,14 @@ import {
   TextInput,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useState, useRef } from "react";
+
+// custom modules
 import { checkBody } from "../modules/checkBody";
+
+// Store
+import {useDispatch} from 'react-redux';
+import { loginStore } from "../reducers/user";
+
 
 // style constants
 import constant from "../constants/constant";
@@ -25,11 +32,12 @@ const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 const dangerColor = constant.dangerColor;
 
-
+// Other Constants
+const BACKEND_URL = 'http://192.168.10.175:3000';
 
 
 export default function SignUpForm(props) {
-  // HOOKS
+// HOOKS
   // Hooks d'état pour les valeurs des inputs
   const [showPassword, setShowPassword] = useState(false);
   const initalFormState = {
@@ -44,6 +52,8 @@ export default function SignUpForm(props) {
   const [formValues, setformValues] = useState(initalFormState);
   const {firstName,lastName,password,passwordConf,email,emailConf,tels} = formValues;
   
+  //useDispatch
+  const dispatch = useDispatch();
 
 // Variables
     // variables boolean de control de contenu d'inputs
@@ -74,7 +84,7 @@ export default function SignUpForm(props) {
           ctrlValidEmail &&
           ctrlValidPassword &&
           ctrlValidPhoneNumber;
-
+        let displayBottomWarning = false;
 // signup input refs pour .focus() - Ne pas utiliser pour les valeurs des inputs
   const upEmailRef = useRef();
   const upEmailConfRef = useRef();
@@ -83,7 +93,8 @@ export default function SignUpForm(props) {
   const upFirstNameRef = useRef();
   const upLastNameRef = useRef();
   const upTelRef = useRef();
-  // FONCTIONS
+
+// FONCTIONS
   // handle change input text
   const handleChangeInput = (name, value) => {
     setformValues({
@@ -93,13 +104,46 @@ export default function SignUpForm(props) {
   };
 
   // à l'initialisation
-  useEffect(() => {
-    upTelRef.current.focus()
-    
-  }, [])
-  
+    useEffect(() => {
+        upTelRef.current.focus()
+        
+    }, [])
 
+  // fonction pour inscrire dans la base
+  const handleRegisterAccount = ()=> {
+    const BodyToSignup = {
+        firstName:firstName,
+        lastName:lastName,
+        tels:tels,
+        password:password,
+        email:email
+    };
+    console.log('register new user',BodyToSignup);
 
+    fetch(`${BACKEND_URL}/users/signup`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(BodyToSignup)
+    }).then(response => response.json()).then(
+        data => {
+            if (data.result){
+                // enregistrer dans le store
+                dispatch(loginStore(data.user));
+                // reset les inputs
+                setformValues(initalFormState);
+                // rediriger vers ma journée
+               props.navigation.navigate('DrawerNavigator');
+
+            } else {
+                // alert error
+                alert(data.error);
+               
+            }
+        }
+    )
+  }
+
+// RETURN
   return (
     <View style={styles.modalContainer}>
       <View style={styles.header}>
@@ -148,7 +192,7 @@ export default function SignUpForm(props) {
                 handleChangeInput("tels", [{ title: "par défaut", num: value }])
               }
               value={formValues.tels[0].num}
-              onEndEditing={()=>upEmailRef.current.focus()}
+              onEndEditing={()=> ctrlValidPhoneNumber && upEmailRef.current.focus()}
             />
             <FontAwesome
               name={"phone"}
@@ -170,7 +214,7 @@ export default function SignUpForm(props) {
               onChangeText={(value) => handleChangeInput("email", value)}
               value={formValues.email}
               autoCorrect={false}
-              onEndEditing={()=>upEmailConfRef.current.focus()}
+              onEndEditing={()=> ctrlValidEmail && upEmailConfRef.current.focus()}
             />
             <FontAwesome
               name={"at"}
@@ -189,7 +233,7 @@ export default function SignUpForm(props) {
               onChangeText={(value) => handleChangeInput("emailConf", value)}
               value={formValues.emailConf}
               autoCorrect={false}
-              onEndEditing={()=>upPasswordRef.current.focus()}
+              onEndEditing={()=>ctrlSameEmail && upPasswordRef.current.focus()}
             />
             <FontAwesome
               name={"at"}
@@ -210,7 +254,7 @@ export default function SignUpForm(props) {
               onChangeText={(value) => handleChangeInput("password", value)}
               value={formValues.password}
               autoCorrect={false}
-              onEndEditing={()=>upPasswordConfRef.current.focus()}
+              onEndEditing={()=> ctrlValidPassword && upPasswordConfRef.current.focus()}
             />
             <FontAwesome
               name={showPassword ? "eye-slash" : "eye"}
@@ -234,7 +278,7 @@ export default function SignUpForm(props) {
               onChangeText={(value) => handleChangeInput("passwordConf", value)}
               value={formValues.passwordConf}
               autoCorrect={false}
-              onEndEditing={()=>upLastNameRef.current.focus()}
+              onEndEditing={()=>ctrlSamePassword && upLastNameRef.current.focus()}
             />
             <FontAwesome
               name={showPassword ? "eye-slash" : "eye"}
@@ -277,15 +321,18 @@ export default function SignUpForm(props) {
         <TouchableOpacity
           style={styles.btnContain}
           onPress={() => {
-            
             if (wholeFormComplete){
-                setformValues(initalFormState);
-            }   
+                displayBottomWarning = false;
+                handleRegisterAccount();  
+            } else {
+              displayBottomWarning = true;
+            }
           }}
         >
           <Text style={styles.btnText}>S'inscrire</Text>
         </TouchableOpacity>
       </View>
+      {displayBottomWarning && <Text style={styles.msgError} >Il manque des informations !</Text>}
     </View>
   );
 }

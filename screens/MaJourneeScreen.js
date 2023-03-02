@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text,StatusBar,Platform } from "react-native";
 import { Dimensions, SafeAreaView, ScrollView } from "react-native";
 
 // style constants
@@ -33,8 +33,9 @@ export default function MaJourneeScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+             <View style={styles.bodyContainer}>
             <Header navigation={navigation} />
-
+           
             {/* Date Picker */}
             <View style={styles.dateContainer}>
                 <Text style={styles.title}>Mes rendez-vous</Text>
@@ -58,6 +59,7 @@ export default function MaJourneeScreen({ navigation }) {
                 <MeetingCards />
                 <MeetingCards />
             </ScrollView>
+            </View>
         </SafeAreaView>
     );
 }
@@ -69,6 +71,12 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         backgroundColor: mainBackground,
     },
+    bodyContainer:{
+        backgroundColor:secondaryBackground,
+        width:'100%',
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
     /*
      *** Calendar
      */
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        width: screenWidth * 0.9,
+        
         borderBottomColor: mainColor,
         borderBottomWidth: 1,
         paddingBottom: 20,
@@ -91,13 +99,7 @@ const styles = StyleSheet.create({
     scrollContent: {
         alignItems: "center",
         justifyContent: "flex-start",
-        shadowOffset: {
-            width: 5,
-            height: 5,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        scrollContent: {},
         padding: 5,
     },
+    
 });

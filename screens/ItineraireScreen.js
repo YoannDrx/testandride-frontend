@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView,StatusBar,Platform, Dimensions } from "react-native";
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import { Marker } from "react-native-maps";
@@ -75,6 +75,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         backgroundColor: mainBackground,
+        paddingTop:Platform.OS === "android" ? StatusBar.currentHeight : 0
+    },
+    bodyContainer:{
+        backgroundColor:secondaryBackground,
+        width:'100%',
+        alignItems: "center",
+        justifyContent: "flex-start",
     },
     map: {
         flex: 1,

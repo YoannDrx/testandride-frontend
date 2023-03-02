@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity,StatusBar,Platform, ScrollView } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
 import { Dimensions, SafeAreaView } from "react-native";
@@ -24,6 +24,7 @@ export default function MonProfilScreen({ navigation }) {
     
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.bodyContainer}>
             <Header navigation={navigation} />
             <View style={styles.window}>
                 {/* Contact info */}
@@ -96,22 +97,28 @@ export default function MonProfilScreen({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
+            </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: screenHeight,
-        width: screenWidth,
+       flex:1,
         backgroundColor: mainBackground,
+        alignItems: "center",
+        justifyContent: "flex-start",
+ 
+    },
+    bodyContainer:{
+        backgroundColor:secondaryBackground,
+        width:'100%',
         alignItems: "center",
         justifyContent: "flex-start",
     },
     window: {
         width: screenWidth,
-        height: screenHeight*0.8,
-        justifyContent: "space-around",
+        justifyContent: "flex-start",
         alignItems: "center",
     },
     /*
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: "center",
         alignItems: "center",
-        width: 330,
+        width: '90%',
         borderColor: "#16A085",
         borderWidth: 1,
     },
