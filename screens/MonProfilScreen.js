@@ -24,9 +24,10 @@ export default function MonProfilScreen({ navigation }) {
     
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.bodyContainer}>
+            
             <Header navigation={navigation} />
             <View style={styles.window}>
+            <View style={styles.bodyContainer}>
                 {/* Contact info */}
                 <View style={styles.profilContainer}>
                     <View>
@@ -39,12 +40,15 @@ export default function MonProfilScreen({ navigation }) {
                             <Text style={styles.nom}>{user.lastName}</Text>
                         </View>
                         <View>
-                            <Text style={styles.contactTelMail}>{user.telephone}</Text>
+                            {user.tels.map(telInfo => {
+                                return <Text style={styles.contactTelMail}>{`${telInfo.title} : ${telInfo.num}`}</Text>
+                            })}
+                            
                             <Text style={styles.contactTelMail}>{user.email}</Text>
                         </View>
                     </View>
                 </View>
-
+                
                 <View style={styles.statsContainer}>
                     {/* Rdv pris */}
                     <Text style={styles.statsTitle}>Statistiques Semaine</Text>
@@ -86,9 +90,12 @@ export default function MonProfilScreen({ navigation }) {
                         <Text style={styles.statsRdv}>temps moyen / rdv</Text>
                     </View>
                 </View>
+               
 
-                {/* Boutons */}
-                <View style={styles.bottomButtonsContainer}>
+                
+            </View>
+            {/* Boutons */}
+            <View style={styles.bottomButtonsContainer}>
                     <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
                         <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
                     </TouchableOpacity>
@@ -97,7 +104,7 @@ export default function MonProfilScreen({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-            </View>
+            
         </SafeAreaView>
     );
 }
@@ -115,11 +122,14 @@ const styles = StyleSheet.create({
         width:'100%',
         alignItems: "center",
         justifyContent: "flex-start",
+        
     },
     window: {
         width: screenWidth,
-        justifyContent: "flex-start",
+        height:'85%',
+        justifyContent: "space-between",
         alignItems: "center",
+        backgroundColor:secondaryBackground
     },
     /*
     *** CONTACT INFO ***
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
     statsContainer: {
         width: "100%",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         paddingLeft: "2%",
         paddingRight: "2%",
     },
@@ -221,6 +231,7 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor:mainBackground,
     },
     bottomButtonModif: {
         backgroundColor: "transparent",

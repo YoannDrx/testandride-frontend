@@ -28,9 +28,9 @@ import { Link } from "@react-navigation/native";
 export default function MaJourneeScreen({ navigation }) {
     const user = useSelector(state => state.user.value)
     const [proCalendars,setProCalendars] = useState();
-    const userProEmail = "bobbcolin@gmail.com";
+    const [proMeetings,setProMeetings] = useState();
 
-
+ 
     // Permissions
     useEffect(() => {
         (async () => {
@@ -38,11 +38,10 @@ export default function MaJourneeScreen({ navigation }) {
           if (status === 'granted') {
             const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
             const filteredCalendars = calendars.filter(calendar => {
-                return calendar.ownerAccount === "bobbcolin@gmail.com";
+                return calendar.ownerAccount === user.email;
             })
-            console.log('Here are all your calendars:');
             console.log(filteredCalendars);
-            console.log(user)
+            console.log(user) 
           }
         })();
       }, []);

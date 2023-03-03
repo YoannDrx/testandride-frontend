@@ -9,7 +9,13 @@ export const userSlice = createSlice({
   initialState,
  reducers: {
    loginStore: (state, action) => {
-     state.value = action.payload;
+    
+     for ( const userProps in action.payload){
+        state.value[userProps]= action.payload[userProps];
+     }
+   },
+   logoutStore:(state,action)=>{
+    state.value = initialState.value;
    },
    storePosition: (state, action) => {
      state.value.position = action.payload;

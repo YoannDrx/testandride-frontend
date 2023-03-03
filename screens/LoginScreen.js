@@ -7,9 +7,13 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  Linking,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
 } from "react-native";
 import {Dimensions} from "react-native";
-import {useState} from "react";
+import {useState,useRef} from "react";
 import {useDispatch} from "react-redux";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -32,12 +36,12 @@ const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
 // URL backend
-const BACKEND_URL = "http://192.168.10.175:3000";
+const BACKEND_URL = "http://192.168.10.156:3000";
 
 export default function LoginScreen({ navigation }) {
 
 // HOOKS 
-  // states
+  // states divers
   const dispatch = useDispatch();
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +50,10 @@ export default function LoginScreen({ navigation }) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 
+  // refs signin
+  const inEmailRef = useRef();
+  const inPasswordRef = useRef();
+  
 
 // FONCTIONS
 // fonction pour se connecter
@@ -61,8 +69,8 @@ const handleConnection = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.result) {
-        dispatch(loginStore({ email: signInEmail, token: data.token }));
-        console.log(data);
+        const {email,firstName,lastName,token,tels} = data
+        dispatch(loginStore({ email,firstName,lastName,token,tels }));
         setSignInEmail("");
         setSignInPassword("");
         navigation.navigate("DrawerNavigator");
@@ -85,7 +93,7 @@ const handleConnection = () => {
                 <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
                 <Text style={styles.pageTitle}> CONNEXION</Text>
                 <Text> Pas encore de compte ?</Text>
-                <Text style={styles.linkSignUp} onPress={() => toggleModalSignUP()}>
+                <Text style={styles.link} onPress={() => toggleModalSignUP()}>
                     Cliquez pour vous inscrire
                 </Text>
                 <View style={styles.sepContainer}>
@@ -97,15 +105,23 @@ const handleConnection = () => {
                 </View>
 
         {/* INPUTS LOGIN*/}
-
+              
                 <View style={styles.inputsContainer}>
+                <KeyboardAvoidingView
+          style={styles.keyBoardAvoidingView}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <ScrollView>
                     <View 
                     style={styles.inputCont}>
                         <TextInput 
                         style={styles.input} 
                         placeholder="Email" 
                         onChangeText={(value) => setSignInEmail(value)} 
-                        value={signInEmail} />
+                        value={signInEmail} 
+                        ref={inEmailRef}
+                        onEndEditing={()=>inPasswordRef.current.focus()}
+                        />
                         <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
                     </View>
           <View 
@@ -113,9 +129,11 @@ const handleConnection = () => {
             <TextInput
               style={styles.input}
               placeholder="Mot de passe"
-              secureTextEntry={showPassword}
+              secureTextEntry={!showPassword}
               onChangeText={(value) => setSignInPassword(value)} 
               value={signInPassword}
+              ref = {inPasswordRef}
+
             />
             <FontAwesome
               name={showPassword ? "eye-slash" : "eye"}
@@ -125,13 +143,16 @@ const handleConnection = () => {
               onPress={() => setShowPassword(!showPassword)}
             />
           </View>
+          </ScrollView>
+          </KeyboardAvoidingView>
+          </View>
 {/* Mot de passe oublié*/}
            
 <TouchableOpacity>
-            <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
+            <Text style={styles.link}>Mot de passe oublié ?</Text>
           </TouchableOpacity>
           {/*BOUTONS LOGIN*/}
-
+          <View style={styles.btnContainer}>
           <TouchableOpacity 
           style={styles.btnContain} 
           onPress={() => handleConnection()}>
@@ -143,7 +164,8 @@ const handleConnection = () => {
           >
             <Text style={styles.btnText}>Ma journee</Text>
           </TouchableOpacity>
-        </View>
+         </View>
+        
 
 
         {/* Modal Signup*/}
@@ -192,7 +214,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: secondaryColor,
   },
-  linkSignUp: {
+  link: {
     marginVertical: 10,
     color: mainColor,
     fontWeight: "600",
@@ -215,8 +237,8 @@ const styles = StyleSheet.create({
   inputsContainer: {
     flex: 1,
     width: "80%",
-    marginVertical: 20,
-    justifyContent: "space-evenly",
+    marginVertical: 10,
+    justifyContent: "flex-start",
   },
   inputCont: {
     flexDirection: "row",
@@ -235,6 +257,16 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     backgroundColor: "#fff",
     color: "#424242",
+  },
+  forgotPasswordText:{
+    color:mainColor,
+    fontWeight:'600'
+  },
+  btnContainer: {
+    flex: 1,
+    width: "80%",
+    marginVertical: 10,
+    justifyContent: "flex-end",
   },
   btnContain: {
     backgroundColor: mainColor,

@@ -34,8 +34,8 @@ export default function DrawerContent(props) {
             style={styles.profilePic}
           />
           </TouchableOpacity>
-          <Text style={styles.userText}>{user.firstName}</Text>
-          <Text style={styles.userText}>{user.lastName}</Text>
+          <Text style={styles.userNames}>{`${user.firstName} ${user.lastName}`}</Text>
+          <Text style={styles.userText}>{user.email}</Text>
           <View style={styles.allStatusContainer}>
             <View style={[styles.statusContainer,styles.statusDangerBG]}>
                 <Text style={styles.statusLabel}>Non testé</Text>
@@ -107,6 +107,11 @@ const styles = StyleSheet.create({
   userText:{
     fontSize:18,
     margin:5,
+  },
+  userNames:{
+    fontSize:18,
+    margin:5,
+    fontWeight:'600'
   },
   allStatusContainer:{
     width:'100%',

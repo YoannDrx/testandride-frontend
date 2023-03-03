@@ -72,5 +72,6 @@ const styles = StyleSheet.create({
   datePickerStyle: {
     width: 200,
     marginTop: 20,
+    backgroundColor:mainBackground,
   },
 });
