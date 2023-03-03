@@ -1,5 +1,5 @@
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView } from "react-native";
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView, Linking, Platform } from "react-native";
 import { useState } from "react";
 
 // style constants
@@ -18,12 +18,23 @@ const warningColor = constant.warningColor;
 
 
 export default function MeetingCards() {
+
+
+ // Fonction pour lancer l'appel téléphonique
+    const makePhoneCall = () => {
+if (Platform.OS === 'android') {
+    Linking.openURL("tel: +33608270952")
+} else {
+    Linking.openURL("telprompt: +33608270952")
+}
+    }
     const [modalVisible, setModalVisible] = useState(false);
 
     // Toogle the modal cards
     const toggleVisible = () => {
         setModalVisible(!modalVisible);
     };
+
 
     return (
         <View style={styles.container}>
@@ -63,8 +74,8 @@ export default function MeetingCards() {
                                 <Text style={styles.modalText}>75017 Paris</Text>
                             </View>
                             <View style={styles.modalHeader}>
-                                <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
-                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } onPress={() => toggleVisible()} />
+                                <TouchableOpacity style={styles.iconBox} onPress={() => makePhoneCall()}>
+                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } />
                                     <Text style={styles.modalTextIcon}>Appel client</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
