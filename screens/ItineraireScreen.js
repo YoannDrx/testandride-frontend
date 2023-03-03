@@ -27,7 +27,7 @@ const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
 // Backend URL
-const BACKEND_URL = "http://192.168.10.133:3000";
+const BACKEND_URL = "http://192.168.10.165:3000";
 
 export default function ItineraireScreen({ navigation }) {
     const [currentPosition, setCurrentPosition] = useState();
