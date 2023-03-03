@@ -20,7 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 // Components
 import SignUpForm from "../components/SignUpForm";
 // Reducer
-import { loginStore} from '../reducers/user';
+import { loginStore } from "../reducers/user";
 // style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
@@ -46,9 +46,9 @@ export default function LoginScreen({ navigation }) {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // states signin
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
+    // states signin
+    const [signInEmail, setSignInEmail] = useState("");
+    const [signInPassword, setSignInPassword] = useState("");
 
   // refs signin
   const inEmailRef = useRef();
@@ -81,15 +81,15 @@ const handleConnection = () => {
     });
 };
 
-  // show signup modal or close
-  const toggleModalSignUP = () => {
-    setShowSignUp(!showSignUp)
-  }
+    // show signup modal or close
+    const toggleModalSignUP = () => {
+        setShowSignUp(!showSignUp);
+    };
 
     return (
         <View style={styles.container}>
             <View style={styles.window}>
-              {/* HEADER CONNEXION INFOS */}
+                {/* HEADER CONNEXION INFOS */}
                 <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
                 <Text style={styles.pageTitle}> CONNEXION</Text>
                 <Text> Pas encore de compte ?</Text>
@@ -168,33 +168,29 @@ const handleConnection = () => {
         
 
 
-        {/* Modal Signup*/}
+                {/* Modal Signup*/}
+            </View>
 
-       
-      </View>
-      
-      
-      <Modal visible={showSignUp} style={styles.modalContainer}>
-          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight} navigation={ navigation }/>
-      </Modal>
-    </View>
-    
-  );
+            <Modal visible={showSignUp} style={styles.modalContainer}>
+                <SignUpForm toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight} navigation={navigation} />
+            </Modal>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 
   window: {
     height: screenHeight,
@@ -288,12 +284,12 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
 
-  headerlogo: {
-    paddingTop: 20,
-    alignItems: "center",
-  },
+    headerlogo: {
+        paddingTop: 20,
+        alignItems: "center",
+    },
 
-  btnEnvoyer: {
-    paddingTop: 40,
-  },
+    btnEnvoyer: {
+        paddingTop: 40,
+    },
 });

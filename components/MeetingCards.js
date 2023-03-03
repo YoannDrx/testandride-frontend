@@ -17,12 +17,17 @@ const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
 
-export default function MeetingCards() {
+export default function MeetingCards({navigation}) {
     const [modalVisible, setModalVisible] = useState(false);
 
     // Toogle the modal cards
     const toggleVisible = () => {
         setModalVisible(!modalVisible);
+    };
+
+    // Handle the press on the GO button and redirect to the map page
+    const handleGoPress = () => {
+        navigation.navigate("itineraire");
     };
 
     return (
@@ -49,7 +54,7 @@ export default function MeetingCards() {
                         </View>
 
                         {/* button GO */}
-                        <TouchableOpacity style={styles.btnGo}>
+                        <TouchableOpacity style={styles.btnGo} onPress={()=> handleGoPress()}>
                             <Text style={styles.textGo}>GO</Text>
                         </TouchableOpacity>
                     </View>
