@@ -24,8 +24,9 @@ import "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
+import myMeetings from "./reducers/myMeetings";
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, myMeetings },
 });
 // style constants
 import constant from "./constants/constant";

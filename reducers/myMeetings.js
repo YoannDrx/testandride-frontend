@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: [],
+    value: {},
 };
 
 export const myMeetingsSlice = createSlice({
@@ -9,11 +9,10 @@ export const myMeetingsSlice = createSlice({
     initialState,
     reducers: {
         importMeetingsStore: (state, action) => {
-            const { adresse } = action.payload;
-            state.value = [...state.value, adresse];
+            state.value = action.payload;
         },
     },
 });
 
-export const { loginStore, storePosition, importMeetingsStore } = myMeetingsSlice.actions;
+export const { importMeetingsStore } = myMeetingsSlice.actions;
 export default myMeetingsSlice.reducer;

@@ -31,6 +31,7 @@ const BACKEND_URL = "http://192.168.10.133:3000";
 
 export default function ItineraireScreen({ navigation }) {
     const [currentPosition, setCurrentPosition] = useState();
+    const [newDestinationMarker, setnewDestinationMarker] = useState("");
     const [newDestination, setNewDestination] = useState("");
     const [directionsResponse, setDirectionsResponse] = useState(null);
     const [distance, setDistance] = useState(null);
@@ -65,9 +66,9 @@ export default function ItineraireScreen({ navigation }) {
 
     // Get the route timing between the user's position and the destination
     useEffect(() => {
-        if (currentPosition && newDestination) {
+        if (currentPosition && newDestinationMarker) {
             const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
-            const destination = `${newDestination.latitude},${newDestination.longitude}`;
+            const destination = `${newDestinationMarker.latitude},${newDestinationMarker.longitude}`;
 
             fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${googleMapApiKey}`)
                 .then((response) => response.json())
@@ -90,7 +91,7 @@ export default function ItineraireScreen({ navigation }) {
                     console.error(error);
                 });
         }
-    }, [currentPosition, newDestination]);
+    }, [currentPosition, newDestinationMarker]);
 
     // Log the user's location and store it in redux
     useEffect(() => {
@@ -103,7 +104,7 @@ export default function ItineraireScreen({ navigation }) {
 
     // Handle the long press on the map
     const handleMapLongPress = (e) => {
-        setNewDestination(e.nativeEvent.coordinate);
+        setnewDestinationMarker(e.nativeEvent.coordinate);
     };
 
     // Handle the press on the phone icon
@@ -118,12 +119,16 @@ export default function ItineraireScreen({ navigation }) {
 
     // Handle the press on the marker
     const handlePressMarker = () => {
-        setNewDestination("");
+        setnewDestinationMarker("");
         setDirectionsResponse(null);
         setDistance(null);
         setDepartureTime("");
         setArrivalTime("");
     };
+
+    // Get the user's position from redux
+    const meeting = useSelector((state) => state.myMeetings.value);
+    console.log("meeting : ", meeting);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -140,14 +145,14 @@ export default function ItineraireScreen({ navigation }) {
                     style={styles.map}
                     onLongPress={handleMapLongPress}
                 >
-                    <MapViewDirections origin={currentPosition} destination={newDestination} apikey={googleMapApiKey} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
+                    <MapViewDirections origin={currentPosition} destination={newDestinationMarker} apikey={googleMapApiKey} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
 
                     {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor={mainColor} />}
 
                     <Marker
                         coordinate={{
-                            latitude: newDestination.latitude,
-                            longitude: newDestination.longitude,
+                            latitude: newDestinationMarker.latitude,
+                            longitude: newDestinationMarker.longitude,
                         }}
                         title={"Destination to Go"}
                         pinColor={"red"}

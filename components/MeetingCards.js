@@ -20,8 +20,6 @@ const warningColor = constant.warningColor;
 
 export default function MeetingCards(props) {
     const [modalVisible, setModalVisible] = useState(false);
-    const [queryString, setQueryString] = useState("");
-    const [placesResults, SetPlacesResults] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -43,10 +41,8 @@ export default function MeetingCards(props) {
     const fetchGeoLoc = async (queryString) => {
         const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${queryString}&limit=1`);
         const data = await response.json();
-
         // console.log("lat : ",data.features[0].geometry.coordinates[0])
         // console.log("long : ",data.features[0].geometry.coordinates[1])
-
         return {latitude : data.features[0].geometry.coordinates[0], longitude : data.features[0].geometry.coordinates[1]}
     };
 

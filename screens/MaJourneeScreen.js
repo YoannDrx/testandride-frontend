@@ -30,6 +30,8 @@ export default function MaJourneeScreen({ navigation }) {
     const [proCalendars, setProCalendars] = useState();
     const [proMeetings, setProMeetings] = useState();
 
+    
+
     const cardsData = [
         {
             id: 1,
@@ -136,7 +138,7 @@ export default function MaJourneeScreen({ navigation }) {
     // Map the cardsData array to create a MeetingCards component for each object
     const cards = cardsData.map((card) => {
         // console.log(card);
-        return <MeetingCards key={card.id} card={card} navigation={navigation} />;
+        return <MeetingCards key={Date()} card={card} navigation={navigation} />;
     });
 
     // Permissions
