@@ -40,19 +40,18 @@ export default function ItineraireScreen({ navigation }) {
 
     const dispatch = useDispatch();
 
+    // Get the Google Map API key FIRST
+    fetch(`${BACKEND_URL}/api/googlemaps`, {})
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setGoogleMapApiKey(responseJson.apiKey);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
     // Get the user's location and ask for permission
     useEffect(() => {
-        // Fetch Google Maps API key
-        fetch(`${BACKEND_URL}/api/googlemaps`, {})
-            .then((response) => response.json())
-            .then((responseJson) => {
-                setGoogleMapApiKey(responseJson.api);
-                console.log(responseJson);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-
         (async () => {
             const { status } = await Location.requestForegroundPermissionsAsync();
 
@@ -109,12 +108,21 @@ export default function ItineraireScreen({ navigation }) {
 
     // Handle the press on the phone icon
     const handlePhonePress = () => {
-        console.log("click");
+        console.log("click phone");
     };
 
     // Handle the press on the flag icon
     const handleFlagPress = () => {
-        console.log("click");
+        console.log("click flag");
+    };
+
+    // Handle the press on the marker
+    const handlePressMarker = () => {
+        setNewDestination("");
+        setDirectionsResponse(null);
+        setDistance(null);
+        setDepartureTime("");
+        setArrivalTime("");
     };
 
     return (
@@ -143,13 +151,14 @@ export default function ItineraireScreen({ navigation }) {
                         }}
                         title={"Destination to Go"}
                         pinColor={"red"}
+                        onPress={()=> handlePressMarker()}
                     />
                 </MapView>
             )}
 
             {/* FOOTER */}
 
-            <View style={styles.footer}>
+                <View style={styles.footer}>
                 <FontAwesome name="phone-square" size={50} color={mainColor} onPress={() => handlePhonePress()} />
 
                 <View style={styles.centralBox}>
