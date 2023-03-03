@@ -9,6 +9,7 @@ import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
 import GoogleFormScreen from "./screens/GoogleFormScreen";
 import CalendarScreen from "./screens/CalendarScreen";
+import MeetingDetails from "./screens/MeetingDetails";
 
 // Components
 import DrawerContent from "./components/DrawerContent";
@@ -56,6 +57,8 @@ const DrawerNavigator = () => {
             iconName = "map";
           } else if (route.name === "calendrier") {
             iconName = "calendar";
+          } else if (route.name === "meetingDetails") {
+            iconName = "address-book-o";
           }
 
           return <FontAwesome name={iconName} size={30} color={color} />;
@@ -94,6 +97,13 @@ const DrawerNavigator = () => {
         component={CalendarScreen}
         options={() => ({
           title: "Calendrier",
+        })}
+      />
+      <Drawer.Screen
+        name="meetingDetails"
+        component={MeetingDetails}
+        options={() => ({
+          title: "Fiche rendez-vous",
         })}
       />
     </Drawer.Navigator>

@@ -26,6 +26,9 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+// Backend URL
+const BACKEND_URL = "http://192.168.10.133:3000";
+
 export default function ItineraireScreen({ navigation }) {
     const [currentPosition, setCurrentPosition] = useState();
     const [newDestination, setNewDestination] = useState("");
@@ -33,11 +36,23 @@ export default function ItineraireScreen({ navigation }) {
     const [distance, setDistance] = useState(null);
     const [departureTime, setDepartureTime] = useState("");
     const [arrivalTime, setArrivalTime] = useState("");
+    const [googleMapApiKey, setGoogleMapApiKey] = useState("");
 
     const dispatch = useDispatch();
 
     // Get the user's location and ask for permission
     useEffect(() => {
+        // Fetch Google Maps API key
+        fetch(`${BACKEND_URL}/api/googlemaps`, {})
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setGoogleMapApiKey(responseJson.api);
+                console.log(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
         (async () => {
             const { status } = await Location.requestForegroundPermissionsAsync();
 
@@ -55,7 +70,7 @@ export default function ItineraireScreen({ navigation }) {
             const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
             const destination = `${newDestination.latitude},${newDestination.longitude}`;
 
-            fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${GOOGLE_MAPS_APIKEY}`)
+            fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${googleMapApiKey}`)
                 .then((response) => response.json())
                 .then((responseJson) => {
                     setDirectionsResponse(responseJson);
@@ -87,9 +102,6 @@ export default function ItineraireScreen({ navigation }) {
         }
     }, [currentPosition]);
 
-    // Set the origin and destination for the route
-    const GOOGLE_MAPS_APIKEY = "AIzaSyCElJnGljZgoQfrxka8nErg5X_Zn7PpxyI";
-
     // Handle the long press on the map
     const handleMapLongPress = (e) => {
         setNewDestination(e.nativeEvent.coordinate);
@@ -120,7 +132,7 @@ export default function ItineraireScreen({ navigation }) {
                     style={styles.map}
                     onLongPress={handleMapLongPress}
                 >
-                    <MapViewDirections origin={currentPosition} destination={newDestination} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
+                    <MapViewDirections origin={currentPosition} destination={newDestination} apikey={googleMapApiKey} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
 
                     {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor={mainColor} />}
 
