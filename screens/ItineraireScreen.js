@@ -97,12 +97,12 @@ export default function ItineraireScreen({ navigation }) {
 
     // Handle the press on the phone icon
     const handlePhonePress = () => {
-        console.log("click");
+        console.log("click phone");
     };
 
     // Handle the press on the flag icon
     const handleFlagPress = () => {
-        console.log("click");
+        console.log("click flag");
     };
 
     return (
