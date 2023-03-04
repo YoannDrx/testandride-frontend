@@ -18,7 +18,7 @@ const GoogleFormScreen = () => {
     <View style={styles.container}>
       <WebView
         source={{ html }}
-        style={{ flex: 1 }}
+        style={styles.webView}
         scrollEnabled={true}
       />
     </View>
@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  webView:{
+    flex: 1 
+  }
 });
 
 export default GoogleFormScreen;

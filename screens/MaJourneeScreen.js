@@ -16,6 +16,8 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+const BACKEND_URL = 'http://localhost:3000';
+
 // Calendar
 import * as Calendar from "expo-calendar";
 
@@ -31,23 +33,16 @@ export default function MaJourneeScreen({ navigation }) {
     const [proMeetings,setProMeetings] = useState();
 
  
-    // Permissions
-    useEffect(() => {
-        (async () => {
-          const { status } = await Calendar.requestCalendarPermissionsAsync();
-          if (status === 'granted') {
-            const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-            const filteredCalendars = calendars.filter(calendar => {
-                return calendar.ownerAccount === user.email;
-            })
-            console.log(filteredCalendars);
-            console.log(user) 
-          }
-        })();
-    }, []);
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
+
+        useEffect(()=> {
+            const monthStr = date.getMonth()<10?'0'+date.getMonth():date.getMonth();
+            const dayStr = date.getDate()<10?'0'+date.getDate():date.getDate();
+            const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
+            fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
+        },[date]);
 
     // Fonction qui permet de mettre à jour la date dans le composant enfant via les props
     const handleDateChange = (date) => {
