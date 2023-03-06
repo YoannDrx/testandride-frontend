@@ -128,7 +128,8 @@ export default function SignUpForm(props) {
         data => {
             if (data.result){
                 // enregistrer dans le store
-                dispatch(loginStore(data.user));
+                const {email,firstName,lastName,token,tels} = data;
+              dispatch(loginStore({ email,firstName,lastName,token,tels }))
                 // reset les inputs
                 setformValues(initalFormState);
                 // rediriger vers ma journée

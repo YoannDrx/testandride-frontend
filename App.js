@@ -9,6 +9,9 @@ import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
 import FeedbackScreen from "./screens/FeedbackScreen";
 import CalendarScreen from "./screens/CalendarScreen";
+import MeetingDetails from "./screens/MeetingDetails";
+import SnapScreen from './screens/SnapScreen';
+
 
 // Components
 import DrawerContent from "./components/DrawerContent";
@@ -23,8 +26,10 @@ import "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
+import myMeetings from "./reducers/myMeetings";
+
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, myMeetings },
 });
 // style constants
 import constant from "./constants/constant";
@@ -56,8 +61,11 @@ const DrawerNavigator = () => {
             iconName = "map";
           } else if (route.name === "calendrier") {
             iconName = "calendar";
-          }
-          else if (route.name === "feedback") {
+          } else if (route.name === "meetingDetails") {
+            iconName = "address-book-o";
+          } else if (route.name === "snap") {
+            iconName = "camera";
+          } else if (route.name === "feedback") {
             iconName = "comment";
           }
 
@@ -97,6 +105,20 @@ const DrawerNavigator = () => {
         component={CalendarScreen}
         options={() => ({
           title: "Calendrier",
+        })}
+      />
+      <Drawer.Screen
+        name="meetingDetails"
+        component={MeetingDetails}
+        options={() => ({
+          title: "Fiche rendez-vous",
+        })}
+      />
+      <Drawer.Screen
+        name="snap"
+        component={SnapScreen}
+        options={() => ({
+          title: "Appareil photo",
         })}
       />
           <Drawer.Screen
