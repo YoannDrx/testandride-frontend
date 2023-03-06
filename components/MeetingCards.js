@@ -1,6 +1,13 @@
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView } from "react-native";
+<<<<<<< HEAD
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView, Linking, Platform, Alert } from "react-native";
 import { useState } from "react";
+=======
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView } from "react-native";
+import { useState, useEffect } from "react";
+import { useDispatch} from "react-redux";
+import { importMeetingsStore } from "../reducers/myMeetings";
+>>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
 
 // style constants
 import constant from "../constants/constant";
@@ -16,50 +23,80 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+<<<<<<< HEAD
+// Constante pour test appel téléphonique
+const telNumber = 'telprompt:0627881906'
 
-export default function MeetingCards({navigation}) {
+// Fonction pour lancer l'appel téléphonique
+export const callNumber = phone => {
+    console.log('callNumber ----> ', phone);
+    let phoneNumber = phone;
+    if (Platform.OS !== 'android') {
+      phoneNumber = `telprompt:${phone}`;
+    }
+    else  {
+      phoneNumber = `tel:${phone}`;
+    }
+    Linking.canOpenURL(phoneNumber)
+    .then(supported => {
+      if (!supported) {
+        Alert.alert('Phone number is not available');
+      } else {
+        return Linking.openURL(phoneNumber);
+      }
+    })
+    .catch(err => console.log(err));
+  };
+    
+
+export default function MeetingCards() {
+
+
+ 
+=======
+export default function MeetingCards(props) {
+>>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
     const [modalVisible, setModalVisible] = useState(false);
+
+    const dispatch = useDispatch();
+
 
     // Toogle the modal cards
     const toggleVisible = () => {
         setModalVisible(!modalVisible);
     };
 
+<<<<<<< HEAD
+=======
     // Handle the press on the GO button and redirect to the map page
-    const handleGoPress = () => {
-        navigation.navigate("itineraire");
+    // Add the meeting in the store
+    const handleGoPress = async (queryString) => {
+        const position = await fetchGeoLoc(queryString)
+        dispatch(importMeetingsStore(position));
+        props.navigation.navigate("itineraire");
     };
+
+    // Fetch data API gouv
+    const fetchGeoLoc = async (queryString) => {
+        const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${queryString}&limit=1`);
+        const data = await response.json();
+        // console.log("lat : ",data.features[0].geometry.coordinates[0])
+        // console.log("long : ",data.features[0].geometry.coordinates[1])
+        return {longitude : data.features[0].geometry.coordinates[0], latitude : data.features[0].geometry.coordinates[1]}
+    };
+>>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
 
     return (
         <View style={styles.container}>
             {/* CARDS */}
-                <TouchableOpacity style={styles.cardContainer} onPress={()=> toggleVisible()} >
-                    <View style={styles.card}>
-                        {/* Image container */}
-                        <View style={styles.imageBox}>
-                            <Text style={styles.textHour}>10h00</Text>
-                        </View>
-
-                        {/* Data container */}
-                        <View style={styles.dataContainer}>
-                            <View style={styles.dataBox}>
-                                <Text>15 min</Text>
-                            </View>
-                            <View style={styles.dataBox}>
-                                <Text style={styles.bold}>Marque : Décathlon</Text>
-                            </View>
-                            <View style={styles.dataBox}>
-                                <Text style={styles.bold}>Model : RC520</Text>
-                            </View>
-                        </View>
-
-                        {/* button GO */}
-                        <TouchableOpacity style={styles.btnGo} onPress={()=> handleGoPress()}>
-                            <Text style={styles.textGo}>GO</Text>
-                        </TouchableOpacity>
+            <TouchableOpacity style={styles.cardContainer} onPress={() => toggleVisible()}>
+                <View style={styles.card}>
+                    {/* Image container */}
+                    <View style={styles.imageBox}>
+                        <Text style={styles.textHour}>{props.card.heure}</Text>
                     </View>
-                    <FontAwesome name="chevron-down" size={20} color={secondaryColor} onPress={() => toggleVisible()} />
 
+<<<<<<< HEAD
                     {modalVisible && (
                         <View style={styles.modalContainer}>
                             <View style={styles.address}>
@@ -68,8 +105,8 @@ export default function MeetingCards({navigation}) {
                                 <Text style={styles.modalText}>75017 Paris</Text>
                             </View>
                             <View style={styles.modalHeader}>
-                                <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
-                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } onPress={() => toggleVisible()} />
+                                <TouchableOpacity style={styles.iconBox} onPress={()=> Linking.openURL(telNumber) }>
+                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } />
                                     <Text style={styles.modalTextIcon}>Appel client</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
@@ -79,9 +116,52 @@ export default function MeetingCards({navigation}) {
 
                                 <FontAwesome name="close" size={30} color={dangerColor} onPress={() => toggleVisible()} />
                             </View>
+=======
+                    {/* Data container */}
+                    <View style={styles.dataContainer}>
+                        <View style={styles.dataBox}>
+                            <Text>15 min</Text>
+>>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
                         </View>
-                    )}
-                </TouchableOpacity>
+                        <View style={styles.dataBox}>
+                            <Text style={styles.bold}>marque : {props.card.marque}</Text>
+                        </View>
+                        <View style={styles.dataBox}>
+                            <Text style={styles.bold}> model : {props.card.model}</Text>
+                        </View>
+                    </View>
+
+                    {/* button GO */}
+                    <TouchableOpacity style={styles.btnGo} onPress={() => handleGoPress(`${props.card.adresse},${props.card.ville}`)}>
+                        <Text style={styles.textGo}>GO</Text>
+                    </TouchableOpacity>
+                </View>
+                <FontAwesome name="chevron-down" size={20} color={secondaryColor} onPress={() => toggleVisible()} />
+
+                {modalVisible && (
+                    <View style={styles.modalContainer}>
+                        <View style={styles.address}>
+                            <Text style={styles.modalTextName}>
+                                {props.card.prenom} {props.card.nom}
+                            </Text>
+                            <Text style={styles.modalText}>{props.card.adresse}</Text>
+                            <Text style={styles.modalText}>{props.card.ville}</Text>
+                        </View>
+                        <View style={styles.modalHeader}>
+                            <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
+                                <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor} onPress={() => toggleVisible()} />
+                                <Text style={styles.modalTextIcon}>Appel client</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
+                                <FontAwesome style={styles.icon} name="address-card-o" size={35} color={secondaryColor} onPress={() => toggleVisible()} />
+                                <Text style={styles.modalTextIcon}>Fiche rdv</Text>
+                            </TouchableOpacity>
+
+                            <FontAwesome name="close" size={30} color={dangerColor} onPress={() => toggleVisible()} />
+                        </View>
+                    </View>
+                )}
+            </TouchableOpacity>
         </View>
     );
 }
@@ -92,7 +172,6 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
-       
     },
     window: {
         height: screenHeight,
@@ -103,14 +182,13 @@ const styles = StyleSheet.create({
     /*
      *** Cards
      */
-     cardContainer: {
+    cardContainer: {
         borderColor: "lightgrey",
         borderWidth: 1,
         marginBottom: 10,
         borderRadius: borderRadius,
         alignItems: "center",
         backgroundColor: mainBackground,
-      
     },
     card: {
         flexDirection: "row",
@@ -186,6 +264,10 @@ const styles = StyleSheet.create({
     },
     modalText: {
         fontSize: 16,
+    },
+    modalTextName: {
+        fontSize: 16,
+        fontWeight: 600,
     },
     modalTextIcon: {
         fontSize: 16,

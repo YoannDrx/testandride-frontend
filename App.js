@@ -7,8 +7,11 @@ import MaJourneeScreen from "./screens/MaJourneeScreen";
 import MonProfilScreen from "./screens/MonProfilScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
-import GoogleFormScreen from "./screens/GoogleFormScreen";
+import FeedbackScreen from "./screens/FeedbackScreen";
 import CalendarScreen from "./screens/CalendarScreen";
+import MeetingDetails from "./screens/MeetingDetails";
+import SnapScreen from './screens/SnapScreen';
+
 
 // Components
 import DrawerContent from "./components/DrawerContent";
@@ -23,8 +26,10 @@ import "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
+import myMeetings from "./reducers/myMeetings";
+
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, myMeetings },
 });
 // style constants
 import constant from "./constants/constant";
@@ -56,6 +61,12 @@ const DrawerNavigator = () => {
             iconName = "map";
           } else if (route.name === "calendrier") {
             iconName = "calendar";
+          } else if (route.name === "meetingDetails") {
+            iconName = "address-book-o";
+          } else if (route.name === "snap") {
+            iconName = "camera";
+          } else if (route.name === "feedback") {
+            iconName = "comment";
           }
 
           return <FontAwesome name={iconName} size={30} color={color} />;
@@ -96,6 +107,27 @@ const DrawerNavigator = () => {
           title: "Calendrier",
         })}
       />
+      <Drawer.Screen
+        name="meetingDetails"
+        component={MeetingDetails}
+        options={() => ({
+          title: "Fiche rendez-vous",
+        })}
+      />
+      <Drawer.Screen
+        name="snap"
+        component={SnapScreen}
+        options={() => ({
+          title: "Appareil photo",
+        })}
+      />
+          <Drawer.Screen
+        name="feedback"
+        component={FeedbackScreen}
+        options={() => ({
+          title: "Feedback",
+        })}
+      />
     </Drawer.Navigator>
   );
 };
@@ -107,7 +139,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-          <Stack.Screen name="Google Form" component={GoogleFormScreen} />
+          <Stack.Screen name="Feedback" component={FeedbackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

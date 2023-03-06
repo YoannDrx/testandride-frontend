@@ -24,13 +24,15 @@ const secondaryColor = constant.secondaryColor;
 
 export default function DrawerContent(props) {
   const user = useSelector((state) => state.user.value);
+  const profilPicture = user.photo ? { uri: user.photo } : require("../assets/demoAvatar.png");
+
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
         <View style={styles.header} >
             <TouchableOpacity onPress={()=> props.navigation.navigate('profil')}>
           <Image
-            source={require("../assets/demoAvatar.png")}
+            source={profilPicture}
             style={styles.profilePic}
           />
           </TouchableOpacity>
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
   profilePic: {
     height: 100,
     width: 100,
+    borderRadius: 50,
   },
   header: {
     alignItems: "center",

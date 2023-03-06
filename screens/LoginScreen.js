@@ -46,6 +46,9 @@ export default function LoginScreen({ navigation }) {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  //state modal camera
+  const [modalVisible, setModalVisible] = useState(false);
+
     // states signin
     const [signInEmail, setSignInEmail] = useState("");
     const [signInPassword, setSignInPassword] = useState("");

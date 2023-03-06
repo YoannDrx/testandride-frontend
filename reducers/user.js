@@ -20,8 +20,11 @@ export const userSlice = createSlice({
    storePosition: (state, action) => {
      state.value.position = action.payload;
    },
+   changePhoto: (state, action) => {
+     state.value.photo = action.payload;
+   }
  },
 });
 
-export const { loginStore, storePosition } = userSlice.actions;
+export const { loginStore, storePosition, changePhoto } = userSlice.actions;
 export default userSlice.reducer;
