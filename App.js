@@ -9,7 +9,7 @@ import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
 import FeedbackScreen from "./screens/FeedbackScreen";
 import CalendarScreen from "./screens/CalendarScreen";
-import MeetingDetails from "./screens/MeetingDetails";
+import MeetingDetails from "./screens/MeetingDetailsScreen";
 import SnapScreen from './screens/SnapScreen';
 import GoogleFormScreen from './screens/GoogleFormScreen';
 

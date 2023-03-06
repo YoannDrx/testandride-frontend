@@ -10,9 +10,9 @@ import { useDispatch, useSelector} from "react-redux";
 // import components
 import Header from "../components/Header";
 
-export default MeetingDetails = ({ navigation }) => {
+export default MeetingDetailsScreen = ({ navigation }) => {
 
-  const cardsData = [
+  const detailsData = 
     {
         id: 1,
         heure: "9h15",
@@ -22,13 +22,8 @@ export default MeetingDetails = ({ navigation }) => {
         ville: "75020 Paris",
         marque: "SantaCruz",
         model: "Stigmata",
-    },
-  ]
+    }
   
-  const cards = cardsData.map((card) => {
-    console.log(card);
-    return <MeetingDetails key={`meeting${card.id}`} card={card}/>;
-  });
 
   //fonction pour naviguer vers le feedback
   const handleFeedback = () => {
@@ -38,22 +33,23 @@ export default MeetingDetails = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
+      <ScrollView>
       <View style={styles.firstContainer}>
         <Text style={styles.detailText}>Details rendez-vous</Text>
         <Text style={styles.status}> Status du rendez-vous</Text>
 
         <View style={styles.pageClient}>
-          <Text style={styles.idClient}>Client ID : {cards.id}</Text>
+          <Text style={styles.idClient}>Client ID : {detailsData.id}</Text>
 
-          <ScrollView style={styles.clientContainer} showsVerticalScrollIndicator={false}>
-            <Text style={styles.clientText}>{cards.heure}</Text>
-            <Text style={styles.clientText}>{cards.prenom} {cards.nom}</Text>
+          <View style={styles.clientContainer} >
+            <Text style={styles.clientText}>{detailsData.heure}</Text>
+            <Text style={styles.clientText}>{detailsData.prenom} {detailsData.nom}</Text>
             <Text style={styles.clientText}>
-              {cards.adresse}{cards.ville}
+              {detailsData.adresse}{detailsData.ville}
             </Text>
             <Text style={styles.clientText}>06.63.07.02.79</Text>
             <Text style={styles.clientText}>john.doe@gmail.com</Text>
-          </ScrollView>
+          </View>
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btnAnnuler}>
@@ -69,12 +65,14 @@ export default MeetingDetails = ({ navigation }) => {
             <Text style={styles.appeler}>Appeler</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView style={styles.detailsProduct} showsVerticalScrollIndicator={false}>
+        <View style={styles.detailsProduct} showsVerticalScrollIndicator={false}>
           <Text style={styles.textProduct}>Vélo</Text>
           <View style={styles.details}>
-            <Text>{cards.marque}</Text>
-            <Text>{cards.model}</Text>
+            <Text>{detailsData.marque}</Text>
+            <Text>{detailsData.model}</Text>
             <Text>Details techniques</Text>
+          </View>
+          </View>
           </View>
         </ScrollView>
         <View style={styles.btnTest}>
@@ -85,7 +83,6 @@ export default MeetingDetails = ({ navigation }) => {
             <Text style={styles.feedback}>Feedback</Text>
           </TouchableOpacity>
         </View>
-      </View>
     </SafeAreaView>
   );
 };
@@ -94,13 +91,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  firstContainer: {
-    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    height: "20%",
+  },
+  firstContainer: {
+    flex :1,
     padding : 5,
+    alignItems:"center"
   },
   detailText: {
     fontSize: 24,
@@ -138,10 +135,9 @@ const styles = StyleSheet.create({
   btnContainer: {
     justifyContent: "space-around",
     alignItems: "center",
-    height: "12%",
     width: "100%",
     flexDirection: "row",
-    marginTop: 50,
+    marginTop : 60
   },
   btnAnnuler: {
     backgroundColor: "white",
@@ -174,7 +170,7 @@ const styles = StyleSheet.create({
   },
   detailsProduct: {
     width: "100%",
-    height: "20%",
+    height: "25%",
   },
   textProduct: {
     fontSize: 15,
