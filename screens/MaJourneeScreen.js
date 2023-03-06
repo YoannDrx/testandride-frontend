@@ -17,7 +17,7 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = "http://localhost:3000";
 
 // Calendar
 import * as Calendar from "expo-calendar";
@@ -31,8 +31,6 @@ export default function MaJourneeScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
     const [proCalendars, setProCalendars] = useState();
     const [proMeetings, setProMeetings] = useState();
-
-    
 
     const cardsData = [
         {
@@ -161,12 +159,12 @@ export default function MaJourneeScreen({ navigation }) {
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
 
-        useEffect(()=> {
-            const monthStr = date.getMonth()<10?'0'+date.getMonth():date.getMonth();
-            const dayStr = date.getDate()<10?'0'+date.getDate():date.getDate();
-            const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
-            fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
-        },[date]);
+    useEffect(() => {
+        const monthStr = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
+        const dayStr = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
+        fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
+    }, [date]);
 
     // Fonction qui permet de mettre à jour la date dans le composant enfant via les props
     const handleDateChange = (date) => {
@@ -180,8 +178,10 @@ export default function MaJourneeScreen({ navigation }) {
 
                 {/* Date Picker */}
                 <View style={styles.dateContainer}>
-                    <Text style={styles.title}>Mes rendez-vous</Text>
-                    <CalendarDatePicker handleDateChange={handleDateChange} />
+                    <Text style={styles.title}>Mes rendez-vous : </Text>
+                    <View style={styles.calendar}>
+                        <CalendarDatePicker handleDateChange={handleDateChange} />
+                    </View>
                 </View>
 
                 {/* Meeting Cars */}
@@ -212,19 +212,19 @@ const styles = StyleSheet.create({
      */
     dateContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
-
         borderBottomColor: mainColor,
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         paddingBottom: 20,
+        marginTop: 10,
         marginBottom: 20,
     },
     title: {
         fontSize: 16,
         fontWeight: 600,
         padding: 5,
-        top: 10,
+        marginRight: 30,
     },
     scrollContent: {
         alignItems: "center",

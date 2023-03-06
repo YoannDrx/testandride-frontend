@@ -156,14 +156,11 @@ export default function SignUpForm(props) {
         </View>
         <TouchableOpacity
           onPress={() => props.toggleModalSignUP()}
-          style={styles.closeButton}
         >
           <FontAwesome
-            name={"times"}
+            name={"times-circle-o"}
             style={styles.closeIcon}
-            size={50}
-            color={"black"}
-            paddingTop={10}
+            size={30}
           />
         </TouchableOpacity>
       </View>
@@ -364,10 +361,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     width: "80%",
   },
-  closeButton: {},
   tinyLogo: {
     width: 100,
     height: 100,
+    marginTop: 30,
   },
   sepContainer: {
     flexDirection: "row",
@@ -383,6 +380,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 10,
     color: secondaryColor,
+  },
+  closeIcon:{
+    color: dangerColor,
+    right: 10,
+    position: 'absolute',
   },
 
   /*
