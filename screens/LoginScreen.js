@@ -1,10 +1,22 @@
-import { useState, useRef } from "react";
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, SafeAreaView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  Alert,
+} from "react-native";
+import {Dimensions} from "react-native";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Components
-  import SignUpForm from "../components/SignUpForm";
-
+import SignUpForm from "../components/SignUpForm";
+// Reducer
+import { loginStore} from '../reducers/user';
 // style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
@@ -19,19 +31,50 @@ const btnPadding = constant.btnPadding;
 const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
+// URL backend
+const BACKEND_URL = "http://192.168.10.175:3000";
+
 export default function LoginScreen({ navigation }) {
 
 // HOOKS 
   // states
+  const dispatch = useDispatch();
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Ref signin
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  //state modal camera
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // states signin
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
 
 
 // FONCTIONS
+// fonction pour se connecter
+const handleConnection = () => {
+  fetch(`${BACKEND_URL}/users/signin`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: signInEmail,
+      password: signInPassword,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.result) {
+        dispatch(loginStore({ email: signInEmail, token: data.token }));
+        console.log(data);
+        setSignInEmail("");
+        setSignInPassword("");
+        navigation.navigate("DrawerNavigator");
+      }else{
+        // Pop up alert 
+        Alert.alert("Email ou mot de passe incorrect.")
+      }
+    });
+};
 
   // show signup modal or close
   const toggleModalSignUP = () => {
@@ -58,27 +101,24 @@ export default function LoginScreen({ navigation }) {
 
         {/* INPUTS LOGIN*/}
 
-        <View style={styles.inputsContainer}>
-          <View style={styles.inputCont} onPress={() => emailRef.focus()}>
+                <View style={styles.inputsContainer}>
+                    <View 
+                    style={styles.inputCont}>
+                        <TextInput 
+                        style={styles.input} 
+                        placeholder="Email" 
+                        onChangeText={(value) => setSignInEmail(value)} 
+                        value={signInEmail} />
+                        <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
+                    </View>
+          <View 
+          style={styles.inputCont}>
             <TextInput
               style={styles.input}
-              ref={emailRef}
-              placeholder="Email"
-            />
-            <FontAwesome
-              name={"at"}
-              style={styles.iconInput}
-              size={20}
-              color={mainColor}
-            />
-          </View>
-
-          <View style={styles.inputCont} onPress={() => passwordRef.focus()}>
-            <TextInput
-              style={styles.input}
-              ref={passwordRef}
               placeholder="Mot de passe"
               secureTextEntry={showPassword}
+              onChangeText={(value) => setSignInPassword(value)} 
+              value={signInPassword}
             />
             <FontAwesome
               name={showPassword ? "eye-slash" : "eye"}
@@ -95,7 +135,9 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
           {/*BOUTONS LOGIN*/}
 
-          <TouchableOpacity style={styles.btnContain}>
+          <TouchableOpacity 
+          style={styles.btnContain} 
+          onPress={() => handleConnection()}>
             <Text style={styles.btnText}>Se connecter</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -111,8 +153,10 @@ export default function LoginScreen({ navigation }) {
 
        
       </View>
+      
+      
       <Modal visible={showSignUp} style={styles.modalContainer}>
-          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight}/>
+          <SignUpForm  toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight} navigation={ navigation }/>
       </Modal>
     </View>
     
@@ -124,14 +168,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   modalContainer: {
     flex: 1,
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-
   },
+
   window: {
     height: screenHeight,
     width: screenWidth,
@@ -140,6 +185,9 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 100,
     height: 100,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    marginTop: 40,
   },
   pageTitle: {
     fontSize: 24,

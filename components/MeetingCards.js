@@ -1,5 +1,5 @@
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView, Linking, Platform } from "react-native";
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView, Linking, Platform, Alert } from "react-native";
 import { useState } from "react";
 
 // style constants
@@ -16,18 +16,35 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+// Constante pour test appel téléphonique
+const telNumber = 'telprompt:0627881906'
+
+// Fonction pour lancer l'appel téléphonique
+export const callNumber = phone => {
+    console.log('callNumber ----> ', phone);
+    let phoneNumber = phone;
+    if (Platform.OS !== 'android') {
+      phoneNumber = `telprompt:${phone}`;
+    }
+    else  {
+      phoneNumber = `tel:${phone}`;
+    }
+    Linking.canOpenURL(phoneNumber)
+    .then(supported => {
+      if (!supported) {
+        Alert.alert('Phone number is not available');
+      } else {
+        return Linking.openURL(phoneNumber);
+      }
+    })
+    .catch(err => console.log(err));
+  };
+    
 
 export default function MeetingCards() {
 
 
- // Fonction pour lancer l'appel téléphonique
-    const makePhoneCall = () => {
-if (Platform.OS === 'android') {
-    Linking.openURL("tel: +33608270952")
-} else {
-    Linking.openURL("telprompt: +33608270952")
-}
-    }
+ 
     const [modalVisible, setModalVisible] = useState(false);
 
     // Toogle the modal cards
@@ -39,7 +56,7 @@ if (Platform.OS === 'android') {
     return (
         <View style={styles.container}>
             {/* CARDS */}
-                <View style={styles.cardContainer}>
+                <TouchableOpacity style={styles.cardContainer} onPress={()=> toggleVisible()} >
                     <View style={styles.card}>
                         {/* Image container */}
                         <View style={styles.imageBox}>
@@ -74,7 +91,7 @@ if (Platform.OS === 'android') {
                                 <Text style={styles.modalText}>75017 Paris</Text>
                             </View>
                             <View style={styles.modalHeader}>
-                                <TouchableOpacity style={styles.iconBox} onPress={() => makePhoneCall()}>
+                                <TouchableOpacity style={styles.iconBox} onPress={()=> Linking.openURL(telNumber) }>
                                     <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } />
                                     <Text style={styles.modalTextIcon}>Appel client</Text>
                                 </TouchableOpacity>
@@ -87,7 +104,7 @@ if (Platform.OS === 'android') {
                             </View>
                         </View>
                     )}
-                </View>
+                </TouchableOpacity>
         </View>
     );
 }
@@ -98,6 +115,7 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
+       
     },
     window: {
         height: screenHeight,
@@ -114,7 +132,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: borderRadius,
         alignItems: "center",
-        backgroundColor: "#fff",
+        backgroundColor: mainBackground,
+      
     },
     card: {
         flexDirection: "row",

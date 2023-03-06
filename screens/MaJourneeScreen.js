@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState,useEffect } from "react";
+import { View, StyleSheet, Text,StatusBar,Platform,TouchableOpacity } from "react-native";
 import { Dimensions, SafeAreaView, ScrollView } from "react-native";
-
+import { useSelector } from "react-redux";
 // style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
@@ -16,12 +16,37 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+// Calendar 
+import * as Calendar from 'expo-calendar';  
+
 // import components
 import Header from "../components/Header";
 import MeetingCards from "../components/MeetingCards";
 import CalendarDatePicker from "../components/CalendarDatePicker";
+import { Link } from "@react-navigation/native";
 
 export default function MaJourneeScreen({ navigation }) {
+    const user = useSelector(state => state.user.value)
+    const [proCalendars,setProCalendars] = useState();
+    const userProEmail = "bobbcolin@gmail.com";
+
+
+    // Permissions
+    useEffect(() => {
+        (async () => {
+          const { status } = await Calendar.requestCalendarPermissionsAsync();
+          if (status === 'granted') {
+            const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+            const filteredCalendars = calendars.filter(calendar => {
+                return calendar.ownerAccount === "bobbcolin@gmail.com";
+            })
+            console.log('Here are all your calendars:');
+            console.log(filteredCalendars);
+            console.log(user)
+          }
+        })();
+      }, []);
+
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
@@ -33,8 +58,9 @@ export default function MaJourneeScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+             <View style={styles.bodyContainer}>
             <Header navigation={navigation} />
-
+           
             {/* Date Picker */}
             <View style={styles.dateContainer}>
                 <Text style={styles.title}>Mes rendez-vous</Text>
@@ -58,6 +84,7 @@ export default function MaJourneeScreen({ navigation }) {
                 <MeetingCards />
                 <MeetingCards />
             </ScrollView>
+            </View>
         </SafeAreaView>
     );
 }
@@ -69,6 +96,12 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         backgroundColor: mainBackground,
     },
+    bodyContainer:{
+        backgroundColor:secondaryBackground,
+        width:'100%',
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
     /*
      *** Calendar
      */
@@ -76,7 +109,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        width: screenWidth * 0.9,
+        
         borderBottomColor: mainColor,
         borderBottomWidth: 1,
         paddingBottom: 20,
@@ -91,13 +124,7 @@ const styles = StyleSheet.create({
     scrollContent: {
         alignItems: "center",
         justifyContent: "flex-start",
-        shadowOffset: {
-            width: 5,
-            height: 5,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        scrollContent: {},
         padding: 5,
     },
+    
 });
