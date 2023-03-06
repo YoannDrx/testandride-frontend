@@ -1,13 +1,10 @@
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-<<<<<<< HEAD
+
 import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView, Linking, Platform, Alert } from "react-native";
-import { useState } from "react";
-=======
-import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import { useDispatch} from "react-redux";
 import { importMeetingsStore } from "../reducers/myMeetings";
->>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
+
 
 // style constants
 import constant from "../constants/constant";
@@ -23,7 +20,6 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-<<<<<<< HEAD
 // Constante pour test appel téléphonique
 const telNumber = 'telprompt:0627881906'
 
@@ -48,14 +44,8 @@ export const callNumber = phone => {
     .catch(err => console.log(err));
   };
     
-
-export default function MeetingCards() {
-
-
- 
-=======
 export default function MeetingCards(props) {
->>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const dispatch = useDispatch();
@@ -66,8 +56,7 @@ export default function MeetingCards(props) {
         setModalVisible(!modalVisible);
     };
 
-<<<<<<< HEAD
-=======
+
     // Handle the press on the GO button and redirect to the map page
     // Add the meeting in the store
     const handleGoPress = async (queryString) => {
@@ -84,7 +73,7 @@ export default function MeetingCards(props) {
         // console.log("long : ",data.features[0].geometry.coordinates[1])
         return {longitude : data.features[0].geometry.coordinates[0], latitude : data.features[0].geometry.coordinates[1]}
     };
->>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
+
 
     return (
         <View style={styles.container}>
@@ -95,33 +84,11 @@ export default function MeetingCards(props) {
                     <View style={styles.imageBox}>
                         <Text style={styles.textHour}>{props.card.heure}</Text>
                     </View>
-
-<<<<<<< HEAD
-                    {modalVisible && (
-                        <View style={styles.modalContainer}>
-                            <View style={styles.address}>
-                                <Text style={styles.modalText}>Yoann Andrieux</Text>
-                                <Text style={styles.modalText}>56 boulevard Perreire</Text>
-                                <Text style={styles.modalText}>75017 Paris</Text>
-                            </View>
-                            <View style={styles.modalHeader}>
-                                <TouchableOpacity style={styles.iconBox} onPress={()=> Linking.openURL(telNumber) }>
-                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } />
-                                    <Text style={styles.modalTextIcon}>Appel client</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
-                                    <FontAwesome style={styles.icon} name="address-card-o" size={35} color={secondaryColor} onPress={() => toggleVisible()} />
-                                    <Text style={styles.modalTextIcon}>Fiche rdv</Text>
-                                </TouchableOpacity>
-
-                                <FontAwesome name="close" size={30} color={dangerColor} onPress={() => toggleVisible()} />
-                            </View>
-=======
                     {/* Data container */}
                     <View style={styles.dataContainer}>
                         <View style={styles.dataBox}>
                             <Text>15 min</Text>
->>>>>>> 68cd1f656aed0b837b19dd9959992b7a48d3321f
+
                         </View>
                         <View style={styles.dataBox}>
                             <Text style={styles.bold}>marque : {props.card.marque}</Text>
