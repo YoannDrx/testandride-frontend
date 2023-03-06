@@ -1,7 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: null,
+    value:   [{
+        id: null,
+        date: null,
+        prenom: null,
+        nom: null,
+        adresse: null,
+        ville: null,
+        marque: null,
+        model: null,
+    }],
 };
 
 export const myMeetingsSlice = createSlice({

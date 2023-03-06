@@ -32,8 +32,9 @@ const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 const dangerColor = constant.dangerColor;
 
-// Other Constants
-const BACKEND_URL = 'http://192.168.10.175:3000';
+// environnement variables
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 
 export default function SignUpForm(props) {

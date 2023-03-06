@@ -20,6 +20,11 @@ const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 
+// environnement variables
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+
+
 export default function MonProfilScreen({ navigation }) {
 
 //const utilisation camera
@@ -46,7 +51,7 @@ data.append('photoFromFront', {
 });
 
 // Envoyer l'image au backend
-fetch('http://localhost:3000/camera/upload', {
+fetch(`${BACKEND_URL}/camera/upload`, {
   method: 'POST',
   body: data,
 })

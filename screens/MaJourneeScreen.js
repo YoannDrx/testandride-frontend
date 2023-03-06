@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, StatusBar, Platform, TouchableOpacity } from "react-native";
 import { Dimensions, SafeAreaView, ScrollView } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { importMeetingsStore } from "../reducers/myMeetings";
 
 // style constants
 import constant from "../constants/constant";
@@ -17,7 +18,9 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-const BACKEND_URL = 'http://localhost:3000';
+// environnement variables
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 // Calendar
 import * as Calendar from "expo-calendar";
@@ -29,149 +32,52 @@ import CalendarDatePicker from "../components/CalendarDatePicker";
 
 export default function MaJourneeScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
-    const [proCalendars, setProCalendars] = useState();
-    const [proMeetings, setProMeetings] = useState();
-
-    
-
-    const cardsData = [
-        {
-            id: 1,
-            heure: "9h15",
-            prenom: "Yoann",
-            nom: "Andrieux",
-            adresse: "11 rue de la chine",
-            ville: "75020 Paris",
-            marque: "SantaCruz",
-            model: "Stigmata",
-        },
-        {
-            id: 2,
-            heure: "10:45",
-            prenom: "Bob",
-            nom: "Colin",
-            adresse: "12 rue de la paix",
-            ville: "75008 Paris",
-            marque: "Yubba",
-            model: "Longtail",
-        },
-        {
-            id: 3,
-            heure: "11:45",
-            prenom: "Antoine",
-            nom: "Bebin",
-            adresse: "3 rue du chatelet",
-            ville: "75001 Paris",
-            marque: "Cowboyw",
-            model: "Electric 200",
-        },
-        {
-            id: 4,
-            heure: "14:00",
-            prenom: "Alfred",
-            nom: "Charlot",
-            adresse: "13 avenue Montaigne",
-            ville: "75008 Paris",
-            marque: "VeloInParis",
-            model: "MonsieurChic",
-        },
-        {
-            id: 5,
-            heure: "14:30",
-            prenom: "Luc",
-            nom: "Lebon",
-            adresse: "122 rue du Dr Finlay",
-            ville: "92120 Montrouge",
-            marque: "Btwin",
-            model: "FRT100",
-        },
-        {
-            id: 6,
-            heure: "15:00",
-            prenom: "Beatrice",
-            nom: "Bouvier",
-            adresse: "60 avene Doumer",
-            ville: "92120 Montrouge",
-            marque: "Origin",
-            model: "State",
-        },
-        {
-            id: 7,
-            heure: "16:00",
-            prenom: "Amelie",
-            nom: "Legrand",
-            adresse: "53 rue du bon Petit",
-            ville: " 750015 Paris",
-            marque: "Décathlon",
-            model: "RC520",
-        },
-        {
-            id: 8,
-            heure: "16:30",
-            prenom: "Sebastien",
-            nom: "Dujant",
-            adresse: "2 passage des inconnus",
-            ville: "75005 Paris",
-            marque: "Fantasio",
-            model: "X-trem",
-        },
-        {
-            id: 9,
-            heure: "17:00",
-            prenom: "Adeline",
-            nom: "Stamps",
-            adresse: "678 avenue Gal de Gaulle",
-            ville: "75017 Paris",
-            marque: "Fucanti",
-            model: "Monstro",
-        },
-        {
-            id: 10,
-            heure: "18:15",
-            prenom: "Léonor",
-            nom: "Chaaps",
-            adresse: "46 rue des alliers",
-            ville: "75007 Paris",
-            marque: "Royal Bike",
-            model: "Vitt",
-        },
-    ];
-
-    // Map the cardsData array to create a MeetingCards component for each object
-    const cards = cardsData.map((card) => {
-        // console.log(card);
-        return <MeetingCards key={`meeting${card.id}`} card={card} navigation={navigation} />;
-    });
-
-    // Permissions
-    useEffect(() => {
-        (async () => {
-            const { status } = await Calendar.requestCalendarPermissionsAsync();
-            if (status === "granted") {
-                const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-                const filteredCalendars = calendars.filter((calendar) => {
-                    return calendar.ownerAccount === user.email;
-                });
-                // console.log(filteredCalendars);
-                // console.log(user);
-            }
-        })();
-    }, []);
+    const meetings = useSelector((state)=>state.myMeetings.value);
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
-
+    const [meetingsCards,setMeetingsCards] = useState([<Text>Pas de courses aujourd'hui</Text>]);
+    // update reducer mymeeting with courses from airtable
+    
+     
+    const dispatch = useDispatch();
         useEffect(()=> {
+
+            
             const monthStr = date.getMonth()<10?'0'+date.getMonth():date.getMonth();
             const dayStr = date.getDate()<10?'0'+date.getDate():date.getDate();
             const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
-            fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
+
+            const fetchCoursesAirtable = async () => {
+               
+                const response = await fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
+                const dataFetch = await response.json();
+                
+                if (dataFetch.result) {
+                    const filteredMeetings = await dataFetch.data.records.filter(course => course.fields.Rider_email[0] === user.email);
+                          // Map the cardsData array to create a MeetingCards component for each object
+                    const mappedMeetings = await filteredMeetings.map((card) => {
+                       
+                         return <MeetingCards key={`meeting${card.id}`} {...card} navigation={navigation} />;
+                    });
+                    setMeetingsCards(mappedMeetings);
+                    dispatch(importMeetingsStore(filteredMeetings));
+                    
+
+                    
+                } else {
+                    alert('Error while retrieving data from airTable');
+                }
+                
+            }
+             fetchCoursesAirtable();
         },[date]);
 
     // Fonction qui permet de mettre à jour la date dans le composant enfant via les props
     const handleDateChange = (date) => {
         setDate(date);
     };
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -183,10 +89,10 @@ export default function MaJourneeScreen({ navigation }) {
                     <Text style={styles.title}>Mes rendez-vous</Text>
                     <CalendarDatePicker handleDateChange={handleDateChange} />
                 </View>
-
+                
                 {/* Meeting Cars */}
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                    {cards}
+                {meetingsCards}
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -230,5 +136,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         padding: 5,
+        width:'100%',
     },
 });

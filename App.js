@@ -27,9 +27,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
 import myMeetings from "./reducers/myMeetings";
+import meetingDetails from "./reducers/meetingDetails";
 
 const store = configureStore({
-  reducer: { user, myMeetings },
+  reducer: { user, myMeetings,meetingDetails },
 });
 // style constants
 import constant from "./constants/constant";
