@@ -6,15 +6,33 @@ const mainColor = constant.mainColor;
 const secondaryColor = constant.secondaryColor;
 const borderRadius = constant.borderRadius;
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import { useDispatch, useSelector} from "react-redux";
 // import components
 import Header from "../components/Header";
 
 export default MeetingDetails = ({ navigation }) => {
 
-  //fonction pour anviguer vers le feedback
+  const cardsData = [
+    {
+        id: 1,
+        heure: "9h15",
+        prenom: "Yoann",
+        nom: "Andrieux",
+        adresse: "11 rue de la chine",
+        ville: "75020 Paris",
+        marque: "SantaCruz",
+        model: "Stigmata",
+    },
+  ]
+  
+  const cards = cardsData.map((card) => {
+    console.log(card);
+    return <MeetingDetails key={`meeting${card.id}`} card={card}/>;
+  });
+
+  //fonction pour naviguer vers le feedback
   const handleFeedback = () => {
-    navigation.navigate("googleForm")
+    navigation.navigate("feedback")
   };
 
   return (
@@ -25,13 +43,13 @@ export default MeetingDetails = ({ navigation }) => {
         <Text style={styles.status}> Status du rendez-vous</Text>
 
         <View style={styles.pageClient}>
-          <Text style={styles.idClient}>Client ID :</Text>
+          <Text style={styles.idClient}>Client ID : {cards.id}</Text>
 
           <ScrollView style={styles.clientContainer} showsVerticalScrollIndicator={false}>
-            <Text style={styles.clientText}>DATE/HEURE</Text>
-            <Text style={styles.clientText}>John Doe</Text>
+            <Text style={styles.clientText}>{cards.heure}</Text>
+            <Text style={styles.clientText}>{cards.prenom} {cards.nom}</Text>
             <Text style={styles.clientText}>
-              56 boulevard Pereire 75017 Paris
+              {cards.adresse}{cards.ville}
             </Text>
             <Text style={styles.clientText}>06.63.07.02.79</Text>
             <Text style={styles.clientText}>john.doe@gmail.com</Text>
@@ -54,8 +72,8 @@ export default MeetingDetails = ({ navigation }) => {
         <ScrollView style={styles.detailsProduct} showsVerticalScrollIndicator={false}>
           <Text style={styles.textProduct}>Vélo</Text>
           <View style={styles.details}>
-            <Text>Marque</Text>
-            <Text>Modele</Text>
+            <Text>{cards.marque}</Text>
+            <Text>{cards.model}</Text>
             <Text>Details techniques</Text>
           </View>
         </ScrollView>

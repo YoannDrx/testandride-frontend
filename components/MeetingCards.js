@@ -76,7 +76,7 @@ export default function MeetingCards(props) {
     
     // fontion pour amener à la fiche client
     const handleGoDetails = () => {
-    navigation.navigate("meetingDetails")
+    props.navigation.navigate("meetingDetails")
 };
 
     return (

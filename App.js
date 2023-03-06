@@ -11,6 +11,7 @@ import FeedbackScreen from "./screens/FeedbackScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import MeetingDetails from "./screens/MeetingDetails";
 import SnapScreen from './screens/SnapScreen';
+import GoogleFormScreen from './screens/GoogleFormScreen';
 
 
 // Components
@@ -27,6 +28,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
 import myMeetings from "./reducers/myMeetings";
+
 
 const store = configureStore({
   reducer: { user, myMeetings },
@@ -113,13 +115,6 @@ const DrawerNavigator = () => {
         options={() => ({
           title: "Fiche rendez-vous",
         })}
-      />
-      <Drawer.Screen
-      name="googleForm"
-      component={GoogleFormScreen}
-      options={()=> ({
-        title:"Feedback"
-      })}
       />
       <Drawer.Screen
         name="snap"
