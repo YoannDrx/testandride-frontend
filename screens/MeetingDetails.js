@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView, Text } from "react-native";
+import { View, StyleSheet, SafeAreaView, Text, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import constant from "../constants/constant";
 const mainColor = constant.mainColor;
@@ -26,7 +26,8 @@ export default MeetingDetails = ({ navigation }) => {
 
         <View style={styles.pageClient}>
           <Text style={styles.idClient}>Client ID :</Text>
-          <View style={styles.clientContainer}>
+
+          <ScrollView style={styles.clientContainer} showsVerticalScrollIndicator={false}>
             <Text style={styles.clientText}>DATE/HEURE</Text>
             <Text style={styles.clientText}>John Doe</Text>
             <Text style={styles.clientText}>
@@ -34,7 +35,7 @@ export default MeetingDetails = ({ navigation }) => {
             </Text>
             <Text style={styles.clientText}>06.63.07.02.79</Text>
             <Text style={styles.clientText}>john.doe@gmail.com</Text>
-          </View>
+          </ScrollView>
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btnAnnuler}>
@@ -50,14 +51,14 @@ export default MeetingDetails = ({ navigation }) => {
             <Text style={styles.appeler}>Appeler</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.detailsProduct}>
+        <ScrollView style={styles.detailsProduct} showsVerticalScrollIndicator={false}>
           <Text style={styles.textProduct}>Vélo</Text>
           <View style={styles.details}>
             <Text>Marque</Text>
             <Text>Modele</Text>
             <Text>Details techniques</Text>
           </View>
-        </View>
+        </ScrollView>
         <View style={styles.btnTest}>
           <TouchableOpacity style={styles.test}>
             <Text style={styles.textTest}>Test terminé</Text>
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     height: "20%",
+    padding : 5,
   },
   detailText: {
     fontSize: 24,
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     justifyContent: "space-around",
     alignItems: "center",
-    height: "15%",
+    height: "12%",
     width: "100%",
     flexDirection: "row",
     marginTop: 50,
