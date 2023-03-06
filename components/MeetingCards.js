@@ -29,6 +29,11 @@ export default function MeetingCards({navigation}) {
     const handleGoPress = () => {
         navigation.navigate("itineraire");
     };
+    
+    // fontion pour amener à la fiche client
+    const handleGoDetails = () => {
+    navigation.navigate("meetingDetails")
+};
 
     return (
         <View style={styles.container}>
@@ -69,10 +74,10 @@ export default function MeetingCards({navigation}) {
                             </View>
                             <View style={styles.modalHeader}>
                                 <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
-                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor    } onPress={() => toggleVisible()} />
+                                    <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor} onPress={() => toggleVisible()} />
                                     <Text style={styles.modalTextIcon}>Appel client</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
+                                <TouchableOpacity style={styles.iconBox} onPress={() => handleGoDetails()}>
                                     <FontAwesome style={styles.icon} name="address-card-o" size={35} color={secondaryColor} onPress={() => toggleVisible()} />
                                     <Text style={styles.modalTextIcon}>Fiche rdv</Text>
                                 </TouchableOpacity>

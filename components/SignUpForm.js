@@ -33,7 +33,7 @@ const mainBackground = constant.mainBackground;
 const dangerColor = constant.dangerColor;
 
 // Other Constants
-const BACKEND_URL = 'http://192.168.10.175:3000';
+const BACKEND_URL = 'http://192.168.10.157:3000';
 
 
 export default function SignUpForm(props) {

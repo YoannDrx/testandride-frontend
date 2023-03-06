@@ -5,11 +5,18 @@ import constant from "../constants/constant";
 const mainColor = constant.mainColor;
 const secondaryColor = constant.secondaryColor;
 const borderRadius = constant.borderRadius;
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // import components
 import Header from "../components/Header";
 
 export default MeetingDetails = ({ navigation }) => {
+
+  //fonction pour anviguer vers le feedback
+  const handleFeedback = () => {
+    navigation.navigate("googleForm")
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
@@ -30,15 +37,36 @@ export default MeetingDetails = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.btnContainer}>
-      <TouchableOpacity style={styles.btnAnnuler}>
-        <Text style={styles.annuler}>Annuler le RDV</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.btnAppeler}>
-        <Text style={styles.appeler}>Appeler</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.btnAnnuler}>
+            <Text style={styles.annuler}>Annuler le RDV</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnAppeler}>
+            <FontAwesome
+              style={styles.icon}
+              name="phone"
+              size={15}
+              color="white"
+            />
+            <Text style={styles.appeler}>Appeler</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.detailsProduct}>
+          <Text style={styles.textProduct}>Vélo</Text>
+          <View style={styles.details}>
+            <Text>Marque</Text>
+            <Text>Modele</Text>
+            <Text>Details techniques</Text>
+          </View>
+        </View>
+        <View style={styles.btnTest}>
+          <TouchableOpacity style={styles.test}>
+            <Text style={styles.textTest}>Test terminé</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnFeedback} onPress={()=> handleFeedback()}>
+            <Text style={styles.feedback}>Feedback</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      
     </SafeAreaView>
   );
 };
@@ -52,9 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    borderColor: "yellow",
-    borderWidth: 2,
-    height: "20%"
+    height: "20%",
   },
   detailText: {
     fontSize: 24,
@@ -90,36 +116,88 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
   btnContainer: {
-    borderWidth : 1,
-    justifyContent:"space-evenly",
-    alignItems:"center",
-    height:"15%",
-    width: "80%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: "15%",
+    width: "100%",
     flexDirection: "row",
-    marginTop : 50,
+    marginTop: 50,
   },
   btnAnnuler: {
     backgroundColor: "white",
     padding: 10,
     borderRadius: borderRadius,
-    borderColor : "red",
-    borderWidth:1,
+    borderColor: "red",
+    borderWidth: 1,
     marginVertical: 10,
-    width: "100%"
+    width : "100%"
   },
-  annuler :{
-    color : "red",
+  annuler: {
+    color: "red",
+    fontWeight: 600,
   },
-  btnAppeler :{
-    backgroundColor: "grey",
+  btnAppeler: {
+    backgroundColor: "#cfcfcf",
     padding: 10,
     borderRadius: borderRadius,
-    borderColor : "grey",
-    borderWidth:1,
+    borderColor: "#cfcfcf",
+    borderWidth: 1,
     marginVertical: 10,
-    width: "100%"
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    width: "70%"
   },
-  appeler :{
-    color :"white"
-  }
+  appeler: {
+    color: "white",
+    fontWeight: 600,
+  },
+  detailsProduct: {
+    width: "100%",
+    height: "20%",
+  },
+  textProduct: {
+    fontSize: 15,
+  },
+  details: {
+    borderColor: "#cfcfcf",
+    borderWidth: 2,
+    width: "100%",
+    height: "80%",
+  },
+  btnTest: {
+    width: "100%",
+    height: "10%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginTop: 10,
+  },
+  test: {
+    borderColor: "#cfcfcf",
+    borderWidth: 1,
+    backgroundColor: "#cfcfcf",
+    borderRadius: borderRadius,
+    width: "150%",
+    height: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textTest: {
+    color: "white",
+    fontWeight: 600,
+  },
+  btnFeedback: {
+    borderWidth: 1,
+    borderColor: mainColor,
+    width: "190%",
+    height: "80%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: mainColor,
+    borderRadius: borderRadius,
+  },
+  feedback: {
+    color: "white",
+    fontWeight: 600,
+  },
 });

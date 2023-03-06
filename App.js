@@ -106,6 +106,13 @@ const DrawerNavigator = () => {
           title: "Fiche rendez-vous",
         })}
       />
+      <Drawer.Screen
+      name="googleForm"
+      component={GoogleFormScreen}
+      options={()=> ({
+        title:"Feedback"
+      })}
+      />
     </Drawer.Navigator>
   );
 };
