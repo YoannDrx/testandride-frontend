@@ -17,7 +17,7 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 // Calendar
 import * as Calendar from "expo-calendar";
@@ -32,14 +32,13 @@ export default function MaJourneeScreen({ navigation }) {
     const [proCalendars, setProCalendars] = useState();
     const [proMeetings, setProMeetings] = useState();
 
-    
-
     const cardsData = [
         {
             id: 1,
             heure: "9h15",
             prenom: "Yoann",
             nom: "Andrieux",
+            telephone:"0663434665",
             adresse: "11 rue de la chine",
             ville: "75020 Paris",
             marque: "SantaCruz",
@@ -50,6 +49,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "10:45",
             prenom: "Bob",
             nom: "Colin",
+            telephone:"0663434665",
             adresse: "12 rue de la paix",
             ville: "75008 Paris",
             marque: "Yubba",
@@ -60,6 +60,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "11:45",
             prenom: "Antoine",
             nom: "Bebin",
+            telephone:"0663434665",
             adresse: "3 rue du chatelet",
             ville: "75001 Paris",
             marque: "Cowboyw",
@@ -70,6 +71,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "14:00",
             prenom: "Alfred",
             nom: "Charlot",
+            telephone:"0663434665",
             adresse: "13 avenue Montaigne",
             ville: "75008 Paris",
             marque: "VeloInParis",
@@ -80,6 +82,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "14:30",
             prenom: "Luc",
             nom: "Lebon",
+            telephone:"0663434665",
             adresse: "122 rue du Dr Finlay",
             ville: "92120 Montrouge",
             marque: "Btwin",
@@ -90,6 +93,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "15:00",
             prenom: "Beatrice",
             nom: "Bouvier",
+            telephone:"0663434665",
             adresse: "60 avene Doumer",
             ville: "92120 Montrouge",
             marque: "Origin",
@@ -100,6 +104,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "16:00",
             prenom: "Amelie",
             nom: "Legrand",
+            telephone:"0663434665",
             adresse: "53 rue du bon Petit",
             ville: " 750015 Paris",
             marque: "Décathlon",
@@ -110,6 +115,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "16:30",
             prenom: "Sebastien",
             nom: "Dujant",
+            telephone:"0663434665",
             adresse: "2 passage des inconnus",
             ville: "75005 Paris",
             marque: "Fantasio",
@@ -120,6 +126,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "17:00",
             prenom: "Adeline",
             nom: "Stamps",
+            telephone:"0663434665",
             adresse: "678 avenue Gal de Gaulle",
             ville: "75017 Paris",
             marque: "Fucanti",
@@ -130,6 +137,7 @@ export default function MaJourneeScreen({ navigation }) {
             heure: "18:15",
             prenom: "Léonor",
             nom: "Chaaps",
+            telephone:"0663434665",
             adresse: "46 rue des alliers",
             ville: "75007 Paris",
             marque: "Royal Bike",
@@ -161,12 +169,12 @@ export default function MaJourneeScreen({ navigation }) {
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
 
-        useEffect(()=> {
-            const monthStr = date.getMonth()<10?'0'+date.getMonth():date.getMonth();
-            const dayStr = date.getDate()<10?'0'+date.getDate():date.getDate();
-            const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
-            fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
-        },[date]);
+    useEffect(() => {
+        const monthStr = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
+        const dayStr = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
+        fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
+    }, [date]);
 
     // Fonction qui permet de mettre à jour la date dans le composant enfant via les props
     const handleDateChange = (date) => {
@@ -179,9 +187,11 @@ export default function MaJourneeScreen({ navigation }) {
                 <Header navigation={navigation} />
 
                 {/* Date Picker */}
-                <View style={styles.dateContainer}>
+                <View style={styles.calendarContainer}>
                     <Text style={styles.title}>Mes rendez-vous</Text>
-                    <CalendarDatePicker handleDateChange={handleDateChange} />
+                    <View>
+                        <CalendarDatePicker handleDateChange={handleDateChange} />
+                    </View>
                 </View>
 
                 {/* Meeting Cars */}
@@ -210,21 +220,21 @@ const styles = StyleSheet.create({
     /*
      *** Calendar
      */
-    dateContainer: {
+    calendarContainer: {
+        width: "80%",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
-
         borderBottomColor: mainColor,
-        borderBottomWidth: 1,
-        paddingBottom: 20,
+        borderBottomWidth: 3,
+        marginTop: 10,
         marginBottom: 20,
+        paddingBottom: 20,
     },
     title: {
         fontSize: 16,
         fontWeight: 600,
-        padding: 5,
-        top: 10,
+        marginRight: 30,
     },
     scrollContent: {
         alignItems: "center",

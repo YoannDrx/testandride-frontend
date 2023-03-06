@@ -115,13 +115,6 @@ const DrawerNavigator = () => {
         })}
       />
       <Drawer.Screen
-      name="googleForm"
-      component={GoogleFormScreen}
-      options={()=> ({
-        title:"Feedback"
-      })}
-      />
-      <Drawer.Screen
         name="snap"
         component={SnapScreen}
         options={() => ({

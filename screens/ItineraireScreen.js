@@ -7,7 +7,6 @@ import * as Location from "expo-location";
 import { Marker } from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
 import { storePosition } from "../reducers/user";
-import { GOOGLE_MAPS_APIKEY } from "@env";
 
 // Import components
 import Header from "../components/Header";
@@ -28,7 +27,10 @@ const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
 // Backend URL
-const BACKEND_URL = "http://192.168.10.157:3000";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Google API key
+const GOOGLE_MAPS_APIKEY = process.env.REACT_APP_GOOGLE_MAPS_APIKEY;
 
 export default function ItineraireScreen({ navigation }) {
     const [currentPosition, setCurrentPosition] = useState();

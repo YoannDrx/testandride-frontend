@@ -20,6 +20,9 @@ const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 
+// Backend URL
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function MonProfilScreen({ navigation }) {
 
 //const utilisation camera
@@ -46,7 +49,7 @@ data.append('photoFromFront', {
 });
 
 // Envoyer l'image au backend
-fetch('http://localhost:3000/camera/upload', {
+fetch(`http:/${BACKEND_URL}/upload`, {
   method: 'POST',
   body: data,
 })
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
     },
     window: {
         width: screenWidth,
-        height: "85%",
+        height: "90%",
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: secondaryBackground,
@@ -360,7 +363,7 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: mainBackground,
+        paddingBottom: 20,
     },
     bottomButtonModif: {
         backgroundColor: "transparent",
@@ -381,11 +384,12 @@ const styles = StyleSheet.create({
         backgroundColor: secondaryColor,
         padding: 10,
         borderRadius: borderRadius,
+        marginBottom: 10,
         justifyContent: "center",
         alignItems: "center",
-        width: 330,
-        borderWidth: 1,
+        width: "90%",
         borderColor: secondaryColor,
+        borderWidth: 1,
     },
     bottomButtonMdpText: {
         color: "#fff",
