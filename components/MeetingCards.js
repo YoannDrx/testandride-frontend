@@ -1,7 +1,7 @@
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { importMeetingsStore } from "../reducers/myMeetings";
 
 // style constants
@@ -33,8 +33,8 @@ export default function MeetingCards(props) {
     // Add the meeting in the store
     const handleGoPress = async (queryString) => {
         const position = await fetchGeoLoc(queryString)
-        props.navigation.navigate("itineraire");
         dispatch(importMeetingsStore(position));
+        props.navigation.navigate("itineraire");
     };
 
     // Fetch data API gouv
@@ -43,7 +43,7 @@ export default function MeetingCards(props) {
         const data = await response.json();
         // console.log("lat : ",data.features[0].geometry.coordinates[0])
         // console.log("long : ",data.features[0].geometry.coordinates[1])
-        return {latitude : data.features[0].geometry.coordinates[0], longitude : data.features[0].geometry.coordinates[1]}
+        return {longitude : data.features[0].geometry.coordinates[0], latitude : data.features[0].geometry.coordinates[1]}
     };
 
     return (

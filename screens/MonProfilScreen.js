@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity,StatusBar,Platform, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar, Platform, ScrollView } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
 import { Dimensions, SafeAreaView } from "react-native";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 // style constants
 import constant from "../constants/constant";
@@ -17,85 +17,88 @@ const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 
 export default function MonProfilScreen({ navigation }) {
-    // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
     const user = useSelector((state) => state.user.value);
-   
+    const profilPicture = user.photo ? { uri: user.photo } : require("../assets/demoAvatar.png");
 
-    
+    // Take a picture from the camera page
+    const handleChangePhoto = () => {
+        navigation.navigate("snap");
+    };
+
+
     return (
         <SafeAreaView style={styles.container}>
-            
             <Header navigation={navigation} />
             <View style={styles.window}>
-            <View style={styles.bodyContainer}>
-                {/* Contact info */}
-                <View style={styles.profilContainer}>
-                    <View>
-                        <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
-                    </View>
-
-                    <View style={styles.info}>
-                        <View style={styles.nameBox}>
-                            <Text style={styles.prenom}>{user.firstName}</Text>
-                            <Text style={styles.nom}>{user.lastName}</Text>
-                        </View>
+                <View style={styles.bodyContainer}>
+                    {/* Contact info */}
+                    <View style={styles.profilContainer}>
                         <View>
-                            {user.tels.map(telInfo => {
-                                return <Text style={styles.contactTelMail}>{`${telInfo.title} : ${telInfo.num}`}</Text>
-                            })}
-                            
-                            <Text style={styles.contactTelMail}>{user.email}</Text>
+                            <Image source={profilPicture} style={styles.avatar} />
+                            <TouchableOpacity style={styles.plusIcon} onPress={() => handleChangePhoto()}>
+                            <FontAwesome name="plus-circle" size={20} color={mainColor}  />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.info}>
+                            <View style={styles.nameBox}>
+                                <Text style={styles.prenom}>{user.firstName}</Text>
+                                <Text style={styles.nom}>{user.lastName}</Text>
+                            </View>
+                            <View>
+                                {user.tels.map((telInfo, index) => {
+                                    return <Text key={`telinfo${index}`} style={styles.contactTelMail}>{`${telInfo.title} : ${telInfo.num}`}</Text>;
+                                })}
+
+                                <Text style={styles.contactTelMail}>{user.email}</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.statsContainer}>
+                        {/* Rdv pris */}
+                        <Text style={styles.statsTitle}>Statistiques Semaine</Text>
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>100%</Text>
+                            </View>
+                            <Text style={styles.statsCount}>18</Text>
+                            <Text style={styles.statsRdv}>rdv terminés</Text>
+                        </View>
+
+                        {/* Rdv validés */}
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>100%</Text>
+                            </View>
+                            <Text style={styles.statsCount}>9</Text>
+                            <Text style={styles.statsRdv}>rdv terminés</Text>
+                        </View>
+
+                        {/* Rdv convertis */}
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>100%</Text>
+                            </View>
+                            <Text style={styles.statsCount}>6</Text>
+                            <Text style={styles.statsRdv}>rdv convertis</Text>
+                        </View>
+
+                        {/* Tps moyen */}
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>38 min</Text>
+                            </View>
+                            <Text style={styles.statsRdv}>temps moyen / rdv</Text>
                         </View>
                     </View>
                 </View>
-                
-                <View style={styles.statsContainer}>
-                    {/* Rdv pris */}
-                    <Text style={styles.statsTitle}>Statistiques Semaine</Text>
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>100%</Text>
-                        </View>
-                        <Text style={styles.statsCount}>18</Text>
-                        <Text style={styles.statsRdv}>rdv terminés</Text>
-                    </View>
-
-                    {/* Rdv validés */}
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>100%</Text>
-                        </View>
-                        <Text style={styles.statsCount}>9</Text>
-                        <Text style={styles.statsRdv}>rdv terminés</Text>
-                    </View>
-
-                    {/* Rdv convertis */}
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>100%</Text>
-                        </View>
-                        <Text style={styles.statsCount}>6</Text>
-                        <Text style={styles.statsRdv}>rdv convertis</Text>
-                    </View>
-
-                    {/* Tps moyen */}
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>38 min</Text>
-                        </View>
-                        <Text style={styles.statsRdv}>temps moyen / rdv</Text>
-                    </View>
-                </View>
-               
-
-                
-            </View>
-            {/* Boutons */}
-            <View style={styles.bottomButtonsContainer}>
+                {/* Boutons */}
+                <View style={styles.bottomButtonsContainer}>
                     <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
                         <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
                     </TouchableOpacity>
@@ -104,36 +107,33 @@ export default function MonProfilScreen({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-            
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-       flex:1,
+        flex: 1,
         backgroundColor: mainBackground,
         alignItems: "center",
         justifyContent: "flex-start",
- 
     },
-    bodyContainer:{
-        backgroundColor:secondaryBackground,
-        width:'100%',
+    bodyContainer: {
+        backgroundColor: secondaryBackground,
+        width: "100%",
         alignItems: "center",
         justifyContent: "flex-start",
-        
     },
     window: {
         width: screenWidth,
-        height:'85%',
+        height: "85%",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor:secondaryBackground
+        backgroundColor: secondaryBackground,
     },
     /*
-    *** CONTACT INFO ***
-    */
+     *** CONTACT INFO ***
+     */
     profilContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -142,6 +142,12 @@ const styles = StyleSheet.create({
     avatar: {
         width: 100,
         height: 100,
+        borderRadius: 50,
+    },
+    plusIcon: {
+        position: "absolute",
+        top: 0,
+        right: 5,
     },
     info: {
         marginLeft: 20,
@@ -225,13 +231,13 @@ const styles = StyleSheet.create({
         scrollContent: {},
     },
     /*
-        *** BOTTOM BUTTONS ***
-    */
+     *** BOTTOM BUTTONS ***
+     */
     bottomButtonsContainer: {
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor:mainBackground,
+        backgroundColor: mainBackground,
     },
     bottomButtonModif: {
         backgroundColor: "transparent",
@@ -240,7 +246,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: "center",
         alignItems: "center",
-        width: '90%',
+        width: "90%",
         borderColor: "#16A085",
         borderWidth: 1,
     },

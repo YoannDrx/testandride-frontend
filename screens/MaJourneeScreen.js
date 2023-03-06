@@ -74,7 +74,7 @@ export default function MaJourneeScreen({ navigation }) {
             model: "MonsieurChic",
         },
         {
-            id: 4,
+            id: 5,
             heure: "14:30",
             prenom: "Luc",
             nom: "Lebon",
@@ -84,7 +84,7 @@ export default function MaJourneeScreen({ navigation }) {
             model: "FRT100",
         },
         {
-            id: 4,
+            id: 6,
             heure: "15:00",
             prenom: "Beatrice",
             nom: "Bouvier",
@@ -94,7 +94,7 @@ export default function MaJourneeScreen({ navigation }) {
             model: "State",
         },
         {
-            id: 4,
+            id: 7,
             heure: "16:00",
             prenom: "Amelie",
             nom: "Legrand",
@@ -104,7 +104,7 @@ export default function MaJourneeScreen({ navigation }) {
             model: "RC520",
         },
         {
-            id: 4,
+            id: 8,
             heure: "16:30",
             prenom: "Sebastien",
             nom: "Dujant",
@@ -114,7 +114,7 @@ export default function MaJourneeScreen({ navigation }) {
             model: "X-trem",
         },
         {
-            id: 4,
+            id: 9,
             heure: "17:00",
             prenom: "Adeline",
             nom: "Stamps",
@@ -124,7 +124,7 @@ export default function MaJourneeScreen({ navigation }) {
             model: "Monstro",
         },
         {
-            id: 4,
+            id: 10,
             heure: "18:15",
             prenom: "Léonor",
             nom: "Chaaps",
@@ -138,7 +138,7 @@ export default function MaJourneeScreen({ navigation }) {
     // Map the cardsData array to create a MeetingCards component for each object
     const cards = cardsData.map((card) => {
         // console.log(card);
-        return <MeetingCards key={Date()} card={card} navigation={navigation} />;
+        return <MeetingCards key={`meeting${card.id}`} card={card} navigation={navigation} />;
     });
 
     // Permissions

@@ -10,6 +10,8 @@ import ItineraireScreen from "./screens/ItineraireScreen";
 import GoogleFormScreen from "./screens/GoogleFormScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import MeetingDetails from "./screens/MeetingDetails";
+import SnapScreen from './screens/SnapScreen';
+
 
 // Components
 import DrawerContent from "./components/DrawerContent";
@@ -25,6 +27,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
 import myMeetings from "./reducers/myMeetings";
+
 const store = configureStore({
   reducer: { user, myMeetings },
 });
@@ -60,6 +63,8 @@ const DrawerNavigator = () => {
             iconName = "calendar";
           } else if (route.name === "meetingDetails") {
             iconName = "address-book-o";
+          } else if (route.name === "snap") {
+            iconName = "camera";
           }
 
           return <FontAwesome name={iconName} size={30} color={color} />;
@@ -105,6 +110,13 @@ const DrawerNavigator = () => {
         component={MeetingDetails}
         options={() => ({
           title: "Fiche rendez-vous",
+        })}
+      />
+      <Drawer.Screen
+        name="snap"
+        component={SnapScreen}
+        options={() => ({
+          title: "Appareil photo",
         })}
       />
     </Drawer.Navigator>

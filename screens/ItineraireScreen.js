@@ -7,11 +7,12 @@ import * as Location from "expo-location";
 import { Marker } from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
 import { storePosition } from "../reducers/user";
+import { GOOGLE_MAPS_APIKEY } from "@env";
 
-// import components
+// Import components
 import Header from "../components/Header";
 
-// style constants
+// Style constants
 import constant from "../constants/constant";
 import { current } from "@reduxjs/toolkit";
 const screenWidth = Dimensions.get("window").width;
@@ -26,30 +27,26 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-// Backend URL
-const BACKEND_URL = "http://192.168.10.133:3000";
-
 export default function ItineraireScreen({ navigation }) {
     const [currentPosition, setCurrentPosition] = useState();
-    const [newDestinationMarker, setnewDestinationMarker] = useState("");
-    const [newDestination, setNewDestination] = useState("");
     const [directionsResponse, setDirectionsResponse] = useState(null);
     const [distance, setDistance] = useState(null);
     const [departureTime, setDepartureTime] = useState("");
     const [arrivalTime, setArrivalTime] = useState("");
-    const [googleMapApiKey, setGoogleMapApiKey] = useState("");
+    const [originMarker, setOriginMarker] = useState(null);
+
 
     const dispatch = useDispatch();
 
-    // Get the Google Map API key FIRST
-    fetch(`${BACKEND_URL}/api/googlemaps`, {})
-        .then((response) => response.json())
-        .then((responseJson) => {
-            setGoogleMapApiKey(responseJson.apiKey);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    // Get the user's destination from redux
+    const meeting = useSelector((state) => state.myMeetings.value);
+
+    // Store the user's position in redux
+    useEffect(() => {
+        if (currentPosition) {
+            dispatch(storePosition(currentPosition));
+        }
+    }, [currentPosition]);
 
     // Get the user's location and ask for permission
     useEffect(() => {
@@ -66,11 +63,11 @@ export default function ItineraireScreen({ navigation }) {
 
     // Get the route timing between the user's position and the destination
     useEffect(() => {
-        if (currentPosition && newDestinationMarker) {
+        if (currentPosition && meeting) {
             const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
-            const destination = `${newDestinationMarker.latitude},${newDestinationMarker.longitude}`;
+            const destination = `${meeting.latitude},${meeting.longitude}`;
 
-            fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${googleMapApiKey}`)
+            fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${GOOGLE_MAPS_APIKEY}`)
                 .then((response) => response.json())
                 .then((responseJson) => {
                     setDirectionsResponse(responseJson);
@@ -86,12 +83,13 @@ export default function ItineraireScreen({ navigation }) {
 
                     setDepartureTime(formattedDepartureTime);
                     setArrivalTime(formattedArrivalTime);
+                    setOriginMarker(responseJson.routes[0].legs[0].start_location);
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         }
-    }, [currentPosition, newDestinationMarker]);
+    }, [currentPosition, meeting]);
 
     // Log the user's location and store it in redux
     useEffect(() => {
@@ -102,11 +100,6 @@ export default function ItineraireScreen({ navigation }) {
         }
     }, [currentPosition]);
 
-    // Handle the long press on the map
-    const handleMapLongPress = (e) => {
-        setnewDestinationMarker(e.nativeEvent.coordinate);
-    };
-
     // Handle the press on the phone icon
     const handlePhonePress = () => {
         console.log("click phone");
@@ -116,19 +109,7 @@ export default function ItineraireScreen({ navigation }) {
     const handleFlagPress = () => {
         console.log("click flag");
     };
-
-    // Handle the press on the marker
-    const handlePressMarker = () => {
-        setnewDestinationMarker("");
-        setDirectionsResponse(null);
-        setDistance(null);
-        setDepartureTime("");
-        setArrivalTime("");
-    };
-
-    // Get the user's position from redux
-    const meeting = useSelector((state) => state.myMeetings.value);
-    console.log("meeting : ", meeting);
+    
 
     return (
         <SafeAreaView style={styles.container}>
@@ -136,48 +117,51 @@ export default function ItineraireScreen({ navigation }) {
 
             {currentPosition && (
                 <MapView
+                showsUserLocation={true}
+                loadingEnabled={true}
                     region={{
                         latitude: currentPosition.latitude,
                         longitude: currentPosition.longitude,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
-                    style={styles.map}
-                    onLongPress={handleMapLongPress}
+                    fitToCoordinates={[currentPosition, meeting]}
+                    style={styles.mapStyle}
                 >
-                    <MapViewDirections origin={currentPosition} destination={newDestinationMarker} apikey={googleMapApiKey} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
+                    {meeting && (
+                        <>
+                            <MapViewDirections origin={currentPosition} destination={meeting} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
 
-                    {currentPosition && <Marker coordinate={currentPosition} title="My position" pinColor={mainColor} />}
+                            <Marker coordinate={originMarker} title="Départ" pinColor={"blue"} />
+                            <Marker coordinate={meeting} title="Arrivée" pinColor={"red"} />
+                        </>
+                    )}
 
-                    <Marker
-                        coordinate={{
-                            latitude: newDestinationMarker.latitude,
-                            longitude: newDestinationMarker.longitude,
-                        }}
-                        title={"Destination to Go"}
-                        pinColor={"red"}
-                        onPress={()=> handlePressMarker()}
-                    />
+                    {currentPosition && <Marker coordinate={currentPosition} title="Ma position" pinColor={mainColor} />}
                 </MapView>
             )}
 
             {/* FOOTER */}
 
-                <View style={styles.footer}>
-                <FontAwesome name="phone-square" size={50} color={mainColor} onPress={() => handlePhonePress()} />
-
+            <View style={styles.footer}>
+                <FontAwesome name="phone-square" size={50} color={mainColor} onPress={handlePhonePress} />
                 <View style={styles.centralBox}>
-                    <Text style={styles.departureTime}>{departureTime}</Text>
+                    {departureTime && <Text style={styles.departureTime}>{departureTime}</Text>}
 
                     {directionsResponse && <Text style={styles.estimatedTiming}>{directionsResponse.routes[0].legs[0].duration.text}</Text>}
 
                     <View style={styles.estimationData}>
-                        <View style={styles.estimatedData}>{distance && <Text style={styles.estimatedData}>{distance.toFixed(1)} km</Text>}</View>
+                        {distance && (
+                            <View style={styles.estimatedData}>
+                                <Text style={styles.estimatedData}>{distance.toFixed(1)} km</Text>
+                            </View>
+                        )}
                         <FontAwesome style={styles.circle} name="circle" size={8} color={secondaryColor} />
-                        <Text style={styles.estimatedData}>{arrivalTime}</Text>
+                        {arrivalTime && <Text style={styles.estimatedData}>{arrivalTime}</Text>}
                     </View>
                 </View>
-                <FontAwesome name="flag-checkered" size={50} color="black" onPress={() => handleFlagPress()} />
+
+                <FontAwesome name="flag-checkered" size={50} color="black" onPress={handleFlagPress} />
             </View>
         </SafeAreaView>
     );
@@ -187,7 +171,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "scpace-between",
         backgroundColor: mainBackground,
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
@@ -197,7 +181,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
     },
-    map: {
+    mapStyle: {
         flex: 1,
         width: screenWidth,
         height: screenHeight,

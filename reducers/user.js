@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
- value: {token:null, firstName:'Invited',lastName:'User',picturePath:require('../assets/demoAvatar.png'), position:{latitude :"", longitude:""}, tels:[{title: "", num:"" }], email:""},
+ value: {token:null, firstName:'Invited',lastName:'User',picturePath:require('../assets/demoAvatar.png'), photo:"", position:{latitude :"", longitude:""}, tels:[{title: "", num:"" }], email:""},
 };
 
 export const userSlice = createSlice({
@@ -20,8 +20,11 @@ export const userSlice = createSlice({
    storePosition: (state, action) => {
      state.value.position = action.payload;
    },
+   changePhoto: (state, action) => {
+     state.value.photo = action.payload;
+   }
  },
 });
 
-export const { loginStore, storePosition } = userSlice.actions;
+export const { loginStore, storePosition, changePhoto } = userSlice.actions;
 export default userSlice.reducer;
