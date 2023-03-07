@@ -83,7 +83,8 @@ fetch(`${BACKEND_URL}/upload`, {
         })();
     }, []);
 
-    // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
+
+    // Get the profil picture from the store
     const user = useSelector((state) => state.user.value);
     const profilPicture = user.picturePath ? { uri: user.picturePath } : require("../assets/demoAvatar.png");
 

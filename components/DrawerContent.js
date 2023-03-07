@@ -21,6 +21,7 @@ export default function DrawerContent(props) {
 
     const handleLogout = () => {
         dispatch(logoutStore(null));
+        props.navigation.navigate("login")
     };
 
     return (

@@ -69,7 +69,7 @@ const handleConnection = () => {
         navigation.navigate("DrawerNavigator");
       }else{
         // Pop up alert 
-        Alert.alert("Email ou mot de passe incorrect.")
+        Alert("Email ou mot de passe incorrect.")
       }
     });
 };
