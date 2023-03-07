@@ -21,8 +21,7 @@ const warningColor = constant.warningColor;
 // environnement variables
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-// Calendar
-import * as Calendar from "expo-calendar";
+
 
 // Import components
 import Header from "../components/Header";
@@ -35,27 +34,31 @@ export default function MaJourneeScreen({ navigation }) {
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
-    const [meetingsCards, setMeetingsCards] = useState([<Text>Pas de courses aujourd'hui</Text>]);
+    const [meetingsCards, setMeetingsCards] = useState([<Text key={0}>Pas de courses aujourd'hui</Text>]);
     // update reducer mymeeting with courses from airtable
-
-    const dispatch = useDispatch();
+  
+    
     useEffect(() => {
         const monthStr = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
         const dayStr = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
-
+        
         const fetchCoursesAirtable = async () => {
             const response = await fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
             const dataFetch = await response.json();
-
+            
             if (dataFetch.result) {
-                const filteredMeetings = await dataFetch.data.records.filter((course) => course.fields.Rider_email[0] === user.email);
+                const filteredMeetings = await dataFetch.data.records.filter((course) => course.fields["Rider_email"][0] === user.email);
                 // Map the cardsData array to create a MeetingCards component for each object
-                const mappedMeetings = await filteredMeetings.map((card) => {
-                    return <MeetingCards key={`meeting${card.id}`} {...card} navigation={navigation} />;
+                if (filteredMeetings.length){
+                    
+                const mappedMeetings = await filteredMeetings.map((card,index) => {
+                    return <MeetingCards key={'c-'+index+card.fields["Course_id"]} {...card} navigation={navigation} />;
                 });
                 setMeetingsCards(mappedMeetings);
-                dispatch(importMeetingsStore(filteredMeetings));
+                
+                } 
+                
             } else {
                 alert("Error while retrieving data from airTable");
             }
@@ -67,7 +70,7 @@ export default function MaJourneeScreen({ navigation }) {
     const handleDateChange = (date) => {
         setDate(date);
     };
-
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.bodyContainer}>
@@ -76,7 +79,7 @@ export default function MaJourneeScreen({ navigation }) {
                 {/* Date Picker */}
                 <View style={styles.calendarContainer}>
                     <Text style={styles.title}>Mes rendez-vous</Text>
-                    <CalendarDatePicker handleDateChange={handleDateChange} />
+                    <CalendarDatePicker handleDateChange={handleDateChange} date={date} />
                 </View>
 
                 {/* Meeting Cars */}

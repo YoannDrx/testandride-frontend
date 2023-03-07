@@ -4,6 +4,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 // style constants
 import constant from "../constants/constant";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = constant.mainColor;
@@ -16,26 +17,29 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-export default function CalendarDatePicker() {
-  const [date, setDate] = useState(new Date());
+
+export default function CalendarDatePicker(props) {
+
   const [showCalendar, setShowCalendar] = useState(false);
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(Platform.OS === "ios");
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = new Date(selectedDate) || props.date;
     setShow(Platform.OS === "ios");
-    setDate(currentDate);
+    props.handleDateChange(currentDate);
   };
 
   const showMode = (currentMode) => {
     setMode(currentMode);
     setShow(true);
   };
-
+  const dateString = props.date.toLocaleDateString('fr-FR',{ year: 'numeric', month: 'short', day: 'numeric' })
   return (
     <View style={styles.container}>
-      {showCalendar && (
+      {show && (
         <DateTimePicker
-          value={date}
+          value={props.date}
           mode={mode}
           is24Hour={true}
           onChange={onChange}
@@ -43,7 +47,8 @@ export default function CalendarDatePicker() {
         />
       )}
       {Platform.OS === "android" && (
-        <Button onPress={() => showMode("date")} title="Calendrier"/>
+        <TouchableOpacity style={styles.btnDate} onPress={() => showMode("date")}><Text style={styles.txtDate}>{dateString}</Text></TouchableOpacity>
+        // <Button onPress={() => showMode("date")} title={dateString} />
       )}
     </View>
   )};
@@ -53,4 +58,15 @@ const styles = StyleSheet.create({
   borderRadius: borderRadius,
     backgroundColor: secondaryBackground,
   },
+  btnDate:{
+    backgroundColor:'#dfe6e9',
+    padding:btnPadding,
+    borderRadius:borderRadius,
+  },
+txtDate:{
+  color:secondaryColor,
+  fontSize:16,
+  fontWeight:'600'
+}
+  
 });

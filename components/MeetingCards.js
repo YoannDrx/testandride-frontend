@@ -7,9 +7,6 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
-  Linking,
-  Platform,
-  Alert,
   Image,
 } from "react-native";
 
@@ -35,6 +32,9 @@ const warningColor = constant.warningColor;
 // environnement variables
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
+// modules
+import { callNumber } from "../modules/callNumber";
+
 
 export default function MeetingCards(props) {
 
@@ -54,26 +54,6 @@ export default function MeetingCards(props) {
             getModelData(modelId);
         }, [])
       
-    // Fonction pour lancer l'appel téléphonique
-        const callNumber = (phone) => {
-           
-            let phoneNumber = phone;
-            if (Platform.OS !== "android") {
-            phoneNumber = `telprompt:${phone}`;
-            } else {
-            phoneNumber = `tel:${phone}`;
-            }
-            Linking.canOpenURL(phoneNumber)
-            .then((supported) => {
-                if (!supported) {
-                Alert.alert("Phone number is not available");
-                } else {
-                return Linking.openURL(phoneNumber);
-                }
-            })
-            .catch((err) => console.log(err));
-        };
-
   // Toogle the modal cards
   const toggleVisible = () => {
     setModalVisible(!modalVisible);

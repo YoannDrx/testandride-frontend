@@ -21,7 +21,7 @@ export const userSlice = createSlice({
      state.value.position = action.payload;
    },
    changePhoto: (state, action) => {
-     state.value.photo = action.payload;
+     state.value.picturePath = action.payload;
    }
  },
 });

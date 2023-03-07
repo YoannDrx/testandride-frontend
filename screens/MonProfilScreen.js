@@ -85,7 +85,7 @@ fetch(`${BACKEND_URL}/upload`, {
 
     // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
     const user = useSelector((state) => state.user.value);
-    const profilPicture = user.photo ? { uri: user.photo } : require("../assets/demoAvatar.png");
+    const profilPicture = user.picturePath ? { uri: user.picturePath } : require("../assets/demoAvatar.png");
 
     // Take a picture from the camera page
     const handleChangePhoto = () => {
