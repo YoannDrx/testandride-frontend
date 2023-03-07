@@ -73,7 +73,11 @@ export default function MeetingCards(props) {
         // console.log("long : ",data.features[0].geometry.coordinates[1])
         return {longitude : data.features[0].geometry.coordinates[0], latitude : data.features[0].geometry.coordinates[1]}
     };
-
+    
+    // fontion pour amener à la fiche client
+    const handleGoDetails = () => {
+    navigation.navigate("meetingDetails")
+};
 
     return (
         <View style={styles.container}>
@@ -119,7 +123,7 @@ export default function MeetingCards(props) {
                                 <FontAwesome style={styles.icon} name="phone" size={35} color={mainColor} onPress={() => toggleVisible()} />
                                 <Text style={styles.modalTextIcon}>Appel client</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.iconBox} onPress={() => toggleVisible()}>
+                            <TouchableOpacity style={styles.iconBox} onPress={() => handleGoDetails()}>
                                 <FontAwesome style={styles.icon} name="address-card-o" size={35} color={secondaryColor} onPress={() => toggleVisible()} />
                                 <Text style={styles.modalTextIcon}>Fiche rdv</Text>
                             </TouchableOpacity>

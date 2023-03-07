@@ -36,7 +36,7 @@ const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
 // URL backend
-const BACKEND_URL = "http://192.168.10.156:3000";
+const BACKEND_URL = "http://192.168.10.157:3000";
 
 export default function LoginScreen({ navigation }) {
 

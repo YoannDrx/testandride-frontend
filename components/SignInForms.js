@@ -18,7 +18,7 @@ const borderRadius = 4;
 import { Dimensions } from "react-native";
 
 
-const BACKEND_URL = "http://192.168.10.147:3000";
+const BACKEND_URL = "http://10.188.93.17:3000";
 
 export default function SignInForms() {
   const dispatch = useDispatch();
