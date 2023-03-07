@@ -48,14 +48,14 @@ export default function MonProfilScreen({navigation}) {
             name: "photo.jpg",
         });
 
-// Envoyer l'image au backend
-fetch(`${BACKEND_URL}/upload`, {
-  method: 'POST',
-  body: data,
-})
-.then(response => response.json())
-.then(result => {
-  console.log(result);
+        // Envoyer l'image au backend
+        fetch(`${BACKEND_URL}/upload`, {
+            method: "POST",
+            body: data,
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
 
                 // Mettre à jour l'URL de l'avatar dans l'état local
                 setAvatarUrl(result.url);
@@ -66,8 +66,6 @@ fetch(`${BACKEND_URL}/upload`, {
                 console.error(error);
             });
     };
-
-
 
     const closeCameraModal = () => {
         setModalVisible(false);
@@ -81,7 +79,6 @@ fetch(`${BACKEND_URL}/upload`, {
         })();
     }, []);
 
-
     // Get the profil picture from the store
     const user = useSelector((state) => state.user.value);
     const profilPicture = user.picturePath ? { uri: user.picturePath } : require("../assets/demoAvatar.png");
@@ -93,7 +90,6 @@ fetch(`${BACKEND_URL}/upload`, {
 
     return (
         <SafeAreaView style={styles.container}>
-
             <Header navigation={navigation} />
             <View style={styles.window}>
                 <View style={styles.bodyContainer}>
