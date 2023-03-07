@@ -117,7 +117,7 @@ export default function SignUpForm(props) {
         lastName:lastName,
         tels:tels,
         password:password,
-        email:email
+        email:email.toLowerCase()
     };
     console.log('register new user',BodyToSignup);
 
