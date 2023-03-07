@@ -36,8 +36,6 @@ const warningColor = constant.warningColor;
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
-
-
 export default function MeetingCards(props) {
 
   const [modalVisible, setModalVisible] = useState(false);

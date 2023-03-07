@@ -4,7 +4,7 @@ import { Dimensions, SafeAreaView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { importMeetingsStore } from "../reducers/myMeetings";
 
-// style constants
+// Style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -21,63 +21,52 @@ const warningColor = constant.warningColor;
 // environnement variables
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-
 // Calendar
 import * as Calendar from "expo-calendar";
 
-// import components
+// Import components
 import Header from "../components/Header";
 import MeetingCards from "../components/MeetingCards";
 import CalendarDatePicker from "../components/CalendarDatePicker";
 
 export default function MaJourneeScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
-    const meetings = useSelector((state)=>state.myMeetings.value);
+    const meetings = useSelector((state) => state.myMeetings.value);
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
-    const [meetingsCards,setMeetingsCards] = useState([<Text>Pas de courses aujourd'hui</Text>]);
+    const [meetingsCards, setMeetingsCards] = useState([<Text>Pas de courses aujourd'hui</Text>]);
     // update reducer mymeeting with courses from airtable
-    
-     
+
     const dispatch = useDispatch();
-        useEffect(()=> {
+    useEffect(() => {
+        const monthStr = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
+        const dayStr = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
 
-            
-            const monthStr = date.getMonth()<10?'0'+date.getMonth():date.getMonth();
-            const dayStr = date.getDate()<10?'0'+date.getDate():date.getDate();
-            const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
+        const fetchCoursesAirtable = async () => {
+            const response = await fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
+            const dataFetch = await response.json();
 
-            const fetchCoursesAirtable = async () => {
-               
-                const response = await fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
-                const dataFetch = await response.json();
-                
-                if (dataFetch.result) {
-                    const filteredMeetings = await dataFetch.data.records.filter(course => course.fields.Rider_email[0] === user.email);
-                          // Map the cardsData array to create a MeetingCards component for each object
-                    const mappedMeetings = await filteredMeetings.map((card) => {
-                       
-                         return <MeetingCards key={`meeting${card.id}`} {...card} navigation={navigation} />;
-                    });
-                    setMeetingsCards(mappedMeetings);
-                    dispatch(importMeetingsStore(filteredMeetings));
-                    
-
-                    
-                } else {
-                    alert('Error while retrieving data from airTable');
-                }
-                
+            if (dataFetch.result) {
+                const filteredMeetings = await dataFetch.data.records.filter((course) => course.fields.Rider_email[0] === user.email);
+                // Map the cardsData array to create a MeetingCards component for each object
+                const mappedMeetings = await filteredMeetings.map((card) => {
+                    return <MeetingCards key={`meeting${card.id}`} {...card} navigation={navigation} />;
+                });
+                setMeetingsCards(mappedMeetings);
+                dispatch(importMeetingsStore(filteredMeetings));
+            } else {
+                alert("Error while retrieving data from airTable");
             }
-             fetchCoursesAirtable();
-        },[date]);
+        };
+        fetchCoursesAirtable();
+    }, [date]);
 
     // Fonction qui permet de mettre à jour la date dans le composant enfant via les props
     const handleDateChange = (date) => {
         setDate(date);
     };
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -85,14 +74,14 @@ export default function MaJourneeScreen({ navigation }) {
                 <Header navigation={navigation} />
 
                 {/* Date Picker */}
-                <View style={styles.dateContainer}>
+                <View style={styles.calendarContainer}>
                     <Text style={styles.title}>Mes rendez-vous</Text>
                     <CalendarDatePicker handleDateChange={handleDateChange} />
                 </View>
-                
+
                 {/* Meeting Cars */}
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                {meetingsCards}
+                    {meetingsCards}
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -116,26 +105,26 @@ const styles = StyleSheet.create({
     /*
      *** Calendar
      */
-    dateContainer: {
+    calendarContainer: {
+        width: "80%",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
-
         borderBottomColor: mainColor,
-        borderBottomWidth: 1,
-        paddingBottom: 20,
+        borderBottomWidth: 3,
+        marginTop: 10,
         marginBottom: 20,
+        paddingBottom: 20,
     },
     title: {
         fontSize: 16,
         fontWeight: 600,
-        padding: 5,
-        top: 10,
+        marginRight: 30,
     },
     scrollContent: {
         alignItems: "center",
         justifyContent: "flex-start",
         padding: 5,
-        width:'100%',
+        width: "100%",
     },
 });

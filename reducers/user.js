@@ -26,5 +26,5 @@ export const userSlice = createSlice({
  },
 });
 
-export const { loginStore, storePosition, changePhoto } = userSlice.actions;
+export const { loginStore, logoutStore, storePosition, changePhoto } = userSlice.actions;
 export default userSlice.reducer;

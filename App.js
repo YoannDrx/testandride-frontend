@@ -134,6 +134,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+         
           <Stack.Screen name="feedback" component={FeedbackScreen} />
         </Stack.Navigator>
       </NavigationContainer>

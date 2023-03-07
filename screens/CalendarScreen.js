@@ -1,8 +1,13 @@
-import React from "react";
-import {SafeAreaView, StyleSheet, Dimensions, Text, Platform,StatusBar } from "react-native";
+import React, { useEffect } from 'react';
+import { View, Text, Button, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import { Calendar } from 'expo-calendar';
 
-// style constants
+// Import components
+import Header from '../components/Header';
+
+// Style constants
 import constant from "../constants/constant";
+import { current } from "@reduxjs/toolkit";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = constant.mainColor;
@@ -15,30 +20,50 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-// import components
-import Header from "../components/Header";
 
-export default function CalendarScreen({ navigation }) {
+export default function CalendarScreen({navigation}) {
+  useEffect(() => {
+    displayCalendar();
+  }, []);
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <Header navigation={navigation} />
-            <Text style={styles.title}>Calendrier</Text>
-        </SafeAreaView>
-    );
+  async function displayCalendar() {
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status === 'granted') {
+      const calendars = await Calendar.getCalendarsAsync();
+      console.log('Here are all your calendars:');
+      console.log({ calendars });
+
+      // Récupérez l'ID du calendrier par défaut
+      const defaultCalendar = calendars.find(
+        (calendar) => calendar.isPrimary && calendar.allowsModifications
+      ) || calendars[0];
+
+      // Créez un événement dans le calendrier par défaut
+      const newEvent = await Calendar.createEventAsync(defaultCalendar.id, {
+        title: 'Mon premier événement',
+        startDate: new Date(),
+        endDate: new Date(),
+        timeZone: 'GMT+1',
+        location: 'Paris',
+        notes: 'Ceci est une note pour l\'événement'
+      });
+      console.log(`Event created successfully with ID: ${newEvent}`);
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+        <Header style={styles.header} navigation={navigation}/>
+      <Text>Calendar Screen</Text>
+      <Button title="Display Calendar" onPress={displayCalendar} />
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "flex-start",
+        flex:1,
         backgroundColor: mainBackground,
-        paddingTop:Platform.OS === "android" ? StatusBar.currentHeight : 0
-    },
-    bodyContainer:{
-        backgroundColor:secondaryBackground,
-        width:'100%',
         alignItems: "center",
         justifyContent: "flex-start",
     },
