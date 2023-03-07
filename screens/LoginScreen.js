@@ -35,8 +35,9 @@ const btnPadding = constant.btnPadding;
 const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
-// URL backend
-const BACKEND_URL = "http://192.168.10.157:3000";
+// environnement variables
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 export default function LoginScreen({ navigation }) {
 
@@ -65,7 +66,7 @@ const handleConnection = () => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      email: signInEmail,
+      email: signInEmail.toLowerCase(),
       password: signInPassword,
     }),
   })
