@@ -102,14 +102,7 @@ const DrawerNavigator = () => {
         options={() => ({
           title: "Calendrier",
         })}
-      />
-      <Drawer.Screen
-        name="meetingDetails"
-        component={MeetingDetailsScreen}
-        options={() => ({
-          title: "Détail du meeting",
-        })}
-      />
+      />  
     </Drawer.Navigator>
   );
 };
@@ -122,6 +115,7 @@ export default function App() {
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
           <Stack.Screen name="feedback" component={FeedbackScreen} />
+          <Stack.Screen name = "meetingDetails" component={MeetingDetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

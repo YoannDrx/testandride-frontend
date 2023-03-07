@@ -225,7 +225,6 @@ const styles = StyleSheet.create({
     },
     btnCancel: {
         borderColor: dangerColor,
-        backgroundColor: dangerColor,
         borderWidth: 1,
         borderRadius: borderRadius,
         padding: btnPadding,
@@ -234,7 +233,7 @@ const styles = StyleSheet.create({
         width: screenWidth * 0.4,
     },
     cancelText: {
-        color: "white",
+        color: dangerColor,
         fontWeight: 600,
     },
     btnCall: {

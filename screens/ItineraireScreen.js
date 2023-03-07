@@ -135,7 +135,9 @@ export default function ItineraireScreen({ navigation }) {
             {/* FOOTER */}
 
             <View style={styles.footer}>
-                <FontAwesome name="phone-square" size={50} color={mainColor}  />
+                <TouchableOpacity style={styles.btnNav}>
+                <FontAwesome name="phone" size={50} color={secondaryColor}  />
+                </TouchableOpacity>
                 <View style={styles.centralBox}>
                     {arrivalTime && <Text style={styles.departureTime}>{arrivalTime}</Text>}
 
@@ -151,8 +153,8 @@ export default function ItineraireScreen({ navigation }) {
                         {arrivalTime && <Text style={styles.estimatedData}>{arrivalTime}</Text>}
                     </View>
                 </View>
-                 <TouchableOpacity onPress={()=> navigation.navigate('meetingDetails')}>           
-                <FontAwesome name="flag-checkered" size={50} color="black"  />
+                 <TouchableOpacity style={styles.btnNav} onPress={()=> navigation.navigate('meetingDetails')}>           
+                <FontAwesome name="flag-checkered" size={50} color={mainColor} />
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -187,14 +189,18 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         flexDirection: "row",
         padding: btnPadding,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderTopColor: "lightgrey",
-        borderLeftColor: "lightgrey",
-        borderRightColor: "lightgrey",
-        borderTopWidth: 3,
-        borderLeftWidth: 3,
-        borderRightWidth: 3,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+ 
+    },
+    btnNav:{
+        height:80,
+        width:80,
+        backgroundColor:secondaryBackground,
+        padding:btnPadding,
+        borderRadius:50,
+        justifyContent:'center',
+        alignItems:'center',
     },
     centralBox: {
         alignItems: "center",
