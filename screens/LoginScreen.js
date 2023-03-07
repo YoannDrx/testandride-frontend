@@ -6,8 +6,10 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Components
 import SignUpForm from "../components/SignUpForm";
+
 // Reducer
 import { loginStore } from "../reducers/user";
+
 // style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
@@ -31,6 +33,7 @@ export default function LoginScreen({ navigation }) {
     const dispatch = useDispatch();
     const [showSignUp, setShowSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
 
     //state modal camera
     const [modalVisible, setModalVisible] = useState(false);
@@ -77,6 +80,7 @@ export default function LoginScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.window}>
+
                 {/* HEADER CONNEXION INFOS */}
                 <Image style={styles.tinyLogo} source={require("../assets/Mini-logo.png")} />
                 <Text style={styles.pageTitle}> CONNEXION</Text>
@@ -93,7 +97,6 @@ export default function LoginScreen({ navigation }) {
                 </View>
 
                 {/* INPUTS LOGIN*/}
-
                 <View style={styles.inputsContainer}>
                     <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
                         <ScrollView>
@@ -120,6 +123,7 @@ export default function LoginScreen({ navigation }) {
                                 <FontAwesome name={showPassword ? "eye-slash" : "eye"} style={styles.iconInput} size={20} color={mainColor} onPress={() => setShowPassword(!showPassword)} />
                             </View>
                         </ScrollView>
+                        
                         {/* Mot de passe oublié*/}
                         <TouchableOpacity>
                             <Text style={styles.link}>Mot de passe oublié ?</Text>

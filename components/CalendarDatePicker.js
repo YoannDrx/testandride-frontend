@@ -18,8 +18,6 @@ const warningColor = constant.warningColor;
 
 export default function CalendarDatePicker() {
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(Platform.OS === "ios");
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -47,12 +45,11 @@ export default function CalendarDatePicker() {
         <Button onPress={() => showMode("date")} title="Calendrier"/>
       )}
     </View>
-  );
-}
+  )};
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: borderRadius,
+  container : {
+  borderRadius: borderRadius,
     backgroundColor: secondaryBackground,
   },
 });

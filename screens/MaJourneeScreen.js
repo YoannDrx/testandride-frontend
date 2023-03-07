@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, StatusBar, Platform, TouchableOpacity } from "r
 import { Dimensions, SafeAreaView, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 
-// style constants
+// Style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -22,7 +22,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 // Calendar
 import * as Calendar from "expo-calendar";
 
-// import components
+// Import components
 import Header from "../components/Header";
 import MeetingCards from "../components/MeetingCards";
 import CalendarDatePicker from "../components/CalendarDatePicker";
