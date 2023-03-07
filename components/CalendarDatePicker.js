@@ -18,6 +18,7 @@ const warningColor = constant.warningColor;
 
 export default function CalendarDatePicker() {
   const [date, setDate] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -32,7 +33,7 @@ export default function CalendarDatePicker() {
 
   return (
     <View style={styles.container}>
-      {show && (
+      {showCalendar && (
         <DateTimePicker
           value={date}
           mode={mode}

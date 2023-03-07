@@ -122,13 +122,6 @@ const DrawerNavigator = () => {
           title: "Appareil photo",
         })}
       />
-          <Drawer.Screen
-        name="feedback"
-        component={FeedbackScreen}
-        options={() => ({
-          title: "Feedback",
-        })}
-      />
     </Drawer.Navigator>
   );
 };
@@ -140,7 +133,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-          <Stack.Screen name="Feedback" component={FeedbackScreen} />
+          <Stack.Screen name="feedback" component={FeedbackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -91,9 +91,8 @@ export default function SignUpForm(props) {
             lastName: lastName,
             tels: tels,
             password: password,
-            email: email,
+            email: email.toLocaleLowerCase(),
         };
-        console.log("register new user", BodyToSignup);
 
         fetch(`${BACKEND_URL}/users/signup`, {
             method: "POST",
