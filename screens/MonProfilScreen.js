@@ -22,8 +22,6 @@ const mainBackground = constant.mainBackground;
 // environnement variables
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-
-
 export default function MonProfilScreen({ navigation }) {
     //const utilisation camera
     const [modalVisible, setModalVisible] = useState(false);
@@ -48,14 +46,14 @@ export default function MonProfilScreen({ navigation }) {
             name: "photo.jpg",
         });
 
-// Envoyer l'image au backend
-fetch(`${BACKEND_URL}/upload`, {
-  method: 'POST',
-  body: data,
-})
-.then(response => response.json())
-.then(result => {
-  console.log(result);
+        // Envoyer l'image au backend
+        fetch(`${BACKEND_URL}/upload`, {
+            method: "POST",
+            body: data,
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
 
                 // Mettre à jour l'URL de l'avatar dans l'état local
                 setAvatarUrl(result.url);
@@ -65,10 +63,6 @@ fetch(`${BACKEND_URL}/upload`, {
             .catch((error) => {
                 console.error(error);
             });
-    };
-
-    const openCameraModal = () => {
-        setModalVisible(true);
     };
 
     const closeCameraModal = () => {
@@ -83,20 +77,20 @@ fetch(`${BACKEND_URL}/upload`, {
         })();
     }, []);
 
-    // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
+    // Get the profil picture from the store
     const user = useSelector((state) => state.user.value);
     const profilPicture = user.picturePath ? { uri: user.picturePath } : require("../assets/demoAvatar.png");
 
     // Take a picture from the camera page
     const handleChangePhoto = () => {
-        navigation.navigate("snap");
+        setModalVisible(true);
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
             <View style={styles.window}>
-                <View style={styles.bodyContainer}>
+                {/* <View style={styles.bodyContainer}> */}
                     {/* Contact info */}
                     <View style={styles.profilContainer}>
                         <View>
@@ -111,13 +105,46 @@ fetch(`${BACKEND_URL}/upload`, {
                                 <Text style={styles.prenom}>{user.firstName}</Text>
                                 <Text style={styles.nom}>{user.lastName}</Text>
                             </View>
-                            <View>
-                                {user.tels.map((telInfo, index) => {
-                                    return <Text key={`telinfo${index}`} style={styles.contactTelMail}>{`${telInfo.title} : ${telInfo.num}`}</Text>;
-                                })}
 
+                            <View>
+                                <Text style={styles.contactTelMail}>{user.telephone}</Text>
                                 <Text style={styles.contactTelMail}>{user.email}</Text>
                             </View>
+
+                            {/* modal camera */}
+                            <Modal visible={modalVisible} animationType="slide">
+                                <View style={styles.cameraContainer}>
+                                    <Camera type={type} flashMode={flashMode} ref={(ref) => (cameraRef = ref)} style={styles.camera}>
+                                        {/* button back camera */}
+                                        <View style={styles.buttonBack}>
+                                            <TouchableOpacity onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}>
+                                                <FontAwesome name="rotate-right" size={25} color="#ffffff" style={styles.rotateButton} />
+                                            </TouchableOpacity>
+                                        </View>
+
+                                        {/* button flash */}
+                                        <View>
+                                            <TouchableOpacity onPress={() => setFlashMode(flashMode === FlashMode.off ? FlashMode.torch : FlashMode.off)} style={styles.buttonFlash}>
+                                                <FontAwesome name="flash" size={25} color={flashMode === FlashMode.off ? "#ffffff" : "#e8be4b"} />
+                                            </TouchableOpacity>
+                                        </View>
+
+                                        {/* button take picture*/}
+                                        <View style={styles.snapContainer}>
+                                            <TouchableOpacity onPress={() => cameraRef && takePicture()}>
+                                                <FontAwesome name="circle-thin" size={95} color="#ffffff" />
+                                            </TouchableOpacity>
+                                        </View>
+
+                                        {/* button close camera*/}
+                                        <View style={styles.closingCamera}>
+                                            <TouchableOpacity onPress={() => closeCameraModal()}>
+                                                <FontAwesome name={"times"} style={styles.closeIcon} size={50} color={"black"} paddingTop={10} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </Camera>
+                                </View>
+                            </Modal>
                         </View>
                     </View>
 
@@ -162,16 +189,17 @@ fetch(`${BACKEND_URL}/upload`, {
                             <Text style={styles.statsRdv}>temps moyen / rdv</Text>
                         </View>
                     </View>
-                </View>
-                {/* Boutons */}
-                <View style={styles.bottomButtonsContainer}>
-                    <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
-                        <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
-                        <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
-                    </TouchableOpacity>
-                </View>
+
+                    {/* Boutons */}
+                    <View style={styles.bottomButtonsContainer}>
+                        <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
+                            <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
+                            <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
+                        </TouchableOpacity>
+                    </View>
+                {/* </View> */}
             </View>
         </SafeAreaView>
     );
@@ -193,11 +221,11 @@ const styles = StyleSheet.create({
     },
     window: {
         width: screenWidth,
-        height: "90%",
+        height: screenHeight *0.8,
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: secondaryBackground,
     },
+
     /*
      *** CONTACT INFO ***
      */
@@ -209,12 +237,11 @@ const styles = StyleSheet.create({
     avatar: {
         width: 100,
         height: 100,
-        borderRadius: 50,
     },
+
     plusIcon: {
         position: "absolute",
-        top: 0,
-        right: 5,
+        top: 10,
     },
 
     info: {
@@ -308,13 +335,18 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
 
+    closeIcon: {
+        color: "red",
+        fontSize: 35,
+    },
+
     /*
      *** STATS ***
      */
     statsContainer: {
         width: "100%",
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         paddingLeft: "2%",
         paddingRight: "2%",
     },
@@ -383,7 +415,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "90%",
-        borderColor: secondaryColor,
+        borderColor: mainColor,
         borderWidth: 1,
     },
     bottomButtonMdpText: {

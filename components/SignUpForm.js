@@ -131,7 +131,7 @@ export default function SignUpForm(props) {
             <View style={styles.sepContainer}>
                 <View style={styles.sepLine} />
                 <View>
-                    <Text style={styles.sepText}>Ou m'inscrire avec mon email</Text>
+                    <Text style={styles.sepText}>M'inscrire avec mon email</Text>
                 </View>
                 <View style={styles.sepLine} />
             </View>
@@ -351,19 +351,17 @@ const styles = StyleSheet.create({
     /*
      *** BOUTON ***
      */
-
     btnContain: {
         backgroundColor: mainColor,
         padding: 10,
         borderRadius: borderRadius,
-        marginVertical: 10,
+        marginBottom: 30,
     },
     btnText: {
         color: "white",
         fontSize: 20,
         textAlign: "center",
     },
-
     btnEnvoyer: {
         marginTop: 15,
         width: "80%",

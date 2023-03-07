@@ -1,7 +1,6 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Text} from "react-native";
-import { WebView } from "react-native-webview";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import React from 'react';
+import { View, StyleSheet, Button, Dimensions, SafeAreaView } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 // Import components
 import Header from "../components/Header";
@@ -20,44 +19,61 @@ const btnPadding = constant.btnPadding;
 const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
-const FeedbackScreen = ({navigation}) => {
-    return (
-        <SafeAreaView style={styles.container}>
-            <Header navigation={navigation} />
-            <View>
-                <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
-                    <FontAwesome name="arrow-left" size={25} color={dangerColor} />
-                    <Text style={styles.goBackText}>Retour</Text>
-                </TouchableOpacity>
-            </View>
-            <WebView
-                source={{
-                    uri: 'https://docs.google.com/forms/d/e/1FAIpQLScH86p3mhprzTQ-Bs_y9hNqqzXuIWp3zpow8gZqC1Z0C4cNiQ/viewform?embedded=true” width=“100%" height=“100%” frameborder=“0" marginheight=“0” marginwidth=“0">Chargement…</iframe>',
-                }}
-                style={{ flex: 1 }}
-                scrollEnabled={true}
-            />
-        </SafeAreaView>
-    );
+ {/* Rendre l'ID essai dynamique dans la google form*/}
+
+ const ID_ESSAI = 'test';
+ 
+
+ const FeedbackScreen = (props) => {
+
+ const url = `https://docs.google.com/forms/d/e/1FAIpQLSe7hWXiDgbZIIhU2FCqBZ8lQtDGNXZOWUbABnOQU9YMsop3Ew/viewform?usp=pp_url&entry.1687010671=${ID_ESSAI}`;
+
+  return (
+    <SafeAreaView style={styles.container}>
+       {/* Integration du Google Form dans l'app avec Webview*/}
+      <View style={styles.webViewContainer}>
+      <WebView
+        source={{ uri: url }}
+      />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Fermer"
+          onPress={() => props.navigation.goBack()}
+        />
+      </View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-    },
-    goBack: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginVertical: 10,
-        marginLeft: 10,
-    },
-    goBackText: {
-        color: dangerColor,
-        fontSize: 20,
-        marginLeft: 10,
-          
-    },
+  container: {
+    backgroundColor: '#fff',
+    flex: 1,
+    zIndex: 1,
+  },
+  webViewContainer: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    zIndex: 1,
+    position: 'absolute',
+    margin: 0,
+    padding: 0,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 30,
+    width: '80%',
+    height: 50,
+    backgroundColor: 'white',
+    zIndex: 2,
+    elevation: 2,
+    left: '10%',
+    
+    
+  },
 });
 
 export default FeedbackScreen;

@@ -1,6 +1,5 @@
 import * as React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 // Screens
 import MaJourneeScreen from "./screens/MaJourneeScreen";
@@ -10,8 +9,6 @@ import ItineraireScreen from "./screens/ItineraireScreen";
 import FeedbackScreen from "./screens/FeedbackScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import MeetingDetailsScreen from "./screens/MeetingDetailsScreen";
-import SnapScreen from './screens/SnapScreen';
-
 
 // Components
 import DrawerContent from "./components/DrawerContent";
@@ -64,8 +61,6 @@ const DrawerNavigator = () => {
             iconName = "calendar";
           } else if (route.name === "meetingDetails") {
             iconName = "address-book-o";
-          } else if (route.name === "snap") {
-            iconName = "camera";
           } else if (route.name === "feedback") {
             iconName = "comment";
           }
@@ -107,16 +102,7 @@ const DrawerNavigator = () => {
         options={() => ({
           title: "Calendrier",
         })}
-      />
-    
-      <Drawer.Screen
-        name="snap"
-        component={SnapScreen}
-        options={() => ({
-          title: "Appareil photo",
-        })}
-      />
-        
+      />  
     </Drawer.Navigator>
   );
 };

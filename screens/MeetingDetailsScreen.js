@@ -14,7 +14,7 @@ export default function MeetingDetailsScreen  ({ navigation })  {
 
   //fonction pour anviguer vers le feedback
   const handleFeedback = () => {
-    navigation.navigate("googleForm")
+    navigation.navigate("feedback")
   };
 
   return (
