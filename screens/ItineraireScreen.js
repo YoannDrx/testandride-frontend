@@ -39,6 +39,7 @@ export default function ItineraireScreen({ navigation }) {
     const [departureTime, setDepartureTime] = useState("");
     const [arrivalTime, setArrivalTime] = useState("");
     const [originPosition, setOriginPosition] = useState(null);
+    const [hasPermission,setHasPermission] = useState(false);
 
 
     // // Get the user's destination from redux
@@ -51,6 +52,7 @@ export default function ItineraireScreen({ navigation }) {
             const { status } = await Location.requestForegroundPermissionsAsync();
 
             if (status === "granted") {
+                setHasPermission(true);
                 await Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
                     setCurrentPosition(location.coords);
                     setOriginPosition(currentPosition);
@@ -106,7 +108,8 @@ export default function ItineraireScreen({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
-                <MapView
+            {!hasPermission && <View style={styles.mapStyle}><Text>En attente d'autorisation</Text></View>}
+            { hasPermission &&   <MapView
                 loadingEnabled={true}
                     region={{
                         latitude: currentPosition.latitude,
@@ -119,14 +122,14 @@ export default function ItineraireScreen({ navigation }) {
                 >
                     {meetingDetails && (
                         <>
-                            <MapViewDirections origin={currentPosition} destination={meetingDetails.position} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />
+                            {currentPosition && <MapViewDirections origin={currentPosition} destination={meetingDetails.position} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />}
                             {originPosition && <MapViewDirections origin={originPosition} destination={currentPosition} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={secondaryBackground} mode="BICYCLING" />}
                             <Marker coordinate={currentPosition} title="Départ" pinColor={"blue"} />
                             <Marker coordinate={meetingDetails.position} title="Arrivée" pinColor={"red"} />
                         </>
                     )}
                     
-                </MapView>
+                </MapView>}
             
 
             {/* FOOTER */}
