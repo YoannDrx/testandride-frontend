@@ -22,9 +22,7 @@ const mainBackground = constant.mainBackground;
 // environnement variables
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-
-
-export default function MonProfilScreen({navigation}) {
+export default function MonProfilScreen({ navigation }) {
     //const utilisation camera
     const [modalVisible, setModalVisible] = useState(false);
     let cameraRef = useRef(null);
@@ -92,7 +90,7 @@ export default function MonProfilScreen({navigation}) {
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
             <View style={styles.window}>
-                <View style={styles.bodyContainer}>
+                {/* <View style={styles.bodyContainer}> */}
                     {/* Contact info */}
                     <View style={styles.profilContainer}>
                         <View>
@@ -102,119 +100,110 @@ export default function MonProfilScreen({navigation}) {
                             </TouchableOpacity>
                         </View>
 
-                    <View style={styles.info}>
-                        <View style={styles.nameBox}>
-                            <Text style={styles.prenom}>{user.firstName}</Text>
-                            <Text style={styles.nom}>{user.lastName}</Text>
-                        </View>
+                        <View style={styles.info}>
+                            <View style={styles.nameBox}>
+                                <Text style={styles.prenom}>{user.firstName}</Text>
+                                <Text style={styles.nom}>{user.lastName}</Text>
+                            </View>
 
-                        <View>
-                            <Text style={styles.contactTelMail}>{user.telephone}</Text>
-                            <Text style={styles.contactTelMail}>{user.email}</Text>
-                        </View>
+                            <View>
+                                <Text style={styles.contactTelMail}>{user.telephone}</Text>
+                                <Text style={styles.contactTelMail}>{user.email}</Text>
+                            </View>
 
-                        {/* modal camera */}
-                        <Modal visible={modalVisible} animationType="slide">
-                        <View style={styles.cameraContainer}>
-                        <Camera type={type} flashMode={flashMode} ref={(ref) => cameraRef = ref} style={styles.camera}>
-                        
-                        {/* button back camera */}
-                        <View style={styles.buttonBack}>
-                        <TouchableOpacity
-                         onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
-                        >
-                        <FontAwesome name='rotate-right' size={25} color='#ffffff' style={styles.rotateButton} />
-                        </TouchableOpacity>
-                        </View>
+                            {/* modal camera */}
+                            <Modal visible={modalVisible} animationType="slide">
+                                <View style={styles.cameraContainer}>
+                                    <Camera type={type} flashMode={flashMode} ref={(ref) => (cameraRef = ref)} style={styles.camera}>
+                                        {/* button back camera */}
+                                        <View style={styles.buttonBack}>
+                                            <TouchableOpacity onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}>
+                                                <FontAwesome name="rotate-right" size={25} color="#ffffff" style={styles.rotateButton} />
+                                            </TouchableOpacity>
+                                        </View>
 
-                        {/* button flash */}
-                        <View><TouchableOpacity
-                        onPress={() => setFlashMode(flashMode === FlashMode.off ? FlashMode.torch : FlashMode.off)}
-                        style={styles.buttonFlash}
-                        >
-                        <FontAwesome name='flash' size={25} color={flashMode === FlashMode.off ? '#ffffff' : '#e8be4b'} />
-                        </TouchableOpacity>
-                        </View>
+                                        {/* button flash */}
+                                        <View>
+                                            <TouchableOpacity onPress={() => setFlashMode(flashMode === FlashMode.off ? FlashMode.torch : FlashMode.off)} style={styles.buttonFlash}>
+                                                <FontAwesome name="flash" size={25} color={flashMode === FlashMode.off ? "#ffffff" : "#e8be4b"} />
+                                            </TouchableOpacity>
+                                        </View>
 
-                        {/* button take picture*/}
-                        <View style={styles.snapContainer}>
-                        <TouchableOpacity onPress={() => cameraRef && takePicture()}>
-                        <FontAwesome name='circle-thin' size={95} color='#ffffff' />
-                        </TouchableOpacity>
-                        </View>
+                                        {/* button take picture*/}
+                                        <View style={styles.snapContainer}>
+                                            <TouchableOpacity onPress={() => cameraRef && takePicture()}>
+                                                <FontAwesome name="circle-thin" size={95} color="#ffffff" />
+                                            </TouchableOpacity>
+                                        </View>
 
-                        {/* button close camera*/}
-                        <View style={styles.closingCamera}>
-                        <TouchableOpacity
-                        onPress={() => closeCameraModal()}>
-                        <FontAwesome name={"times"} style={styles.closeIcon} size={50} color={"black"} paddingTop={10} />
-                        </TouchableOpacity>
+                                        {/* button close camera*/}
+                                        <View style={styles.closingCamera}>
+                                            <TouchableOpacity onPress={() => closeCameraModal()}>
+                                                <FontAwesome name={"times"} style={styles.closeIcon} size={50} color={"black"} paddingTop={10} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </Camera>
+                                </View>
+                            </Modal>
                         </View>
-
-                    </Camera>
-                
-        </View>
-      </Modal>
-                    </View> 
-                </View>
-
-                <View style={styles.statsContainer}>
-                    {/* Rdv pris */}
-                    <Text style={styles.statsTitle}>Statistiques Semaine</Text>
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>100%</Text>
-                        </View>
-                        <Text style={styles.statsCount}>18</Text>
-                        <Text style={styles.statsRdv}>rdv terminés</Text>
                     </View>
 
-                    {/* Rdv validés */}
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>100%</Text>
+                    <View style={styles.statsContainer}>
+                        {/* Rdv pris */}
+                        <Text style={styles.statsTitle}>Statistiques Semaine</Text>
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>100%</Text>
+                            </View>
+                            <Text style={styles.statsCount}>18</Text>
+                            <Text style={styles.statsRdv}>rdv terminés</Text>
                         </View>
-                        <Text style={styles.statsCount}>9</Text>
-                        <Text style={styles.statsRdv}>rdv terminés</Text>
+
+                        {/* Rdv validés */}
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="check" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>100%</Text>
+                            </View>
+                            <Text style={styles.statsCount}>9</Text>
+                            <Text style={styles.statsRdv}>rdv terminés</Text>
+                        </View>
+
+                        {/* Rdv convertis */}
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>100%</Text>
+                            </View>
+                            <Text style={styles.statsCount}>6</Text>
+                            <Text style={styles.statsRdv}>rdv convertis</Text>
+                        </View>
+
+                        {/* Tps moyen */}
+                        <View style={styles.statsCard}>
+                            <View style={styles.iconGroup}>
+                                <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
+                                <Text style={styles.statsData}>38 min</Text>
+                            </View>
+                            <Text style={styles.statsRdv}>temps moyen / rdv</Text>
+                        </View>
                     </View>
 
-                    {/* Rdv convertis */}
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="calendar-o" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>100%</Text>
-                        </View>
-                        <Text style={styles.statsCount}>6</Text>
-                        <Text style={styles.statsRdv}>rdv convertis</Text>
+                    {/* Boutons */}
+                    <View style={styles.bottomButtonsContainer}>
+                        <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
+                            <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
+                            <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
+                        </TouchableOpacity>
                     </View>
-
-                    {/* Tps moyen */}
-                    <View style={styles.statsCard}>
-                        <View style={styles.iconGroup}>
-                            <FontAwesome name="clock-o" size={30} color="#000" style={styles.Icon} />
-                            <Text style={styles.statsData}>38 min</Text>
-                        </View>
-                        <Text style={styles.statsRdv}>temps moyen / rdv</Text>
-                    </View>
-                </View>
-
-                {/* Boutons */}
-                <View style={styles.bottomButtonsContainer}>
-                    <TouchableOpacity style={styles.bottomButtonModif} onPress={() => navigation.navigate("Modification")}>
-                        <Text style={styles.bottomButtonModifText}>Demander une modification</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.bottomButtonMdp} onPress={() => navigation.navigate("Nouveau mot de passe")}>
-                        <Text style={styles.bottomButtonMdpText}>Nouveau mot de passe</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                {/* </View> */}
             </View>
         </SafeAreaView>
     );
-    }
-    
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -232,15 +221,14 @@ const styles = StyleSheet.create({
     },
     window: {
         width: screenWidth,
-        height: "90%",
+        height: screenHeight *0.8,
         justifyContent: "space-between",
         alignItems: "center",
     },
 
-    
     /*
-    *** CONTACT INFO ***
-    */
+     *** CONTACT INFO ***
+     */
     profilContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -252,8 +240,8 @@ const styles = StyleSheet.create({
     },
 
     plusIcon: {
-        position: 'absolute',
-        top:10,
+        position: "absolute",
+        top: 10,
     },
 
     info: {
@@ -348,7 +336,7 @@ const styles = StyleSheet.create({
     },
 
     closeIcon: {
-        color: 'red',
+        color: "red",
         fontSize: 35,
     },
 
@@ -396,8 +384,8 @@ const styles = StyleSheet.create({
         scrollContent: {},
     },
     /*
-        *** BOTTOM BUTTONS ***
-    */
+     *** BOTTOM BUTTONS ***
+     */
     bottomButtonsContainer: {
         width: "100%",
         alignItems: "center",
@@ -411,7 +399,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: "center",
         alignItems: "center",
-        width: '90%',
+        width: "90%",
         borderColor: "#16A085",
         borderWidth: 1,
     },
@@ -427,7 +415,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "90%",
-        borderColor: secondaryColor,
+        borderColor: mainColor,
         borderWidth: 1,
     },
     bottomButtonMdpText: {
