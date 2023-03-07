@@ -1,7 +1,23 @@
 import React from 'react';
-import { View, StyleSheet, Button, Dimensions } from 'react-native';
+import { View, StyleSheet, Button, Dimensions, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 
+// Import components
+import Header from "../components/Header";
+
+// style constants
+import constant from "../constants/constant";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+const mainColor = constant.mainColor;
+const secondaryColor = constant.secondaryColor;
+const borderRadius = constant.borderRadius;
+const secondaryBackground = constant.secondaryBackground;
+const logoPath = constant.logoPath;
+const mainBackground = constant.mainBackground;
+const btnPadding = constant.btnPadding;
+const dangerColor = constant.dangerColor;
+const warningColor = constant.warningColor;
 
  {/* Rendre l'ID essai dynamique dans la google form*/}
 
@@ -13,7 +29,7 @@ import { WebView } from 'react-native-webview';
  const url = `https://docs.google.com/forms/d/e/1FAIpQLSe7hWXiDgbZIIhU2FCqBZ8lQtDGNXZOWUbABnOQU9YMsop3Ew/viewform?usp=pp_url&entry.1687010671=${ID_ESSAI}`;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
        {/* Integration du Google Form dans l'app avec Webview*/}
       <View style={styles.webViewContainer}>
       <WebView
@@ -26,7 +42,7 @@ import { WebView } from 'react-native-webview';
           onPress={() => props.navigation.goBack()}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

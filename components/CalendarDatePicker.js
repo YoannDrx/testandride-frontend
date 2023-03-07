@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-
-// import all the components we are going to use
-import {StyleSheet, View, Dimensions } from 'react-native';
-
-//import DatePicker from the package we installed
-import DatePicker from 'react-native-datepicker';
+import React, { useState } from "react";
+import { Button, Text, View, StyleSheet, Dimensions, Platform } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 // style constants
 import constant from "../constants/constant";
-import { ScrollView } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const mainColor = constant.mainColor;
@@ -21,57 +17,56 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-export default function CalendarDatePicker(props){
-  const [date, setDate] = useState(new Date());
 
-  // handle date change and pass it to parent component with props
-  const handleDateChange = (date) => {
-    setDate(date);
-    props.handleDateChange(date);
+export default function CalendarDatePicker(props) {
+
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(Platform.OS === "ios");
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = new Date(selectedDate) || props.date;
+    setShow(Platform.OS === "ios");
+    props.handleDateChange(currentDate);
   };
 
-
+  const showMode = (currentMode) => {
+    setMode(currentMode);
+    setShow(true);
+  };
+  const dateString = props.date.toLocaleDateString('fr-FR',{ year: 'numeric', month: 'short', day: 'numeric' })
   return (
-      <View style={styles.container}>
-        <DatePicker
-          style={styles.datePickerStyle}
-          date={date} //initial date from state
-          mode="date" //The enum of date, datetime and time
-          placeholder="select date"
-          format="DD-MM-YYYY"
-          minDate=""
-          maxDate=""
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              // display: 'none', // hide icon or not
-              position: 'absolute',
-              left: 0,
-              top: 4,
-              marginLeft: 0,
-            },
-            dateInput: {
-              marginLeft: 36,
-              borderRadius: borderRadius,
-            },
-          }}
-          onDateChange={(value)=> handleDateChange(value)}
+    <View style={styles.container}>
+      {show && (
+        <DateTimePicker
+          value={props.date}
+          mode={mode}
+          is24Hour={true}
+          onChange={onChange}
+          display={Platform.OS === "ios" ? "calendar" : "default"}
         />
-      </View>
-  );
-};
+      )}
+      {Platform.OS === "android" && (
+        <TouchableOpacity style={styles.btnDate} onPress={() => showMode("date")}><Text style={styles.txtDate}>{dateString}</Text></TouchableOpacity>
+        // <Button onPress={() => showMode("date")} title={dateString} />
+      )}
+    </View>
+  )};
 
 const styles = StyleSheet.create({
-  title: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 20,
+  container : {
+  borderRadius: borderRadius,
+    backgroundColor: secondaryBackground,
   },
-  datePickerStyle: {
-    width: 200,
-    marginTop: 20,
-    backgroundColor:mainBackground,
+  btnDate:{
+    backgroundColor:'#dfe6e9',
+    padding:btnPadding,
+    borderRadius:borderRadius,
   },
+txtDate:{
+  color:secondaryColor,
+  fontSize:16,
+  fontWeight:'600'
+}
+  
 });

@@ -1,13 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity,StatusBar,Platform, ScrollView, Modal, Button } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar, Platform, ScrollView, Modal, Button } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Header from "../components/Header";
 import { Dimensions, SafeAreaView } from "react-native";
-import {useSelector} from "react-redux";
-import { useEffect, useState, useRef } from 'react';
-import { Camera, CameraType, FlashMode } from 'expo-camera';
-import { useIsFocused } from '@react-navigation/native';
-
+import { useSelector } from "react-redux";
+import { useEffect, useState, useRef } from "react";
+import { Camera, CameraType, FlashMode } from "expo-camera";
+import { useIsFocused } from "@react-navigation/native";
 
 // style constants
 import constant from "../constants/constant";
@@ -20,59 +19,92 @@ const secondaryBackground = constant.secondaryBackground;
 const logoPath = constant.logoPath;
 const mainBackground = constant.mainBackground;
 
-export default function MonProfilScreen({ navigation }) {
-
-//const utilisation camera
-const [modalVisible, setModalVisible] = useState(false);
-let cameraRef = useRef(null);
-const onPress = () => {
-    console.log("Button pressed");
-  };
-const [hasPermission, setHasPermission] = useState(false);
-const isFocused = useIsFocused();
-const [type, setType] = useState(CameraType.back);
-const [flashMode, setFlashMode] = useState(FlashMode.off);
-
-const takePicture = async () => {
-const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-console.log(photo);
-
-  }
-  const openCameraModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeCameraModal = () => {
-    setModalVisible(false);
-  };
-
-  
-  
-
-//obtenir autorisation utilisation camera
-useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+// environnement variables
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
-    // Todo : Récupérer les datas de l'utilisateur connecté pour les afficher dans le profil
+
+export default function MonProfilScreen({navigation}) {
+    //const utilisation camera
+    const [modalVisible, setModalVisible] = useState(false);
+    let cameraRef = useRef(null);
+    const onPress = () => {
+        console.log("Button pressed");
+    };
+    const [hasPermission, setHasPermission] = useState(false);
+    const isFocused = useIsFocused();
+    const [type, setType] = useState(CameraType.back);
+    const [flashMode, setFlashMode] = useState(FlashMode.off);
+
+    const takePicture = async () => {
+        const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+        console.log(photo);
+
+        // Créer un objet FormData pour envoyer l'image au backend
+        const data = new FormData();
+        data.append("photoFromFront", {
+            uri: photo.uri,
+            type: "image/jpeg",
+            name: "photo.jpg",
+        });
+
+// Envoyer l'image au backend
+fetch(`${BACKEND_URL}/upload`, {
+  method: 'POST',
+  body: data,
+})
+.then(response => response.json())
+.then(result => {
+  console.log(result);
+
+                // Mettre à jour l'URL de l'avatar dans l'état local
+                setAvatarUrl(result.url);
+                setModalVisible(false);
+            })
+
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+
+
+    const closeCameraModal = () => {
+        setModalVisible(false);
+    };
+
+    //obtenir autorisation utilisation camera
+    useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === "granted");
+        })();
+    }, []);
+
+
+    // Get the profil picture from the store
     const user = useSelector((state) => state.user.value);
-    
-    return (
+    const profilPicture = user.picturePath ? { uri: user.picturePath } : require("../assets/demoAvatar.png");
 
+    // Take a picture from the camera page
+    const handleChangePhoto = () => {
+        setModalVisible(true);
+    };
+
+    return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.bodyContainer}>
+
             <Header navigation={navigation} />
             <View style={styles.window}>
-
-                {/* Contact info */}
-                <View style={styles.profilContainer}>
-                    <View>
-                        <Image source={require("../assets/demoAvatar.png")} style={styles.avatar} />
-                    </View>
+                <View style={styles.bodyContainer}>
+                    {/* Contact info */}
+                    <View style={styles.profilContainer}>
+                        <View>
+                            <Image source={profilPicture} style={styles.avatar} />
+                            <TouchableOpacity style={styles.plusIcon} onPress={() => handleChangePhoto()}>
+                                <FontAwesome name="plus-circle" size={20} color={mainColor} />
+                            </TouchableOpacity>
+                        </View>
 
                     <View style={styles.info}>
                         <View style={styles.nameBox}>
@@ -84,10 +116,6 @@ useEffect(() => {
                             <Text style={styles.contactTelMail}>{user.telephone}</Text>
                             <Text style={styles.contactTelMail}>{user.email}</Text>
                         </View>
-                        
-                        <TouchableOpacity onPress={openCameraModal}>
-                        <Text>Modifier ma photo</Text>
-                        </TouchableOpacity>
 
                         {/* modal camera */}
                         <Modal visible={modalVisible} animationType="slide">
@@ -188,28 +216,32 @@ useEffect(() => {
             </View>
             </View>
         </SafeAreaView>
-)};
-
+    );
+    }
+    
 
 const styles = StyleSheet.create({
-    container:{
-       flex:1,
+    container: {
+        flex: 1,
         backgroundColor: mainBackground,
         alignItems: "center",
         justifyContent: "flex-start",
     },
 
-    bodyContainer:{
-        backgroundColor:secondaryBackground,
-        width:'100%',
+    bodyContainer: {
+        backgroundColor: secondaryBackground,
+        width: "100%",
         alignItems: "center",
         justifyContent: "flex-start",
     },
     window: {
         width: screenWidth,
-        justifyContent: "flex-start",
+        height: "90%",
+        justifyContent: "space-between",
         alignItems: "center",
     },
+
+    
     /*
     *** CONTACT INFO ***
     */
@@ -221,6 +253,11 @@ const styles = StyleSheet.create({
     avatar: {
         width: 100,
         height: 100,
+    },
+
+    plusIcon: {
+        position: 'absolute',
+        top:10,
     },
 
     info: {
@@ -269,51 +306,56 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         justifyContent: "center",
         alignItems: "center",
-      },
-      camera: {
+    },
+    camera: {
         width: "100%",
         height: "100%",
         marginBottom: 0,
-      },
+    },
 
-      snapContainer: {
+    snapContainer: {
         position: "absolute",
         bottom: 0,
         alignSelf: "center",
         marginBottom: 30,
-      },
+    },
 
-      buttonBack: {
-        position: 'absolute',
+    buttonBack: {
+        position: "absolute",
         bottom: 0,
         right: 0,
-        backgroundColor: 'transparent',
+        backgroundColor: "transparent",
         padding: 10,
         borderRadius: 50,
         marginRight: 20,
         marginBottom: 20,
-      },
+    },
 
-      buttonFlash: {
-        backgroundColor: 'transparent',
+    buttonFlash: {
+        backgroundColor: "transparent",
         padding: 10,
         borderRadius: 50,
         borderWidth: 1,
-        borderColor: '#fff',
-        position: 'absolute',
-        top: Platform.OS === 'ios' ? 50 : StatusBar.currentHeight + 10,
+        borderColor: "#fff",
+        position: "absolute",
+        top: Platform.OS === "ios" ? 50 : StatusBar.currentHeight + 10,
         right: 20,
         zIndex: 1,
-      },
+    },
 
-      closingCamera: {
-        position: 'absolute',
-        top: 25,
-        left: 15,
+    closingCamera: {
+        backgroundColor: "transparent",
+        position: "absolute",
+        top: Platform.OS === "ios" ? 30 : StatusBar.currentHeight + 10,
+        left: 20,
+        zIndex: 1,
+    },
 
-      },
-    
-      
+    closeIcon: {
+        color: 'red',
+        fontSize: 35,
+    },
+
     /*
      *** STATS ***
      */
@@ -364,9 +406,10 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
+        paddingBottom: 20,
     },
     bottomButtonModif: {
-        backgroundColor: "transparent",
+        backgroundColor: "#fff",
         padding: 10,
         borderRadius: borderRadius,
         marginBottom: 10,
@@ -381,14 +424,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     bottomButtonMdp: {
-        backgroundColor: secondaryColor,
+        backgroundColor: mainColor,
         padding: 10,
         borderRadius: borderRadius,
+        marginBottom: 10,
         justifyContent: "center",
         alignItems: "center",
-        width: 330,
-        borderWidth: 1,
+        width: "90%",
         borderColor: secondaryColor,
+        borderWidth: 1,
     },
     bottomButtonMdpText: {
         color: "#fff",
