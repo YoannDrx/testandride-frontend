@@ -5,6 +5,9 @@ import { WebView } from 'react-native-webview';
 // Import components
 import Header from "../components/Header";
 
+// hooks 
+import { useSelector } from 'react-redux';
+
 // style constants
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
@@ -19,13 +22,12 @@ const btnPadding = constant.btnPadding;
 const dangerColor = constant.dangerColor;
 const warningColor = constant.warningColor;
 
- {/* Rendre l'ID essai dynamique dans la google form*/}
-
- const ID_ESSAI = 'test';
- 
 
  const FeedbackScreen = (props) => {
-
+  
+ {/* Rendre l'ID essai dynamique dans la google form*/}
+ const meetingDetails = useSelector(state => state.meetingDetails.value);
+ const ID_ESSAI = meetingDetails.infos.fields.Course_id;
  const url = `https://docs.google.com/forms/d/e/1FAIpQLSe7hWXiDgbZIIhU2FCqBZ8lQtDGNXZOWUbABnOQU9YMsop3Ew/viewform?usp=pp_url&entry.1687010671=${ID_ESSAI}`;
 
   return (

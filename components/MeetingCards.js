@@ -242,8 +242,6 @@ const styles = StyleSheet.create({
    *** Cards
    */
   cardContainer: {
-    borderColor: "lightgrey",
-    borderWidth: 1,
     marginBottom: 10,
     borderRadius: borderRadius,
     alignItems: "center",

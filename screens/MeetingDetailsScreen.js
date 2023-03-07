@@ -1,5 +1,14 @@
 import React from "react";
 import { View, StyleSheet, SafeAreaView, Text, ScrollView } from "react-native";
+
+// hooks
+import { useSelector } from "react-redux";
+
+// modules
+import {callNumber} from '../modules/callNumber';
+import {statutStyle} from '../modules/statutStyle';
+import { updateCourseStatut } from "../modules/updateCourseStatut";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import constant from "../constants/constant";
 const mainColor = constant.mainColor;
@@ -7,21 +16,27 @@ const secondaryColor = constant.secondaryColor;
 const borderRadius = constant.borderRadius;
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-// import components
-import Header from "../components/Header";
 
 export default function MeetingDetailsScreen  ({ navigation })  {
+
+  const meetingDetails = useSelector(state => state.meetingDetails.value)
 
   //fonction pour anviguer vers le feedback
   const handleFeedback = () => {
     navigation.navigate("feedback")
   };
 
+  // fonctioner pour changer le statut du test en "fait"
+  const handleFinishTest=()=>{
+   
+    updateCourseStatut('Fait',meetingDetails.infos.id);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       
       <View style={styles.firstContainer}>
-        <Text style={styles.detailText}>Details rendez-vous</Text>
+        <Text style={styles.detailText}>Details rendez-vous {meetingDetails.infos.fields.Course_id}</Text>
         <Text style={styles.status}> Status du rendez-vous</Text>
 
         <View style={styles.pageClient}>
@@ -41,7 +56,7 @@ export default function MeetingDetailsScreen  ({ navigation })  {
           <TouchableOpacity style={styles.btnAnnuler}>
             <Text style={styles.annuler}>Annuler le RDV</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnAppeler}>
+          <TouchableOpacity style={styles.btnAppeler} onPress={()=>callNumber(meetingDetails.infos.fields.client_telephone)}>
             <FontAwesome
               style={styles.icon}
               name="phone"
@@ -60,7 +75,7 @@ export default function MeetingDetailsScreen  ({ navigation })  {
           </View>
         </ScrollView>
         <View style={styles.btnTest}>
-          <TouchableOpacity style={styles.test}>
+          <TouchableOpacity style={styles.test} onPress={()=> handleFinishTest()}>
             <Text style={styles.textTest}>Test terminé</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnFeedback} onPress={()=> handleFeedback()}>
