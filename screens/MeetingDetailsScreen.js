@@ -10,7 +10,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 // import components
 import Header from "../components/Header";
 
-export default MeetingDetails = ({ navigation }) => {
+export default function MeetingDetailsScreen  ({ navigation })  {
 
   //fonction pour anviguer vers le feedback
   const handleFeedback = () => {

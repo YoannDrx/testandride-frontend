@@ -119,7 +119,6 @@ export default function SignUpForm(props) {
         password:password,
         email:email.toLowerCase()
     };
-    console.log('register new user',BodyToSignup);
 
     fetch(`${BACKEND_URL}/users/signup`,{
         method:'POST',

@@ -9,7 +9,7 @@ import LoginScreen from "./screens/LoginScreen";
 import ItineraireScreen from "./screens/ItineraireScreen";
 import FeedbackScreen from "./screens/FeedbackScreen";
 import CalendarScreen from "./screens/CalendarScreen";
-import MeetingDetails from "./screens/MeetingDetails";
+import MeetingDetailsScreen from "./screens/MeetingDetailsScreen";
 import SnapScreen from './screens/SnapScreen';
 
 
@@ -110,17 +110,10 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="meetingDetails"
-        component={MeetingDetails}
+        component={MeetingDetailsScreen}
         options={() => ({
-          title: "Fiche rendez-vous",
+          title: "Détail du meeting",
         })}
-      />
-      <Drawer.Screen
-      name="googleForm"
-      component={GoogleFormScreen}
-      options={()=> ({
-        title:"Feedback"
-      })}
       />
       <Drawer.Screen
         name="snap"
@@ -129,13 +122,7 @@ const DrawerNavigator = () => {
           title: "Appareil photo",
         })}
       />
-          <Drawer.Screen
-        name="feedback"
-        component={FeedbackScreen}
-        options={() => ({
-          title: "Feedback",
-        })}
-      />
+        
     </Drawer.Navigator>
   );
 };
@@ -147,7 +134,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-          <Stack.Screen name="Feedback" component={FeedbackScreen} />
+          <Stack.Screen name="feedback" component={FeedbackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
