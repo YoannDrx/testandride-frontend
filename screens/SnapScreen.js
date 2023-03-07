@@ -1,12 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
 import { Camera, CameraType, FlashMode } from "expo-camera";
 import { useDispatch } from "react-redux";
 import { changePhoto } from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useIsFocused } from "@react-navigation/native";
 
-export default function SnapScreen({ navigation}) {
+// style constants
+import constant from "../constants/constant";
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+const mainColor = constant.mainColor;
+const secondaryColor = constant.secondaryColor;
+const borderRadius = constant.borderRadius;
+const secondaryBackground = constant.secondaryBackground;
+const logoPath = constant.logoPath;
+const mainBackground = constant.mainBackground;
+const btnPadding = constant.btnPadding;
+const dangerColor = constant.dangerColor;
+const warningColor = constant.warningColor;
+
+// Backend URL
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+export default function SnapScreen({ navigation }) {
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
 
@@ -14,7 +31,7 @@ export default function SnapScreen({ navigation}) {
     const [type, setType] = useState(CameraType.back);
     const [flashMode, setFlashMode] = useState(FlashMode.off);
 
-    let cameraRef= useRef(null);
+    let cameraRef = useRef(null);
 
     // Ask for camera permissions
     useEffect(() => {
@@ -28,8 +45,6 @@ export default function SnapScreen({ navigation}) {
     const takePicture = async () => {
         const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
 
-        console.log(photo.uri)
-        
         dispatch(changePhoto(photo.uri));
 
         const formData = new FormData();
@@ -40,7 +55,7 @@ export default function SnapScreen({ navigation}) {
             type: "image/jpeg",
         });
 
-        fetch("http://192.168.1.42:3000/upload", {
+        fetch(`http://${BACKEND_URL}:3000/upload`, {
             method: "POST",
             body: formData,
         })
@@ -48,22 +63,24 @@ export default function SnapScreen({ navigation}) {
             .then((data) => {
                 console.log(data);
             });
-            navigation.navigate("profil");
+        navigation.navigate("profil");
     };
 
     if (!hasPermission || !isFocused) {
-        return <View/>;
+        return <View />;
     }
 
     return (
         <Camera type={type} flashMode={flashMode} ref={(ref) => (cameraRef = ref)} style={styles.camera}>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)} style={styles.button}>
-                    <FontAwesome name="rotate-right" size={25} color="#ffffff" />
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+                    <FontAwesome name="arrow-left" size={25} color={dangerColor} />
                 </TouchableOpacity>
-
                 <TouchableOpacity onPress={() => setFlashMode(flashMode === FlashMode.off ? FlashMode.torch : FlashMode.off)} style={styles.button}>
                     <FontAwesome name="flash" size={25} color={flashMode === FlashMode.off ? "#ffffff" : "#e8be4b"} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)} style={styles.button}>
+                    <FontAwesome name="rotate-right" size={25} color="#ffffff" />
                 </TouchableOpacity>
             </View>
 
