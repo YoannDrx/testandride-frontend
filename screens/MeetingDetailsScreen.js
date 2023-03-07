@@ -37,10 +37,9 @@ export default MeetingDetailsScreen = ({ navigation }) => {
       <View style={styles.firstContainer}>
         <Text style={styles.detailText}>Details rendez-vous</Text>
         <Text style={styles.status}> Status du rendez-vous</Text>
-
+    {/*détails client*/}
         <View style={styles.pageClient}>
           <Text style={styles.idClient}>Client ID : {detailsData.id}</Text>
-
           <View style={styles.clientContainer} >
             <Text style={styles.clientText}>{detailsData.heure}</Text>
             <Text style={styles.clientText}>{detailsData.prenom} {detailsData.nom}</Text>
@@ -65,6 +64,7 @@ export default MeetingDetailsScreen = ({ navigation }) => {
             <Text style={styles.appeler}>Appeler</Text>
           </TouchableOpacity>
         </View>
+        {/* détails du produit */}
         <View style={styles.detailsProduct} showsVerticalScrollIndicator={false}>
           <Text style={styles.textProduct}>Vélo</Text>
           <View style={styles.details}>
@@ -75,6 +75,7 @@ export default MeetingDetailsScreen = ({ navigation }) => {
           </View>
           </View>
         </ScrollView>
+        {/* btn test terminé & feedbck */}
         <View style={styles.btnTest}>
           <TouchableOpacity style={styles.test}>
             <Text style={styles.textTest}>Test terminé</Text>
