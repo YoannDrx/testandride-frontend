@@ -138,9 +138,9 @@ const handleConnection = () => {
                     <TouchableOpacity style={styles.btnContain} onPress={() => handleConnection()}>
                         <Text style={styles.btnText}>Se connecter</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnContain} onPress={() => navigation.navigate("DrawerNavigator")}>
+                    {/* <TouchableOpacity style={styles.btnContain} onPress={() => navigation.navigate("DrawerNavigator")}>
                         <Text style={styles.btnText}>Ma journee</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 {/* Modal Signup*/}

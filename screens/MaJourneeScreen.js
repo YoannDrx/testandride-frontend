@@ -30,40 +30,60 @@ import CalendarDatePicker from "../components/CalendarDatePicker";
 
 export default function MaJourneeScreen({ navigation }) {
     const user = useSelector((state) => state.user.value);
-    const meetings = useSelector((state) => state.myMeetings.value);
+   
 
     // State qui permet de stocker la date sélectionnée dans le calendrier
     const [date, setDate] = useState(new Date());
-    const [meetingsCards, setMeetingsCards] = useState([<Text key={0}>Pas de courses aujourd'hui</Text>]);
-    // update reducer mymeeting with courses from airtable
-  
-    
+
+    const noMeeting = <Text key={0}>Pas de courses aujourd'hui</Text>;
+    const [meetingsCards, setMeetingsCards] = useState(null);
+
+   
+    // update state meetingsCards with data from airtable
     useEffect(() => {
-        const monthStr = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
-        const dayStr = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-        const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
+        // construct date string to use as params in fetch with format YYYY-MM-DD
+      const monthStr =
+        (date.getMonth() + 1).toString().padStart(2, '0');
+      const dayStr =
+        date.getDate().toString().padStart(2, '0');
+      const formatedDate = `${date.getFullYear()}-${monthStr}-${dayStr}`;
+
+        // define fonction to fetch data from airtable
+      const fetchCoursesAirtable = async () => {
         
-        const fetchCoursesAirtable = async () => {
-            const response = await fetch(`${BACKEND_URL}/airtable/courses/${formatedDate}`);
-            const dataFetch = await response.json();
-            
-            if (dataFetch.result) {
-                const filteredMeetings = await dataFetch.data.records.filter((course) => course.fields["Rider_email"][0] === user.email);
-                // Map the cardsData array to create a MeetingCards component for each object
-                if (filteredMeetings.length){
-                    
-                const mappedMeetings = await filteredMeetings.map((card,index) => {
-                    return <MeetingCards key={'c-'+index+card.fields["Course_id"]} {...card} navigation={navigation} />;
-                });
-                setMeetingsCards(mappedMeetings);
-                
-                } 
-                
-            } else {
-                alert("Error while retrieving data from airTable");
+        const response = await fetch(
+          `${BACKEND_URL}/airtable/courses/${formatedDate}`
+        );
+        const dataFetch = await response.json();
+            // si le fetch réussi
+        if (dataFetch.result) {
+          const filteredMeetings = await dataFetch.data.records.filter(
+            (course) => {
+                return course.fields["Rider_email"][0] === user.email
             }
-        };
-        fetchCoursesAirtable();
+          );
+          
+          // Map the filteredMeetings array to create a MeetingCards component for each object
+          if ( filteredMeetings.length>0) {
+            const mappedMeetings = await filteredMeetings.map((card, index) => {
+              return (
+                <MeetingCards
+                  key={"c-" + index + card.fields["Course_id"]}
+                  card={card}
+                  navigation={navigation}
+                />
+              );
+            });
+             setMeetingsCards(mappedMeetings);
+          } else {
+
+            setMeetingsCards(null);
+          }
+        } else {
+          alert("Error while retrieving data from airTable");
+        }
+      };
+      fetchCoursesAirtable();
     }, [date]);
 
     // Fonction qui permet de mettre à jour la date dans le composant enfant via les props
@@ -82,9 +102,10 @@ export default function MaJourneeScreen({ navigation }) {
                     <CalendarDatePicker handleDateChange={handleDateChange} date={date} />
                 </View>
 
-                {/* Meeting Cars */}
+                {/* Meeting Cards */}
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                    {meetingsCards}
+                    {!meetingsCards && noMeeting}
+                    {meetingsCards && meetingsCards}
                 </ScrollView>
             </View>
         </SafeAreaView>

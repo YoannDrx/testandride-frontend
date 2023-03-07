@@ -19,7 +19,7 @@ export default function MeetingDetailsScreen  ({ navigation })  {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} />
+      
       <View style={styles.firstContainer}>
         <Text style={styles.detailText}>Details rendez-vous</Text>
         <Text style={styles.status}> Status du rendez-vous</Text>

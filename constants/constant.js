@@ -8,5 +8,12 @@ const constant  = {
      dangerColor:'#e74c3c',
      btnPadding:10,
      warningColor:'#f39c12',
+     statut:{
+      green:'#cef5d2',
+      yellow:'#ffeab6',
+      red:'#ffd4df',
+      purple: '#e2d5f7',
+      blue: '#ceedfa',
+     }
   }
   export default constant

@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { importMeetingDetailsStore } from "../reducers/meetingDetails";
 
 // style constants
+
 import constant from "../constants/constant";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -34,76 +35,101 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 // modules
 import { callNumber } from "../modules/callNumber";
-
+import { statuStyle } from "../modules/statutStyle";
 
 export default function MeetingCards(props) {
-
   const [modalVisible, setModalVisible] = useState(false);
-  const [modelData,setModelData] = useState(null);
+  const [modelData, setModelData] = useState(null);
   const dispatch = useDispatch();
 
-
-  // get data of brand and model 
-        useEffect(() => {
-            const getModelData = async (modelId)=> {
-                const response = await fetch(`${BACKEND_URL}/airtable/bike/${modelId}`);
-                const data = await response.json();
-                setModelData(data.data);
-            };
-            const modelId = props.fields['Modèle'][0];
-            getModelData(modelId);
-        }, [])
-      
-  // Toogle the modal cards
-  const toggleVisible = () => {
-    setModalVisible(!modalVisible);
-  };
-  // Fetch data API gouv
-  
-    const fetchGeoLoc = async (queryString) => {
-        const response = await fetch(
-          `https://api-adresse.data.gouv.fr/search/?q=${queryString}&limit=1`
-        );
+  // get data of brand and model
+    useEffect(() => {
+      const getModelData = async (modelId) => {
+        const response = await fetch(`${BACKEND_URL}/airtable/bike/${modelId}`);
         const data = await response.json();
-        const dataCoords = {
-          longitude: data.features[0].geometry.coordinates[0],
-          latitude: data.features[0].geometry.coordinates[1],
-        };
-        console.log(dataCoords);
-        return dataCoords;
+        setModelData(data.data);
+      };
+      const modelId = props.card.fields["Modèle"][0];
+      getModelData(modelId);
+    }, []);
+
+  // Toogle the modal cards
+    const toggleVisible = () => {
+      setModalVisible(!modalVisible);
+    };
+
+  // Fetch data API gouv
+    const fetchGeoLoc = async (queryString) => {
+      const response = await fetch(
+        `https://api-adresse.data.gouv.fr/search/?q=${queryString}&limit=1`
+      );
+      const data = await response.json();
+      const dataCoords = {
+        longitude: data.features[0].geometry.coordinates[0],
+        latitude: data.features[0].geometry.coordinates[1],
       };
 
+      return dataCoords;
+    };
+
   // Handle the press on the GO button and redirect to the map page
-  
-  const handleGoPress = async (queryString) => {
-    const position = await fetchGeoLoc(queryString);
-    // Add the meeting in the store
-     dispatch(importMeetingDetailsStore({position:position,model:modelData}));
-     props.navigation.navigate("itineraire");
-  };
+    const handleGoPress = async (queryString) => {
+      if (modelData) {
+        const position = await fetchGeoLoc(queryString);
+        // Add the meeting in the store
+        dispatch(
+          importMeetingDetailsStore({ position: position, model: modelData })
+        );
+        props.navigation.navigate("itineraire");
+      } else {
+        alert("En attente du chargement des données de vélos");
+      }
+    };
 
-  
-  
-  
- 
-
+  // Handle the press on the INFO button and redirect to the meetingDetail page
+    const handleInfoPress = async () => {
+      if (modelData) {
+        dispatch(
+          importMeetingDetailsStore({ model: modelData, infos: props.card })
+        );
+        props.navigation.navigate("meetingDetails");
+      } else {
+        alert("En attente du chargement des données de vélos");
+      }
+    };
 
   // format time of course
-  const formatDateTime = ()=>{
-    if (modelData){const date = new Date(props.fields.date_essai);
-      const hours = date.getHours()<10?'0'+date.getHours():date.getHours();
-      const minutes = date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes();
-      const formatedTime = hours + 'h' + minutes;
-     
-      return formatedTime;}
-    
-  }
-  // get url of bike image 36x36
- const urlBikeImg = modelData && modelData.fields.Packshot[0].thumbnails.small.url;
+    const formatDateTime = () => {
+      if (props.card.fields.date_essai) {
+        const date = new Date(props.card.fields.date_essai);
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        const formatedTime = hours + "h" + minutes;
+
+        return formatedTime;
+      } else {
+        return "error";
+      }
+    };
+
+  // construire l'image du bike avec une image par défaut en cas de problème.
+    let bikeImage = (
+      <FontAwesome name="bicycle" size={20} color={secondaryColor} />
+    );
+
+    if (modelData) {
+      bikeImage = (
+        <Image
+          style={styles.thumbnails}
+          src={modelData.fields.Packshot[0].thumbnails.small.url}
+        />
+      );
+    }
+
 
   return (
     <View style={styles.container}>
-      {/* CARDS */} 
+      {/* CARDS */}
       <TouchableOpacity
         style={styles.cardContainer}
         onPress={() => toggleVisible()}
@@ -111,29 +137,31 @@ export default function MeetingCards(props) {
         <View style={styles.card}>
           {/* Image container */}
           <View style={styles.imageBox}>
+            <Text  style={[styles.statut,statuStyle(props.card.fields["Statut"])]}>{props.card.fields["Statut"]}</Text>
             <Text style={styles.textHour}>{formatDateTime()}</Text>
-            
-            
-            {modelData && <Image  resizeMode="contain" style={styles.thumbnails} src={modelData && urlBikeImg}/>}
-           
+            {bikeImage}
           </View>
           {/* Data container */}
           <View style={styles.dataContainer}>
             <View style={styles.dataBox}>
-              <Text style={styles.textMinutes}>15 min</Text>
+              <Text style={styles.textMinutes}>Id {props.card.fields["Course_id"]} - 15 min</Text>
             </View>
             <View style={styles.dataBox}>
-              <Text style={styles.bold}>{modelData && modelData.fields["nom_marque_pretty"]}</Text>
+              <Text style={styles.bold}>
+                {modelData && modelData.fields["nom_marque_pretty"]}
+              </Text>
             </View>
             <View style={styles.dataBox}>
-              <Text style={styles.bold}>{modelData && modelData.fields["nom_velo_pretty"]}</Text>
+              <Text style={styles.bold}>
+                {modelData && modelData.fields["nom_velo_pretty"]}
+              </Text>
             </View>
           </View>
 
           {/* button GO */}
           <TouchableOpacity
             style={styles.btnGo}
-            onPress={()=> handleGoPress(props.fields.client_adresse)}
+            onPress={() => handleGoPress(props.card.fields.client_adresse)}
           >
             <Text style={styles.textGo}>GO</Text>
           </TouchableOpacity>
@@ -149,28 +177,29 @@ export default function MeetingCards(props) {
           <View style={styles.modalContainer}>
             <View style={styles.address}>
               <Text style={styles.modalTextName}>
-                {props.fields.client_prenom_nom}
+                {props.card.fields.client_prenom_nom}
               </Text>
               <Text style={styles.modalText}>
-                {props.fields.client_adresse}
+                {props.card.fields.client_adresse}
               </Text>
             </View>
             <View style={styles.modalHeader}>
               <TouchableOpacity
                 style={styles.iconBox}
-                onPress={() => callNumber(props.fields["client_telephone"])}
+                onPress={() =>
+                  callNumber(props.card.fields["client_telephone"])
+                }
               >
                 <FontAwesome
                   style={styles.icon}
                   name="phone"
                   size={35}
                   color={secondaryColor}
-                 
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconBox}
-                onPress={() => console.log('info click')}
+                onPress={() => handleInfoPress()}
               >
                 <FontAwesome
                   style={styles.icon}
@@ -211,19 +240,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: mainBackground,
   },
-  cardBgDefault: {
-    backgroundColor: mainBackground,
-  },
-
-  cardBgError: {
-    backgroundColor: dangerColor,
-  },
-  cardBgWarning: {
-    backgroundColor: warningColor,
-  },
-  cardBgDone: {
-    backgroundColor: mainColor,
-  },
   card: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -232,21 +248,31 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   imageBox: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    padding:5,
+    padding: 5,
+    height:'100%',
+
+
   },
-  thumbnails:{
-    width:36,
-    height:36,
+  statut:{
+    width:'100%',
+    color:secondaryColor,
+    fontSize:10,
+    padding:2,
+    borderRadius:borderRadius,
     
+  },
+  thumbnails: {
+    width: 36,
+    height: 36,
   },
   textHour: {
     fontSize: 20,
     fontWeight: 600,
   },
-  textMinutes:{
-    color:secondaryColor,
+  textMinutes: {
+    color: secondaryColor,
   },
   avatar: {
     width: 50,
@@ -261,6 +287,7 @@ const styles = StyleSheet.create({
   dataBox: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent:'flex-start',
     marginBottom: 5,
   },
   bold: {
