@@ -7,22 +7,47 @@ const secondaryColor = constant.secondaryColor;
 const borderRadius = constant.borderRadius;
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
 // import components
 import Header from "../components/Header";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 export default MeetingDetailsScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const [heure, setHeure] = useState ("");
+  const [customerId, setCustomerId] = useState(0);
+  const [firstName, setFirtName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [ adresse, setAdresse] = useState("");
+  const [product, setProduct] = useState("");
 
-  const detailsData = 
-    {
-        id: 1,
-        heure: "9h15",
-        prenom: "Yoann",
-        nom: "Andrieux",
-        adresse: "11 rue de la chine",
-        ville: "75020 Paris",
-        marque: "SantaCruz",
-        model: "Stigmata",
-    }
+  
+  const detailsData = () => {
+    fetch (`${BACKEND_URL}/customers`)
+    .then((response) => response.json())
+    .then ((data) => {
+    })
+  }
+
+  const productData = () => {
+    fetch(`${BACKEND_URL}/products`)
+    .then((response) => response.json())
+    .then((data) => {
+      
+    })
+  }
+
+    // {
+    //     id: 1,
+    //     heure: "9h15",
+    //     prenom: "Yoann",
+    //     nom: "Andrieux",
+    //     adresse: "11 rue de la chine",
+    //     ville: "75020 Paris",
+    //     marque: "SantaCruz",
+    //     model: "Stigmata",
+    // }
   
 
   //fonction pour naviguer vers le feedback
