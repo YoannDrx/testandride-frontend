@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     avatar: {
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         borderRadius: 50,
     },
 });

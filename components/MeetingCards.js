@@ -37,13 +37,18 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 import { callNumber } from "../modules/callNumber";
 import { statuStyle } from "../modules/statutStyle";
 
+
 export default function MeetingCards(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modelData, setModelData] = useState(null);
+  const [minTrajet,setMinTrajet] = useState(0);
   const dispatch = useDispatch();
+  
+
 
   // get data of brand and model
     useEffect(() => {
+      
       const getModelData = async (modelId) => {
         const response = await fetch(`${BACKEND_URL}/airtable/bike/${modelId}`);
         const data = await response.json();
@@ -51,6 +56,10 @@ export default function MeetingCards(props) {
       };
       const modelId = props.card.fields["Modèle"][0];
       getModelData(modelId);
+
+      // effet wahou / efffake
+      setMinTrajet(26 + Math.floor(Math.random()*10+1)-5);
+      
     }, []);
 
   // Toogle the modal cards
@@ -144,7 +153,7 @@ export default function MeetingCards(props) {
           {/* Data container */}
           <View style={styles.dataContainer}>
             <View style={styles.dataBox}>
-              <Text style={styles.textMinutes}>Id {props.card.fields["Course_id"]} - 15 min</Text>
+              <Text style={styles.textMinutes}>Id {props.card.fields["Course_id"]} - {minTrajet} min</Text>
             </View>
             <View style={styles.dataBox}>
               <Text style={styles.bold}>
