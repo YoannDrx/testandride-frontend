@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, Platform, Dimensions } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, Platform, Dimensions, Image } from "react-native";
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Location from "expo-location";
 import { Marker } from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
-
 
 // Import components
 import Header from "../components/Header";
@@ -27,26 +26,25 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
+// modules
+import { callNumber } from "../modules/callNumber";
 
 // environnement variables
-
 const GOOGLE_MAPS_APIKEY = process.env.REACT_APP_GOOGLE_MAPS_APIKEY;
 
 export default function ItineraireScreen({ navigation }) {
-    const [currentPosition, setCurrentPosition] = useState({latitude:48.866667,longitude:2.333333});
+    const [currentPosition, setCurrentPosition] = useState({ latitude: 48.866667, longitude: 2.333333 });
     const [directionsResponse, setDirectionsResponse] = useState(null);
     const [distance, setDistance] = useState(null);
     const [departureTime, setDepartureTime] = useState("");
     const [arrivalTime, setArrivalTime] = useState("");
     const [originPosition, setOriginPosition] = useState(null);
-    const [hasPermission,setHasPermission] = useState(false);
-
+    const [hasPermission, setHasPermission] = useState(false);
 
     // // Get the user's destination from redux
     const meetingDetails = useSelector((state) => state.meetingDetails.value);
 
-
-    // Get the user's location and ask for permission 
+    // Get the user's location and ask for permission
     useEffect(() => {
         (async () => {
             const { status } = await Location.requestForegroundPermissionsAsync();
@@ -59,84 +57,104 @@ export default function ItineraireScreen({ navigation }) {
                 });
             }
         })();
-       
     }, []);
 
     // Get the route timing between the user's position and the destination
-        useEffect(() => {
-            if (currentPosition && meetingDetails.position.latitude) {
-                const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
-                const destination = `${meetingDetails.position.latitude},${meetingDetails.position.longitude}`;
+    useEffect(() => {
+        if (currentPosition && meetingDetails.position.latitude) {
+            const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
+            const destination = `${meetingDetails.position.latitude},${meetingDetails.position.longitude}`;
 
-                fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${GOOGLE_MAPS_APIKEY}`)
-                    .then((response) => response.json())
-                    .then((responseJson) => {
-                        setDirectionsResponse(responseJson);
-                        setDistance(responseJson.routes[0].legs[0].distance.value / 1000);
+            fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${GOOGLE_MAPS_APIKEY}`)
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    setDirectionsResponse(responseJson);
+                    setDistance(responseJson.routes[0].legs[0].distance.value / 1000);
 
-                        // Calculate the departure and arrival times
-                        const arrivalTime = new Date(Date.now() + responseJson.routes[0].legs[0].duration.value * 1000);
-                        const departureTime = new Date(arrivalTime.getTime() - responseJson.routes[0].legs[0].duration.value * 1000);
+                    // Calculate the departure and arrival times
+                    const arrivalTime = new Date(Date.now() + responseJson.routes[0].legs[0].duration.value * 1000);
+                    const departureTime = new Date(arrivalTime.getTime() - responseJson.routes[0].legs[0].duration.value * 1000);
 
-                        // Format the departure and arrival times as strings
-                        const formattedDepartureTime = `${departureTime.getHours()}h${departureTime.getMinutes().toString().padStart(2, "0")}`;
-                        const formattedArrivalTime = `${arrivalTime.getHours()}h${arrivalTime.getMinutes().toString().padStart(2, "0")}`;
+                    // Format the departure and arrival times as strings
+                    const formattedDepartureTime = `${departureTime.getHours()}h${departureTime.getMinutes().toString().padStart(2, "0")}`;
+                    const formattedArrivalTime = `${arrivalTime.getHours()}h${arrivalTime.getMinutes().toString().padStart(2, "0")}`;
 
-                        setDepartureTime(formattedDepartureTime);
-                        setArrivalTime(formattedArrivalTime);
-                       
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-        }, [currentPosition, meetingDetails]);
+                    setDepartureTime(formattedDepartureTime);
+                    setArrivalTime(formattedArrivalTime);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    }, [currentPosition, meetingDetails]);
 
-        
+    // Handle the press on the phone icon
+    const handlePhonePress = () => {
+        console.log(meetingDetails.phone);
+    };
 
-    // // Handle the press on the phone icon
-    // const handlePhonePress = () => {
-    //     console.log("click phone");
-    // };
-
-    // // Handle the press on the flag icon
-    // const handleFlagPress = () => {
-    //     console.log("click flag");
-    // };
-    
+    // Handle the press on the flag icon
+    const handleFlagPress = () => {
+        navigation.navigate("meetingDetails");
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
-            {!hasPermission && <View style={styles.mapStyle}><Text>En attente d'autorisation</Text></View>}
-            { hasPermission &&   <MapView
-                loadingEnabled={true}
+            {!hasPermission && (
+                <View style={styles.mapStyle}>
+                    <Text>En attente d'autorisation</Text>
+                </View>
+            )}
+            {hasPermission && (
+                <MapView
+                    loadingEnabled={true}
                     region={{
                         latitude: currentPosition.latitude,
                         longitude: currentPosition.longitude,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
-                   fitToCoordinates={[currentPosition, meetingDetails.position]}
+                    fitToCoordinates={[currentPosition, meetingDetails.position]}
                     style={styles.mapStyle}
                 >
                     {meetingDetails && (
                         <>
-                            {currentPosition && <MapViewDirections origin={currentPosition} destination={meetingDetails.position} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={mainColor} mode="BICYCLING" />}
-                            {originPosition && <MapViewDirections origin={originPosition} destination={currentPosition} apikey={GOOGLE_MAPS_APIKEY} strokeWidth={3} strokeColor={secondaryBackground} mode="BICYCLING" />}
-                            <Marker coordinate={currentPosition} title="Départ" pinColor={"blue"} />
+                            {currentPosition && (
+                                <MapViewDirections
+                                    origin={currentPosition}
+                                    destination={meetingDetails.position}
+                                    apikey={GOOGLE_MAPS_APIKEY}
+                                    strokeWidth={3}
+                                    strokeColor={mainColor}
+                                    mode="BICYCLING"
+                                />
+                            )}
+                            {/* {originPosition && (
+                                <MapViewDirections
+                                    origin={originPosition}
+                                    destination={currentPosition}
+                                    apikey={GOOGLE_MAPS_APIKEY}
+                                    strokeWidth={3}
+                                    strokeColor={secondaryBackground}
+                                    mode="BICYCLING"
+                                />
+                            )} */}
+                            <Marker coordinate={currentPosition} title="Départ" pinColor={"blue"}>
+                                <Image source={require("../assets/bicycle.png")} style={{ height: 50, width: 50 }} />
+                            </Marker>
+
                             <Marker coordinate={meetingDetails.position} title="Arrivée" pinColor={"red"} />
                         </>
                     )}
-                    
-                </MapView>}
-            
+                </MapView>
+            )}
 
             {/* FOOTER */}
 
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.btnNav}>
-                <FontAwesome name="phone" size={50} color={secondaryColor}  />
+                <TouchableOpacity style={styles.btnNav} onPress={() => handlePhonePress()}>
+                    <FontAwesome name="phone" size={50} color={secondaryColor} />
                 </TouchableOpacity>
                 <View style={styles.centralBox}>
                     {arrivalTime && <Text style={styles.departureTime}>{arrivalTime}</Text>}
@@ -153,8 +171,8 @@ export default function ItineraireScreen({ navigation }) {
                         {arrivalTime && <Text style={styles.estimatedData}>{arrivalTime}</Text>}
                     </View>
                 </View>
-                 <TouchableOpacity style={styles.btnNav} onPress={()=> navigation.navigate('meetingDetails')}>           
-                <FontAwesome name="flag-checkered" size={50} color={mainColor} />
+                <TouchableOpacity style={styles.btnNav} onPress={() => handleFlagPress()}>
+                    <FontAwesome name="flag-checkered" size={50} color={mainColor} />
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -191,16 +209,15 @@ const styles = StyleSheet.create({
         padding: btnPadding,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
- 
     },
-    btnNav:{
-        height:80,
-        width:80,
-        backgroundColor:secondaryBackground,
-        padding:btnPadding,
-        borderRadius:50,
-        justifyContent:'center',
-        alignItems:'center',
+    btnNav: {
+        height: 80,
+        width: 80,
+        backgroundColor: secondaryBackground,
+        padding: btnPadding,
+        borderRadius: 50,
+        justifyContent: "center",
+        alignItems: "center",
     },
     centralBox: {
         alignItems: "center",

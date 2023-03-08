@@ -53,6 +53,7 @@ export default function CalendarDatePicker(props) {
           is24Hour={true}
           onChange={onChange}
           display={Platform.OS === "ios" ? "calendar" : "default"}
+          accentColor={mainColor}
         />
       )}
       {Platform.OS === "android" && (

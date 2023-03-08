@@ -101,7 +101,7 @@ const handleConnection = () => {
                 {/* INPUTS LOGIN*/}
                 <View style={styles.inputsContainer}>
                     <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                        <ScrollView>
+                        <View>
                             <View style={styles.inputCont}>
                                 <TextInput
                                     style={styles.input}
@@ -124,7 +124,7 @@ const handleConnection = () => {
                                 />
                                 <FontAwesome name={showPassword ? "eye-slash" : "eye"} style={styles.iconInput} size={20} color={mainColor} onPress={() => setShowPassword(!showPassword)} />
                             </View>
-                        </ScrollView>
+                        </View>
                         
                         {/* Mot de passe oublié*/}
                         <TouchableOpacity>
