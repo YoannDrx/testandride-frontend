@@ -1,0 +1,49 @@
+{
+    "id": "recT4qxWKlNBvQnQ5",
+    "createdTime": "2022-09-21T18:01:06.000Z",
+    "fields": {
+        "nom_marque": "Elwing",
+        "nom_velo": "Yuvy",
+        "catalogue": "Oui",
+        "calendlyLink": "https://calendly.com/testandride/elwing",
+        "pitchLink": "https://docs.google.com/document/d/1NhEoskt_eqKpRP4LKIWCQPkzQjfvFvUUc_zF8F8W01w/edit",
+        "dateReception": "2022-10-03",
+        "stock": "Chez nous",
+        "packshot": [
+            {
+                "id": "attJO2R7mlGscBvAf",
+                "width": 1889,
+                "height": 1889,
+                "url": "https://v5.airtableusercontent.com/v1/15/15/1678284000000/9sVtdjP5DHB3KwQOnOs8Dg/7iBm_uw1ZD2n5IkPjnLspkS_wGTJx9M3NMAKMlKPVH5C5nytW_j0DkXNflpQ8aRnSQ4uV1Qch7vj5EjmBDo9Zr_eLaaK0OyobfmJEJJmj-M/UvAwOTJqSqiqTYk-Ujvv0ZSNb740p1Pa2TtEXBgf3J4",
+                "filename": "Packshot Yuvy.jpg",
+                "size": 151910,
+                "type": "image/jpeg",
+                "thumbnails": {
+                    "small": {
+                        "url": "https://v5.airtableusercontent.com/v1/15/15/1678284000000/nKqH45qb-DhAswPFTnXRpQ/xQC_SKQRUBKZhB71LhUMsVDoc8ebD6a0f9ywCX_duALIsFw6S-4TjeBUDhRiYOnYRi0iWRY_2VBimOEJuyfuBQ/mvoYsiNL5DBNhvWp6U2ykc6kWqRqoBocmhOf9FTJj6o",
+                        "width": 36,
+                        "height": 36
+                    },
+                    "large": {
+                        "url": "https://v5.airtableusercontent.com/v1/15/15/1678284000000/BQrTlTrzp80kWAX9rY3dYA/2Lelt1r3UxrfsJ688FZ8GAiwrP65MYxbAL9nIXpB5bkimecuwUaowJlBwwDJ0VSnStc8_2Pcn9uWtMaaBiE5qw/zymlNCnzlhROspQnZZFKX-RiIXzgrwiqMNPitzIJ3s0",
+                        "width": 512,
+                        "height": 512
+                    },
+                    "full": {
+                        "url": "https://v5.airtableusercontent.com/v1/15/15/1678284000000/v-SmxVuAX_93noCxD-l0gQ/ZmpNtSd0vH8iVlHYSHBpePvcZcvnVhftZ1VsIzqtte__wSX98PfUz8hAazTJ32PTb6NZYonfB1Pgor8xu2YUEQ/DOQadesxcK3ardHOMUNmZKizI6TrXnAaA2RUUVq2oWU",
+                        "width": 3000,
+                        "height": 3000
+                    }
+                }
+            }
+        ],
+        "caracteristics": {
+            "poids": 30,
+            "position": "Droite / Confort",
+            "pliant": "Non",
+            "cadre": "Ouvert (type hollandais)",
+            "siegeEnfant": "Oui",
+            "batterieAmovible": "Oui"
+        }
+    }
+}

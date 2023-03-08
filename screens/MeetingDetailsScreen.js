@@ -8,9 +8,12 @@ import { useSelector } from "react-redux";
 import {callNumber} from '../modules/callNumber';
 import {statutStyle} from '../modules/statutStyle';
 import { updateCourseStatut } from "../modules/updateCourseStatut";
-
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+//components
+import BikeCard from "../components/meetingDetails/BikeCard";
+import ClientCard from "../components/meetingDetails/ClientCard";
 
 // Style constants
 import constant from "../constants/constant";
@@ -28,20 +31,19 @@ const warningColor = constant.warningColor;
 
 
 export default function MeetingDetailsScreen  ({ navigation })  {
-
+    
   const meetingDetails = useSelector(state => state.meetingDetails.value)
-
+    console.log(meetingDetails.model)
   //fonction pour anviguer vers le feedback
   const handleFeedback = () => {
     navigation.navigate("feedback")
   };
 
-  // fonctioner pour changer le statut du test en "fait"
+  //fonctioner pour changer le statut du test en "fait"
   const handleFinishTest=()=>{
-   
     updateCourseStatut('Fait',meetingDetails.infos.id);
-  }
-
+  };
+ 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.bodyContainer}>
@@ -49,9 +51,7 @@ export default function MeetingDetailsScreen  ({ navigation })  {
                     <FontAwesome style={styles.iconBack} name="arrow-left" size={30} />
                     <Text style={styles.backText}>Retour</Text>
                 </TouchableOpacity>
-                <ScrollView>
-                    {/* HEADER STATUS */}
-                    <View style={styles.infoHeaderRdvContainer}>
+                <View style={styles.infoHeaderRdvContainer}>
                         <View style={styles.iconBox}>
                             <FontAwesome style={styles.icon} name="calendar" size={30} color="black" />
                             <Text style={styles.title}>Infos rendez-vous :</Text>
@@ -66,53 +66,18 @@ export default function MeetingDetailsScreen  ({ navigation })  {
                             </View>
                         </View>
                     </View>
-
-                    {/* CLIENT INFO PART */}
-                    <View style={styles.clientContainer}>
-                        <View style={styles.clientHeader}>
-                            <View style={styles.iconBox}>
-                                <FontAwesome style={styles.icon} name="user" size={30} color="black" />
-                                <Text style={styles.idClient}>Client ID : 1215768797676355476</Text>
-                            </View>
-
-                            <View style={styles.clientDetails}>
-                                <Text style={styles.textStyle}>Date, heure</Text>
-                                <Text style={styles.textStyle}>John Doe</Text>
-                                <Text style={styles.textStyle}>56 boulevard Pereire 75017 Paris</Text>
-                                <Text style={styles.textStyle}>06.63.07.02.79</Text>
-                                <Text style={styles.textStyle}>john.doe@gmail.com</Text>
-                            </View>
-                        </View>
-
-                        {/* CLIENTS BUTONS PART */}
-                        <View style={styles.btnClientContainer}>
-                            <TouchableOpacity style={styles.btnCancel}>
-                                <Text style={styles.cancelText}>Annuler le RDV</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.btnCall}>
-                                <FontAwesome style={styles.iconPhone} name="phone" size={15} color="white" />
-                                <Text style={styles.callText}>Appeler</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    {/* BIKE PART */}
-                    <View style={styles.bikeContainer}>
-                        <View style={styles.iconBox}>
-                            <FontAwesome style={styles.icon} name="bicycle" size={40} color="black" />
-                            <View style={styles.bikeBrandBox}>
-                                <Text style={styles.textProduct}> Vélo : Marque / Model</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.bikeDetails}>
-                            <Text style={styles.textStyle}>Details techniques</Text>
-                        </View>
-                    </View>
+                <ScrollView>
+                    {/* HEADER STATUS */}
+                    
+                    <ClientCard/>
+                    <BikeCard/>
+                  
+                   
                 </ScrollView>
 
                 {/* BUTTONS PART */}
-                <View style={styles.btnContainer}>
+                {/*  */}
+            </View><View style={styles.btnContainer}>
                     <TouchableOpacity style={styles.btnDone}>
                         <Text style={styles.doneText}>Test terminé</Text>
                     </TouchableOpacity>
@@ -120,7 +85,6 @@ export default function MeetingDetailsScreen  ({ navigation })  {
                         <Text style={styles.feedbackText}>Feedback</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
         </SafeAreaView>
     );
 }
@@ -155,7 +119,7 @@ const styles = StyleSheet.create({
     },
     backText: {
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: '600',
     },
     header: {
         justifyContent: "flex-start",
@@ -172,18 +136,18 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         padding: btnPadding,
         borderColor: "lightgrey",
-        borderWidth: "3",
+       
         margin: 10,
         borderRadius: borderRadius,
-        backgroundColor: "#fff",
+        backgroundColor: mainBackground,
     },
     title: {
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: '600',
     },
     statusContainer: {
-        borderColor: "lightgrey",
-        borderWidth: "1",
+
+        
         justifyContent: "flex-start",
         padding: 10,
         marginTop: 10,
@@ -196,7 +160,7 @@ const styles = StyleSheet.create({
     },
     statusText: {
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: '600',
     },
     iconCircle: {
         marginRight: 10,
@@ -205,25 +169,25 @@ const styles = StyleSheet.create({
      *** CLIENT INFO PART
      */
     clientContainer: {
-        borderColor: "lightgrey",
-        borderWidth: "3",
+       
+       
         height: screenHeight * 0.3,
         justifyContent: "space-between",
         margin: 10,
         borderRadius: borderRadius,
-        backgroundColor: "#fff",
+        backgroundColor: mainBackground,
     },
     clientHeader: {
         justifyContent: "space-between",
         padding: 10,
     },
     idClient: {
-        fontWeight: 600,
+        fontWeight: '600',
         fontSize: 16,
     },
     clientDetails: {
         borderColor: "lightgrey",
-        borderWidth: "1",
+        borderWidth: 1,
         justifyContent: "space-between",
         padding: 10,
         marginTop: 10,
@@ -253,7 +217,7 @@ const styles = StyleSheet.create({
     },
     cancelText: {
         color: dangerColor,
-        fontWeight: 600,
+        fontWeight: '600',
     },
     btnCall: {
         borderColor: mainColor,
@@ -271,38 +235,12 @@ const styles = StyleSheet.create({
     },
     callText: {
         color: "white",
-        fontWeight: 600,
+        fontWeight: '600',
     },
     /*
      *** BIKE PART
      */
-    bikeContainer: {
-        borderColor: "lightgrey",
-        borderWidth: "3",
-        justifyContent: "space-between",
-        padding: 10,
-        margin: 10,
-        borderRadius: borderRadius,
-        backgroundColor: "#fff",
-    },
-    textProduct: {
-        fontWeight: 600,
-        fontSize: 16,
-    },
-    bikeBrandBox: {
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        padding: 10,
-        flexDirection: "row",
-    },
-    bikeDetails: {
-        borderColor: "lightgrey",
-        borderWidth: "1",
-        height: screenHeight * 0.1,
-        justifyContent: "space-between",
-        padding: 10,
-        borderRadius: borderRadius,
-    },
+    
     /*
      *** BUTTONS PART
      */
@@ -320,11 +258,11 @@ const styles = StyleSheet.create({
         padding: btnPadding,
         justifyContent: "center",
         alignItems: "center",
-        width: screenWidth * 0.4,
+      
     },
     doneText: {
         color: mainColor,
-        fontWeight: 600,
+        fontWeight: '600',
     },
     btnFeedback: {
         borderColor: mainColor,
@@ -334,10 +272,10 @@ const styles = StyleSheet.create({
         padding: btnPadding,
         justifyContent: "center",
         alignItems: "center",
-        width: screenWidth * 0.4,
+      
     },
     feedbackText: {
         color: "#fff",
-        fontWeight: 600,
+        fontWeight: '600',
     },
 });

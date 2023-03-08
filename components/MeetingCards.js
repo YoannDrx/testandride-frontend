@@ -98,10 +98,11 @@ export default function MeetingCards(props) {
   // Handle the press on the INFO button and redirect to the meetingDetail page
     const handleInfoPress = async () => {
       if (modelData) {
-        dispatch(
+         dispatch(
           importMeetingDetailsStore({ model: modelData, infos: props.card })
         );
-        props.navigation.navigate("meetingDetails");
+        
+        await props.navigation.navigate("meetingDetails");
       } else {
         alert("En attente du chargement des données de vélos");
       }
@@ -130,7 +131,7 @@ export default function MeetingCards(props) {
       bikeImage = (
         <Image
           style={styles.thumbnails}
-          src={modelData.fields.Packshot[0].thumbnails.small.url}
+          src={modelData.fields.packshot[0].thumbnails.small.url}
         />
       );
     }
@@ -157,12 +158,12 @@ export default function MeetingCards(props) {
             </View>
             <View style={styles.dataBox}>
               <Text style={styles.bold}>
-                {modelData && modelData.fields["nom_marque_pretty"]}
+                {modelData && modelData.fields["nom_marque"]}
               </Text>
             </View>
             <View style={styles.dataBox}>
               <Text style={styles.bold}>
-                {modelData && modelData.fields["nom_velo_pretty"]}
+                {modelData && modelData.fields["nom_velo"]}
               </Text>
             </View>
           </View>
