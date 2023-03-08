@@ -1,15 +1,7 @@
 import { callNumber } from "../../modules/callNumber";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {
-  View,
-  StyleSheet,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from "react-native";
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ScrollView, Image } from "react-native";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

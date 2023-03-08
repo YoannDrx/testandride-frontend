@@ -101,7 +101,6 @@ export default function MeetingCards(props) {
          dispatch(
           importMeetingDetailsStore({ model: modelData, infos: props.card })
         );
-        
         await props.navigation.navigate("meetingDetails");
       } else {
         alert("En attente du chargement des données de vélos");
