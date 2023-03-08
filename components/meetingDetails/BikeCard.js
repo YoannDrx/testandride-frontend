@@ -39,7 +39,8 @@ export default function BikeCard() {
       setShowDetails(!showDetails)
     }
     const handleOpenPitch= (url)=>{
-        if (modelData.fields.pitchLink){
+        console.log(url)
+        if (url){
             console.log('opening external link :',url);
         Linking.openURL(url);
         } else {
@@ -78,7 +79,7 @@ export default function BikeCard() {
           style={styles.icon}
           name={showDetails ? "chevron-up" : "chevron-down"}
           size={30}
-          color="black"
+          color={secondaryColor}
         />
       </TouchableOpacity>
 

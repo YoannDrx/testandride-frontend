@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Linking,
 } from "react-native";
 
 import { useState, useEffect } from "react";
@@ -29,7 +30,7 @@ const dangerColor = constant.dangerColor;
 const btnPadding = constant.btnPadding;
 const warningColor = constant.warningColor;
 
-export default function ClientCard(props) {
+export default function EventCard() {
   const [showDetails, setShowDetails] = useState(false);
 
   const meetingDetails = useSelector((state) => state.meetingDetails.value);
@@ -39,28 +40,22 @@ export default function ClientCard(props) {
     setShowDetails(!showDetails);
   };
 
-  // annuler dv
-  const handleCancel = ()=>{
-    props.handleFinishTest("Annulé_T&R")
-  }
+ const handleReprog = ()=>{
+    const reprogLink = meetingDetails.infos.fields["Événement"].match(/https:\/\/calendly\.com\/reschedulings\/\S+/);
+    if (reprogLink){
+        // Linking.openURL(reprogLink);
+        alert('pas de reprog en preprod sur calendly')
+    }else { alert('lien Calendly Invalid')}
+};
+const handleCancelClient = ()=>{
+    const cancelLink = meetingDetails.infos.fields["Événement"].match(/https:\/\/calendly\.com\/cancellations\/\S+/);
+    if (reprogLink){
+        // Linking.openURL(cancelLink);
+        alert('pas d annulation en preprod sur calendly')
+    }else { alert('lien Calendly Invalid')}
+}
 
-  // décomposer adresse
-  const adresseStr =
-    meetingDetails.infos.fields.client_adresse.match(/^(.*)(\d{5})(.*)$/);
-
-    // conditions pour prévoir au cas où il n'ya pas adresse + CP + ville
-  const adresse = adresseStr
-    ? adresseStr[1].trim()
-    : meetingDetails.infos.fields.client_adresse;
-  const postalCode = adresseStr 
-    ? adresseStr[2].trim() 
-    : "";
-  const city = adresseStr 
-    ? adresseStr[3].trim() 
-    : "";
-  const cityFormated = city[0] 
-    ? city[0].toUpperCase() + city.substr(1) 
-    : "";
+  
 
   return (
     <View style={styles.Container}>
@@ -68,9 +63,9 @@ export default function ClientCard(props) {
         style={styles.clientHeader}
         onPress={() => toggleDetails()}
       >
-        <FontAwesome style={styles.icon} name="user" size={30} color="black" />
+        <FontAwesome style={styles.icon} name="calendar" size={30} color="black" />
         <Text style={styles.idClient}>
-          {meetingDetails.infos.fields.client_prenom_nom}
+          Evènement
         </Text>
         <FontAwesome
           style={styles.icon}
@@ -82,66 +77,35 @@ export default function ClientCard(props) {
 
       {showDetails && (
         <View style={styles.clientDetails}>
-          <View style={styles.dataContainer}>
-            <Text style={styles.labelStyle}>Client ID :</Text>
-            <Text style={styles.textStyle}>
-              {meetingDetails.infos.fields["Clients 💁‍♂️💁 copy"]}
-            </Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text style={styles.labelStyle}>Adresse :</Text>
-            <Text style={styles.textStyle}>
-              {adresse}
-            </Text>
-          </View>
-          {adresseStr && (
-            <View style={styles.dataContainer}>
-              <Text style={styles.labelStyle}>Code postal :</Text>
-              <Text style={styles.textStyle}>{postalCode}</Text>
-            </View>
-          )}
-          {adresseStr && (
-            <View style={styles.dataContainer}>
-              <Text style={styles.labelStyle}>Ville :</Text>
-              <Text style={styles.textStyle}>{cityFormated}</Text>
-            </View>
-          )}
-          <View style={styles.dataContainer}>
-            <Text style={styles.labelStyle}>Email :</Text>
-            <Text style={styles.textStyle}>
-              {meetingDetails.infos.fields.client_email}
-            </Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text style={styles.labelStyle}>Téléphone :</Text>
-            <Text style={styles.textStyle}>
-              {meetingDetails.infos.fields.client_telephone}
-            </Text>
-          </View>
-          <View style={styles.btnClientContainer}>
-        <TouchableOpacity style={styles.btnCancel} onPress={()=>handleCancel()}>
-          <Text style={styles.cancelText}>Annuler le RDV</Text>
+            <Text>{meetingDetails.infos.fields["Événement"]}</Text>
+            <View style={styles.btnClientContainer}>
+        <TouchableOpacity style={styles.btnCancel} onPress={()=>handleCancelClient()}>
+        <FontAwesome
+            style={styles.iconPhone}
+            name="times"
+            size={15}
+            color={dangerColor}
+          />
+          <Text style={styles.cancelText}>Annuler Client</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.btnCall}
-          onPress={() =>
-            callNumber(meetingDetails.infos.fields.client_telephone)
-          }
+          style={styles.btnCancel}
+          onPress={() => handleReprog()}
         >
           <FontAwesome
             style={styles.iconPhone}
-            name="phone"
+            name="hourglass"
             size={15}
-            color="white"
+            color={dangerColor}
           />
-          <Text style={styles.callText}>Appeler</Text>
+          <Text style={styles.cancelText}>Reprog</Text>
         </TouchableOpacity>
       </View>
-        </View>
-        
-      )}
 
-     
+        </View>
+      )}
+      
+      
     </View>
   );
 }
@@ -208,6 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "45%",
+    flexDirection:'row',
   },
   cancelText: {
     color: dangerColor,

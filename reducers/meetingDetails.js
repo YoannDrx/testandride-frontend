@@ -11,8 +11,11 @@ export const meetingDetailsSlice = createSlice({
         importMeetingDetailsStore: (state, action) => {
             state.value = action.payload;
         },
+        updateCourseStatutStore:(state,action)=> {
+            state.value.infos.fields.Statut = action.payload;
+        }
     },
 });
 
-export const { importMeetingDetailsStore } = meetingDetailsSlice.actions;
+export const { importMeetingDetailsStore,updateCourseStatutStore} = meetingDetailsSlice.actions;
 export default meetingDetailsSlice.reducer;

@@ -87,7 +87,7 @@ export default function MeetingCards(props) {
         const position = await fetchGeoLoc(queryString);
         // Add the meeting in the store
         dispatch(
-          importMeetingDetailsStore({ position: position, model: modelData })
+          importMeetingDetailsStore({ position: position, model: modelData,infos: props.card })
         );
         props.navigation.navigate("itineraire");
       } else {
