@@ -80,7 +80,7 @@ export default function MeetingDetailsScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navJournee}
-          onPress={() => navigation.navigate("DrawerNavigator")}
+          onPress={() => navigation.navigate("maJournee")}
         >
           <Text style={styles.navText}>Ma journée</Text>
           <FontAwesome

@@ -41,9 +41,10 @@ export default function ItineraireScreen({ navigation }) {
     const [originPosition, setOriginPosition] = useState(null);
     const [hasPermission, setHasPermission] = useState(false);
 
-    // // Get the user's destination from redux
-    const meetingDetails = useSelector((state) => state.meetingDetails.value);
-
+     // // Get the user's destination from redux
+     const meetingDetails = useSelector((state) => state.meetingDetails.value);
+    const [meetingDetailsState, setMeetingDetailsState] = useState(meetingDetails);
+    
     // Get the user's location and ask for permission
     useEffect(() => {
         (async () => {
@@ -59,8 +60,11 @@ export default function ItineraireScreen({ navigation }) {
         })();
     }, []);
 
+
+
     // Get the route timing between the user's position and the destination
     useEffect(() => {
+        
         if (currentPosition && meetingDetails.position.latitude) {
             const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
             const destination = `${meetingDetails.position.latitude},${meetingDetails.position.longitude}`;
@@ -68,6 +72,7 @@ export default function ItineraireScreen({ navigation }) {
             fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=bicycling&key=${GOOGLE_MAPS_APIKEY}`)
                 .then((response) => response.json())
                 .then((responseJson) => {
+                    
                     setDirectionsResponse(responseJson);
                     setDistance(responseJson.routes[0].legs[0].distance.value / 1000);
 
@@ -86,11 +91,11 @@ export default function ItineraireScreen({ navigation }) {
                     console.error(error);
                 });
         }
-    }, [currentPosition, meetingDetails]);
+    }, [currentPosition, meetingDetailsState]);
 
     // Handle the press on the phone icon
     const handlePhonePress = () => {
-        console.log(meetingDetails.phone);
+        callNumber(meetingDetails.infos.fields.client_telephone);
     };
 
     // Handle the press on the flag icon
@@ -115,7 +120,7 @@ export default function ItineraireScreen({ navigation }) {
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
-                    fitToCoordinates={[currentPosition, meetingDetails.position]}
+                    fitToCoordinates={[{latitude:currentPosition.latitude,longitude:currentPosition.longitude}, meetingDetails.position]}
                     style={styles.mapStyle}
                 >
                     {meetingDetails && (

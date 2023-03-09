@@ -94,6 +94,9 @@ const DrawerNavigator = () => {
         component={ItineraireScreen}
         options={() => ({
           title: "Itinéraire",
+          drawerItemStyle: {
+            display: "none",
+          },
         })}
       />
        <Drawer.Screen

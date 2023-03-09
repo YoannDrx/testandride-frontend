@@ -109,6 +109,7 @@ export default function SignUpForm(props) {
                     // reset les inputs
                     setformValues(initalFormState);
                     // rediriger vers ma journée
+                    props.toggleModalSignUP();
                     props.navigation.navigate("DrawerNavigator");
                 } else {
                     // alert error

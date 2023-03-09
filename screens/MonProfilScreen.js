@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
 import { Camera, CameraType, FlashMode } from "expo-camera";
 import { useIsFocused } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { changePhoto } from "../reducers/user";
 
 // style constants
 import constant from "../constants/constant";
@@ -23,20 +25,23 @@ const mainBackground = constant.mainBackground;
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function MonProfilScreen({ navigation }) {
+    const dispatch=useDispatch();
+
+
     //const utilisation camera
     const [modalVisible, setModalVisible] = useState(false);
     let cameraRef = useRef(null);
-    const onPress = () => {
-        console.log("Button pressed");
-    };
+
     const [hasPermission, setHasPermission] = useState(false);
-    const isFocused = useIsFocused();
-    const [type, setType] = useState(CameraType.back);
+    const [avatarUrl, setAvatarUrl] = useState(null);
+    const [type, setType] = useState(CameraType.front);
     const [flashMode, setFlashMode] = useState(FlashMode.off);
 
     const takePicture = async () => {
+
+        if (hasPermission){
         const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-        console.log(photo);
+        
 
         // Créer un objet FormData pour envoyer l'image au backend
         const data = new FormData();
@@ -58,11 +63,12 @@ export default function MonProfilScreen({ navigation }) {
                 // Mettre à jour l'URL de l'avatar dans l'état local
                 setAvatarUrl(result.url);
                 setModalVisible(false);
+                dispatch(changePhoto(result.url));
             })
 
             .catch((error) => {
                 console.error(error);
-            });
+            });} else { alert('en attente de permission')}
     };
 
     const closeCameraModal = () => {
@@ -107,7 +113,7 @@ export default function MonProfilScreen({ navigation }) {
                             </View>
 
                             <View>
-                                <Text style={styles.contactTelMail}>{user.telephone}</Text>
+                                <Text style={styles.contactTelMail}>{user.tels[0].num}</Text>
                                 <Text style={styles.contactTelMail}>{user.email}</Text>
                             </View>
 
@@ -237,6 +243,7 @@ const styles = StyleSheet.create({
     avatar: {
         width: 100,
         height: 100,
+        borderRadius:50,
     },
 
     plusIcon: {
