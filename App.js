@@ -102,13 +102,13 @@ const DrawerNavigator = () => {
           },
         })}
       />
-       <Drawer.Screen
+       {/* <Drawer.Screen
         name="calendrier"
         component={CalendarScreen}
         options={() => ({
           title: "Calendrier",
         })}
-      />  
+      />   */}
     </Drawer.Navigator>
   );
 };

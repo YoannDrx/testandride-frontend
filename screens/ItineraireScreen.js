@@ -135,7 +135,7 @@ export default function ItineraireScreen({ navigation }) {
                                     mode="BICYCLING"
                                 />
                             )}
-                            {/* {originPosition && (
+                            {originPosition && (
                                 <MapViewDirections
                                     origin={originPosition}
                                     destination={currentPosition}
@@ -144,7 +144,7 @@ export default function ItineraireScreen({ navigation }) {
                                     strokeColor={secondaryBackground}
                                     mode="BICYCLING"
                                 />
-                            )} */}
+                            )}
                             <Marker coordinate={currentPosition} title="Départ" pinColor={"blue"}>
                                 <Image source={require("../assets/bicycle.png")} style={{ height: 50, width: 50 }} />
                             </Marker>
