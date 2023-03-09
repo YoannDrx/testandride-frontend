@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     fontSize:10,
     padding:2,
     borderRadius:borderRadius,
-    
+    textAlign:'center',
   },
   thumbnails: {
     width: 36,
