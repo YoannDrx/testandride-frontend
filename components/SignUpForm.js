@@ -146,7 +146,7 @@ export default function SignUpForm(props) {
                             placeholder="Téléphone"
                             onChangeText={(value) => handleChangeInput("tels", [{ title: "par défaut", num: value }])}
                             value={formValues.tels[0].num}
-                            onEndEditing={() => ctrlValidPhoneNumber && upEmailRef.current.focus()}
+                            // onEndEditing={() => ctrlValidPhoneNumber && upEmailRef.current.focus()}
                         />
                         <FontAwesome name={"phone"} style={styles.iconInput} size={20} color={mainColor} />
                     </View>
@@ -159,7 +159,7 @@ export default function SignUpForm(props) {
                             onChangeText={(value) => handleChangeInput("email", value)}
                             value={formValues.email}
                             autoCorrect={false}
-                            onEndEditing={() => ctrlValidEmail && upEmailConfRef.current.focus()}
+                            // onEndEditing={() => ctrlValidEmail && upEmailConfRef.current.focus()}
                         />
                         <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
                     </View>
@@ -173,7 +173,7 @@ export default function SignUpForm(props) {
                             onChangeText={(value) => handleChangeInput("emailConf", value)}
                             value={formValues.emailConf}
                             autoCorrect={false}
-                            onEndEditing={() => ctrlSameEmail && upPasswordRef.current.focus()}
+                            // onEndEditing={() => ctrlSameEmail && upPasswordRef.current.focus()}
                         />
                         <FontAwesome name={"at"} style={styles.iconInput} size={20} color={mainColor} />
                     </View>
@@ -188,7 +188,7 @@ export default function SignUpForm(props) {
                             onChangeText={(value) => handleChangeInput("password", value)}
                             value={formValues.password}
                             autoCorrect={false}
-                            onEndEditing={() => ctrlValidPassword && upPasswordConfRef.current.focus()}
+                            // onEndEditing={() => ctrlValidPassword && upPasswordConfRef.current.focus()}
                         />
                         <FontAwesome name={showPassword ? "eye-slash" : "eye"} style={styles.iconInput} size={20} color={mainColor} onPress={() => setShowPassword(!showPassword)} />
                     </View>
@@ -203,7 +203,7 @@ export default function SignUpForm(props) {
                             onChangeText={(value) => handleChangeInput("passwordConf", value)}
                             value={formValues.passwordConf}
                             autoCorrect={false}
-                            onEndEditing={() => ctrlSamePassword && upLastNameRef.current.focus()}
+                            // onEndEditing={() => ctrlSamePassword && upLastNameRef.current.focus()}
                         />
                         <FontAwesome name={showPassword ? "eye-slash" : "eye"} style={styles.iconInput} size={20} color={mainColor} onPress={() => setShowPassword(!showPassword)} />
                     </View>
@@ -217,7 +217,7 @@ export default function SignUpForm(props) {
                             onChangeText={(value) => handleChangeInput("lastName", value)}
                             value={formValues.lastName}
                             autoCorrect={false}
-                            onEndEditing={() => upFirstNameRef.current.focus()}
+                            // onEndEditing={() => upFirstNameRef.current.focus()}
                         />
                     </View>
 

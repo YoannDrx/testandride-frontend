@@ -80,7 +80,15 @@ const handleConnection = () => {
     };
 
     return (
+        <KeyboardAvoidingView 
+                style={styles.keyBoardAvoidingView} 
+                behavior={Platform.OS === "ios" ? "padding" : "height"} 
+                enabled={true}
+                
+            >
+                <ScrollView>
         <View style={styles.container}>
+       
             <View style={styles.window}>
 
                 {/* HEADER CONNEXION INFOS */}
@@ -100,7 +108,7 @@ const handleConnection = () => {
 
                 {/* INPUTS LOGIN*/}
                 <View style={styles.inputsContainer}>
-                    <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    
                         <View>
                             <View style={styles.inputCont}>
                                 <TextInput
@@ -130,7 +138,7 @@ const handleConnection = () => {
                         <TouchableOpacity>
                             <Text style={styles.link}>Mot de passe oublié ?</Text>
                         </TouchableOpacity>
-                    </KeyboardAvoidingView>
+                    
                 </View>
 
                 {/*BOUTONS LOGIN*/}
@@ -149,20 +157,26 @@ const handleConnection = () => {
             <Modal visible={showSignUp} style={styles.modalContainer}>
                 <SignUpForm toggleModalSignUP={toggleModalSignUP} width={screenWidth} height={screenHeight} navigation={navigation} />
             </Modal>
+           
         </View>
+        </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#fff",
+       
+        backgroundColor: mainBackground,
         alignItems: "center",
         justifyContent: "flex-start",
+        height:screenHeight,
+        width: screenWidth,
+        borderWidth:1,
     },
     modalContainer: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: mainBackground,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -171,6 +185,10 @@ const styles = StyleSheet.create({
         height: screenHeight,
         width: screenWidth,
         alignItems: "center",
+    },
+    keyBoardAvoidingView:{
+        flex:1,
+      
     },
     tinyLogo: {
         width: 100,
@@ -189,7 +207,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         color: mainColor,
         fontWeight: "600",
-        marginBottom: 40,
+        marginBottom: 10,
     },
     sepContainer: {
         flexDirection: "row",
