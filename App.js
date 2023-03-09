@@ -1,5 +1,8 @@
 import * as React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 // Screens
 import MaJourneeScreen from "./screens/MaJourneeScreen";

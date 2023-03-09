@@ -39,9 +39,9 @@ export default function BikeCard() {
       setShowDetails(!showDetails)
     }
     const handleOpenPitch= (url)=>{
-        console.log(url)
+       
         if (url){
-            console.log('opening external link :',url);
+            
         Linking.openURL(url);
         } else {
             alert('pas de pitch pour ce vélo')

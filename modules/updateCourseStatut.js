@@ -18,7 +18,7 @@ const updateCourseStatut = async (statutString,courseId) => {
             
         })
         const updatedCourse = await response.json();
-        console.log("new Statut",updatedCourse.data.fields.Statut);
+        
         if (updatedCourse.data.fields.Statut===statutString){
             console.log('update succeeded');
            

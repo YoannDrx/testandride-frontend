@@ -30,8 +30,8 @@ export default function CalendarScreen({navigation}) {
     const { status } = await Calendar.requestCalendarPermissionsAsync();
     if (status === 'granted') {
       const calendars = await Calendar.getCalendarsAsync();
-      console.log('Here are all your calendars:');
-      console.log({ calendars });
+    
+      
 
       // Récupérez l'ID du calendrier par défaut
       const defaultCalendar = calendars.find(
@@ -47,7 +47,7 @@ export default function CalendarScreen({navigation}) {
         location: 'Paris',
         notes: 'Ceci est une note pour l\'événement'
       });
-      console.log(`Event created successfully with ID: ${newEvent}`);
+      
     }
   }
 

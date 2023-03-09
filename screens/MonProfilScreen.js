@@ -58,7 +58,7 @@ export default function MonProfilScreen({ navigation }) {
         })
             .then((response) => response.json())
             .then((result) => {
-                console.log(result);
+                
 
                 // Mettre à jour l'URL de l'avatar dans l'état local
                 setAvatarUrl(result.url);
