@@ -51,6 +51,9 @@ export default function LoginScreen({ navigation }) {
 // FONCTIONS
 // fonction pour se connecter
 const handleConnection = () => {
+
+    console.log(`${BACKEND_URL}/users/signin`)
+
   fetch(`${BACKEND_URL}/users/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
